@@ -5,53 +5,96 @@ import React, { useState, useEffect } from 'react';
 
 const tasks = [
     {
-        name: 'All Tasks',
-        num_items: 43,
-    },
-    {
         name: 'Favorites',
-        num_items: 4,
+        items: [
+            {
+                task: 'Do laundry',
+                description: 'some random description',
+                due_date: 'some time',
+                priority: 'High',
+                task_category: 'Favorites',
+                completed: false,
+            },
+        ],
     },
     {
         name: 'Groceries',
-        num_items: 7,
+        items: [],
     },
     {
         name: 'Work',
-        num_items: 10,
+        items: [],
     },
     {
         name: 'School',
-        num_items: 3,
+        items: [
+            {
+                task: 'Do homework',
+                description: 'some semi description',
+                due_date: 'some random time',
+                priority: 'Low',
+                task_category: 'School',
+                completed: false
+            },
+        ],
     },
     {
         name: 'Sports',
-        num_items: 2,
+        items: [],
     },
     {
         name: 'Cars',
-        num_items: 1,
+        items: [],
     },
     {
         name: 'Wishlist',
-        num_items: 5,
+        items: [],
     },
     {
         name: 'Something',
-        num_items: 7,
+        items: [],
     },
     {
         name: 'Idk',
-        num_items: 4,
+        items: [],
     },
 ]
 
 function AchieveIt() {
     const [taskLists, setTasks] = useState([]);
+    const [numItems, setNumItems] = useState(0);
 
     useEffect(() => {
         setTasks(tasks);
-    }, []);
+        let count = 0;
+        for (let i = 0; i < taskLists.length; i++) {
+            count += taskLists[i].items.length;
+        }
+        setNumItems(count);
+    }, [taskLists]);
+
+    function addList(listName) {
+        setTasks([...taskLists, {
+            name: listName,
+            num_items: 0,
+            items: [],
+        }]);
+    }
+
+    function setChecked(task, val, status) {
+        let list = [...taskLists];
+        for (let i = 0; i < taskLists.length; i++) {
+            if (taskLists[i] === task) {
+                for (let j = 0; j < taskLists[i].items.length; j++) {
+                    if (taskLists[i].items[j] === val) {
+                        list[i].items[j].completed = status;
+                    }
+                }
+
+            }
+        }
+        setTasks(list);
+    }
 
     return (
         <div className="AchieveIt">
@@ -59,7 +102,7 @@ function AchieveIt() {
                 <Navbar />
             </div>
             <div className="taskList">
-                <TaskList lists={taskLists} />
+                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} />
             </div>
         </div>
     );

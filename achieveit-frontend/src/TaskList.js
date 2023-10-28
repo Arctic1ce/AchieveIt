@@ -6,23 +6,35 @@ import Tab from 'react-bootstrap/Tab';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import ListTable from './ListTable';
 
 function TaskList(props) {
 
+    //const first = props.lists?.at(1)?.name;
     const [listName, setListName] = useState("");
+
+    function updateListName(text) {
+        setListName(text);
+    }
 
     return (
         <div>
-            <Tab.Container id="list-group-tabs-example" defaultActiveKey={`#link1`}>
+            <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#AllTasks"}>
                 <Row>
                     <Col sm={2}>
                         <ListGroup>
+                            <ListGroup.Item key={"AllTasks"} action href={"#AllTasks"} className="d-flex justify-content-between align-items-start">
+                                All Tasks
+                                <Badge bg="primary" pill>
+                                    {props.numItems}
+                                </Badge>
+                            </ListGroup.Item>
                             {props.lists.map((item) => (
                                 <ListGroup.Item key={item.name} action href={`#${item.name}`} className="d-flex justify-content-between align-items-start">
                                     {item.name}
                                     <Badge bg="primary" pill>
-                                        {item.num_items}
+                                        {item.items.length}
                                     </Badge>
                                 </ListGroup.Item>
                             ))}
@@ -30,8 +42,14 @@ function TaskList(props) {
                     </Col>
                     <Col sm={8}>
                         <Tab.Content>
-                            <Tab.Pane eventKey="#link1">Tab pane content 1</Tab.Pane>
-                            <Tab.Pane eventKey="#link2">Tab pane content 2</Tab.Pane>
+                            <Tab.Pane eventKey={"#AllTasks"}>
+                                <ListTable list={props.lists} setChecked={props.setChecked}/>
+                            </Tab.Pane>
+                            {props.lists.map((task) => (
+                                <Tab.Pane eventKey={`#${task.name}`}>
+                                    <ListTable list={[task]} setChecked={props.setChecked}/>
+                                </Tab.Pane>
+                            ))}
                         </Tab.Content>
                     </Col>
                 </Row>
@@ -43,8 +61,11 @@ function TaskList(props) {
                         id="newList"
                         aria-describedby="helpBlock"
                         placeholder="List Name"
+                        onChange={(e) => updateListName(e.target.value)}
                     />
-                    <Button variant="dark">Create</Button>
+                    <Button variant="dark" onClick={() => props.addList(listName)}>
+                        Create
+                    </Button>
                 </Stack>
             </Col>
         </div>
