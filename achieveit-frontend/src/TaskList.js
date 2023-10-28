@@ -11,7 +11,6 @@ import ListTable from './ListTable';
 
 function TaskList(props) {
 
-    //const first = props.lists?.at(1)?.name;
     const [listName, setListName] = useState("");
 
     function updateListName(text) {

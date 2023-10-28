@@ -66,6 +66,9 @@ function AchieveIt() {
 
     useEffect(() => {
         setTasks(tasks);
+    }, []);
+
+    useEffect(() => {
         let count = 0;
         for (let i = 0; i < taskLists.length; i++) {
             count += taskLists[i].items.length;
@@ -74,11 +77,11 @@ function AchieveIt() {
     }, [taskLists]);
 
     function addList(listName) {
-        setTasks([...taskLists, {
+        const newItem = {
             name: listName,
-            num_items: 0,
             items: [],
-        }]);
+        };
+        setTasks([...taskLists, newItem]);
     }
 
     function setChecked(task, val, status) {
@@ -90,7 +93,6 @@ function AchieveIt() {
                         list[i].items[j].completed = status;
                     }
                 }
-
             }
         }
         setTasks(list);
