@@ -3,71 +3,28 @@ import Navbar from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
 
-const tasks = [
-    {
-        name: 'Favorites',
-        items: [
-            {
-                task: 'Do laundry',
-                description: 'some random description',
-                due_date: 'some time',
-                priority: 'High',
-                task_category: 'Favorites',
-                completed: false,
-            },
-        ],
-    },
-    {
-        name: 'Groceries',
-        items: [],
-    },
-    {
-        name: 'Work',
-        items: [],
-    },
-    {
-        name: 'School',
-        items: [
-            {
-                task: 'Do homework',
-                description: 'some semi description',
-                due_date: 'some random time',
-                priority: 'Low',
-                task_category: 'School',
-                completed: false
-            },
-        ],
-    },
-    {
-        name: 'Sports',
-        items: [],
-    },
-    {
-        name: 'Cars',
-        items: [],
-    },
-    {
-        name: 'Wishlist',
-        items: [],
-    },
-    {
-        name: 'Something',
-        items: [],
-    },
-    {
-        name: 'Idk',
-        items: [],
-    },
-]
-
 function AchieveIt() {
     const [taskLists, setTasks] = useState([]);
     const [numItems, setNumItems] = useState(0);
 
     useEffect(() => {
-        setTasks(tasks);
+        getTasks();
     }, []);
 
+    function getTasks() {
+        fetch('http://localhost:8000/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => setTasks(data))
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    }
+    
     useEffect(() => {
         let count = 0;
         for (let i = 0; i < taskLists.length; i++) {
@@ -94,18 +51,20 @@ function AchieveIt() {
         setTasks(newLists);
     }
 
-    function setChecked(task, val, status) {
-        let list = [...taskLists];
-        for (let i = 0; i < taskLists.length; i++) {
-            if (taskLists[i] === task) {
-                for (let j = 0; j < taskLists[i].items.length; j++) {
-                    if (taskLists[i].items[j] === val) {
-                        list[i].items[j].completed = status;
+    function setChecked(taskName, itemName, status) {
+        const updatedTaskLists = taskLists.map((taskList) => {
+            if (taskList.name === taskName) {
+                const updatedItems = taskList.items.map((item) => {
+                    if (item.task === itemName) {
+                        return { ...item, completed: status };
                     }
-                }
+                    return item;
+                });
+                return { ...taskList, items: updatedItems };
             }
-        }
-        setTasks(list);
+            return taskList;
+        });
+        setTasks(updatedTaskLists);
     }
 
     return (
@@ -114,7 +73,7 @@ function AchieveIt() {
                 <Navbar />
             </div>
             <div className="taskList">
-                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} insertTask={insertTask}/>
+                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} insertTask={insertTask} />
             </div>
         </div>
     );
