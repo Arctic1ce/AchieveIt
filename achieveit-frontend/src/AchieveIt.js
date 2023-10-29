@@ -84,6 +84,16 @@ function AchieveIt() {
         setTasks([...taskLists, newItem]);
     }
 
+    function insertTask(list, task) {
+        let newLists = [...taskLists];
+        for (let i = 0; i < taskLists.length; i++) {
+            if (taskLists[i].name === list) {
+                newLists[i].items.push(task);
+            }
+        }
+        setTasks(newLists);
+    }
+
     function setChecked(task, val, status) {
         let list = [...taskLists];
         for (let i = 0; i < taskLists.length; i++) {
@@ -104,7 +114,7 @@ function AchieveIt() {
                 <Navbar />
             </div>
             <div className="taskList">
-                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} />
+                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} insertTask={insertTask}/>
             </div>
         </div>
     );
