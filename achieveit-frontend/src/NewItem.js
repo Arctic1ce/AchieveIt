@@ -29,8 +29,11 @@ function NewItem(props) {
         const { task, date, priority, category } = form
         const newErrors = {}
 
+        const today = new Date().toISOString().slice(0, 10)
+
         if (!task || task === '') newErrors.task = 'Please enter a task.'
         if (!date || date === '') newErrors.date = 'Please select a valid date.'
+        else if (date < today) newErrors.date = 'You cannot select a date in the past.'
         if (!priority || priority === 'Select priority') newErrors.priority = 'Please select a priority.'
         if (!category || category === 'Select list name') newErrors.category = 'Please select a list name.'
 
