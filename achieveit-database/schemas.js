@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 // schemas.js
 
 const todoItemSchema = new mongoose.Schema({
@@ -28,6 +28,6 @@ todoListSchema.add({
 });
 
 module.exports= {
-    TodoItem : mongoose.model('TodoItem', toDoItemSchema),
-    TodoList : mongoose.model('TodoList', toDoListSchema)
+    TodoItem : mongoose.model('TodoItem', todoItemSchema),
+    TodoList : mongoose.model('TodoList', todoListSchema)
 };

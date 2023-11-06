@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-import {TodoList, TodoItem} from "./schemas";
-
+const mongoose = require("mongoose");
+const {TodoItem, TodoList} = require("./schemas");
 mongoose.set("debug", true);
 
 mongoose.connect("mongodb://localhost:27017/users", {
@@ -46,3 +45,10 @@ function deleteTodoItem(listID, itemID) {
     return TodoList.update({_id: listID}, {$pull: {items: {_id: itemID}}});
 }
 
+module.exports = {
+    createTodoList,
+    getTodoList,
+    deleteTodoList,
+    createTodoItem,
+    deleteTodoItem
+};

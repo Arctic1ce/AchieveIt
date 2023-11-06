@@ -3,3 +3,4 @@
 .idea/*
 node_modules/*
 achieveit-frontend/node_modules/*
+achieveit-database/node_modules*
