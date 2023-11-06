@@ -1,32 +1,30 @@
 import mongoose from 'mongoose';
+// schemas.js
 
-const toDoItemSchema = new mongoose.Schema({
-        task: {
-            type: String,
-            required: true
-        },
-        isCompleted: {
-            type: Boolean,
-            default: false
-        },
-        dueDate: {
-            type: Date,
-            default: Date.now
-        },
-        priority: {
-            type: String,
-            default: 'low'
-        },
-
-    },
-);
-
-const toDoListSchema = new mongoose.Schema({
+const todoItemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    items: [toDoItemSchema]
+    listId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TodoList',
+        required: true
+    }
+    // other fields...
+});
+
+const todoListSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    items: [todoItemSchema]
+});
+
+// Add ID field
+todoListSchema.add({
+    _id: mongoose.Schema.Types.ObjectId
 });
 
 module.exports= {

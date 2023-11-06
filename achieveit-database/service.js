@@ -11,48 +11,38 @@ mongoose.connect("mongodb://localhost:27017/users", {
 
 // Create a new to-do list
 function createTodoList(listData) {
-    const list = new TodoList(listData);
-    const promise = list.save();
-    return promise;
+    const newList = new TodoList(listData);
+    return newList.save();
+
 }
 
 // Read all to-do lists, or read a single to-do list by name
-function getTodoList(name) {
+function getTodoList(id) {
     let promise;
-    if (name) {
-        promise = TodoList.find({name: name});
+    if (id) {
+        promise = TodoList.find({_id: id});
     } else {
         promise = TodoList.find();
     }
     return promise;
-
 }
 
 
 // Delete a to-do list by name
-function deleteTodoList(listName) {
-    // get the list then delete it
+function deleteTodoList(listID) {
     let promise;
-    promise = TodoList.delete({name: listName});
-    return promise;
+    promise = TodoList.delete({_id: listID});
 }
 
 // Create a new to-do item for a specific to-do list
-function createTodoItem(listName, itemData) {
-    let promise;
-    promise = TodoList.find({name: listName});
-    const item = new TodoItem(itemData);
-    promise = item.save();
-
+function createTodoItem(listID, itemData) {
+    const newItem = new TodoItem(itemData);
+    return TodoList.update({_id: listID}, {$push: {items: newItem}});
 }
 
 
 // Delete a to-do item for a specific to-do list
-function deleteTodoItem(listName, task) {
-    let promise;
-    promise = TodoList.find({name: listName});
-    promise = TodoItem.delete({task: task});
-    return promise;
-
+function deleteTodoItem(listID, itemID) {
+    return TodoList.update({_id: listID}, {$pull: {items: {_id: itemID}}});
 }
 
