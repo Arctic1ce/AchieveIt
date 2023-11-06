@@ -1,0 +1,11 @@
+{
+  "name": "achieveit-database",
+  "version": "1.0.0",
+  "description": "the databasey bits",
+  "main": "service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
