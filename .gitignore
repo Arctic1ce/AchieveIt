@@ -2,3 +2,4 @@
 /package-lock.json
 /achieveit-frontend/node_modules
 /achieveit-frontend/package-lock.json
+.idea/*
