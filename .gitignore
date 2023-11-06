@@ -1,4 +1,5 @@
 
 *.iml
-.idea/modules.xml
-.idea/workspace.xml
+.idea/*
+node_modules/*
+achieveit-frontend/node_modules/*
