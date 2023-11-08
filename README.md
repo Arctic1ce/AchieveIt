@@ -4,7 +4,7 @@ Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, Russ Sobti
 
 # Contributing
 
-Thank you for considering contributing to our project! To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
+To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
 
 ## Coding Standards
 
