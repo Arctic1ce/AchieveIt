@@ -46,3 +46,11 @@ function deleteTodoItem(listID, itemID) {
     return TodoList.update({_id: listID}, {$pull: {items: {_id: itemID}}});
 }
 
+
+module.exports = {
+    createTodoList,
+    getTodoList,
+    deleteTodoList,
+    createTodoItem,
+    deleteTodoItem
+};
