@@ -3,4 +3,3 @@
 /achieveit-frontend/node_modules
 /achieveit-frontend/package-lock.json
 .idea/*
-/*/node_modules

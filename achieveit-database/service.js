@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const {TodoItem, TodoList} = require("./schemas");
+import mongoose from "mongoose";
+import {TodoList, TodoItem} from "./schemas";
+
 mongoose.set("debug", true);
 
 mongoose.connect("mongodb://localhost:27017/users", {
@@ -9,67 +10,39 @@ mongoose.connect("mongodb://localhost:27017/users", {
     .catch((error) => console.log(error));
 
 // Create a new to-do list
-function createTodoList(listName) {
-    // create a new list
-    let promise = TodoList.create({name: listName, items: []});
-    return promise;
+function createTodoList(listData) {
+    const newList = new TodoList(listData);
+    return newList.save();
+
 }
 
 // Read all to-do lists, or read a single to-do list by name
-function getTodoList(name) {
+function getTodoList(id) {
     let promise;
-    if (name) {
-        promise = TodoList.find({name: name}).populate({ path: 'items',
-            model: 'TodoItem'});
+    if (id) {
+        promise = TodoList.find({_id: id});
     } else {
-        promise = TodoList.find().populate({
-            path: 'items',
-            model: 'TodoItem'
-        });
+        promise = TodoList.find();
     }
     return promise;
 }
 
 
 // Delete a to-do list by name
-function deleteTodoList(listName) {
+function deleteTodoList(listID) {
     let promise;
-    promise = TodoList.deleteOne({name: listName});
-    return promise;
+    promise = TodoList.delete({_id: listID});
 }
 
 // Create a new to-do item for a specific to-do list
-function createTodoItem(listName, itemData) {
-    let promise;
-    // const newItem = new TodoItem(itemData);
-    // promise =  TodoList.updateOne({name: listName}, {$push: {items: newItem}});
-    promise = TodoItem.create(
-        name = itemData.name,
-        listId = itemData.listId,
-        description = itemData.description,
-        due_date = itemData.due_date,
-        priority = itemData.priority,
-        completed = itemData.completed
-    );
-    return promise;
+function createTodoItem(listID, itemData) {
+    const newItem = new TodoItem(itemData);
+    return TodoList.update({_id: listID}, {$push: {items: newItem}});
 }
 
 
 // Delete a to-do item for a specific to-do list
-function deleteTodoItem(listName, itemID) {
-    let promise =  TodoList.updateOne({name: listName}, {$pull: {items: {_id: itemID}}});
-    return promise;
+function deleteTodoItem(listID, itemID) {
+    return TodoList.update({_id: listID}, {$pull: {items: {_id: itemID}}});
 }
 
-function getTodoItem(itemID) {
-    let promise = TodoItem.find({_id: itemID});
-    return promise;
-}
-
-module.exports = {
-    createTodoList,
-    getTodoList,
-    deleteTodoList,
-    createTodoItem,
-    deleteTodoItem
-};
