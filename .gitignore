@@ -1,4 +1,6 @@
+*.iml
+.idea/*
+achieveit-frontend/node_modules/*
+achieveit-database/node_modules*
 /node_modules
 /package-lock.json
-/achieveit-frontend/node_modules
-/achieveit-frontend/package-lock.json
