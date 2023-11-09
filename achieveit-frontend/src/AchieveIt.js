@@ -50,13 +50,26 @@ function AchieveIt() {
     }
 
     function insertTask(list, task) {
+        /*
         let newLists = [...taskLists];
         for (let i = 0; i < taskLists.length; i++) {
             if (taskLists[i].name === list) {
                 newLists[i].items.push(task);
             }
         }
+
         setTasks(newLists);
+         */
+        // POST request using fetch with async/await
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(task)
+        };
+        fetch('http://localhost:8000/tasks/?name=' + list, requestOptions).then(
+            // update the state of the list of tasks
+            getTasks()
+        );
     }
 
     function setChecked(taskName, itemName, status) {
