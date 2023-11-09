@@ -1,5 +1,6 @@
 /node_modules
 /package-lock.json
 /achieveit-frontend/node_modules
+/*/node_modules
 /achieveit-frontend/package-lock.json
 .idea/*
