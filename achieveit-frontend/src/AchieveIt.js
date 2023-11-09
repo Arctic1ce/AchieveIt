@@ -34,6 +34,14 @@ function AchieveIt() {
     }, [taskLists]);
 
     function addList(listName) {
+        let taskList = taskLists.filter(list => list.name === listName);
+        console.log(taskList);
+        console.log(taskList.length);
+
+        if (taskList.length > 0) {
+            return;
+        }
+
         const newItem = {
             name: listName,
             items: [],

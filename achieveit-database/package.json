@@ -4,13 +4,8 @@
   "description": "the databasey bits",
   "main": "service.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node service.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "mongoose": "^8.0.0"
-  },
-  "keywords": []
+  "license": "ISC"
 }
