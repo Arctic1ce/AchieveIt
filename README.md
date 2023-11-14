@@ -45,4 +45,3 @@ Before submitting a pull request, please make sure your code adheres to the foll
 5. **Save Configuration**: Save your settings to apply the changes.
 
 By following these guidelines and setting up Prettier in your development environment, you'll help us maintain a consistent and clean codebase. Thank you for your contributions!
- 

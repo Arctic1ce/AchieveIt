@@ -10,65 +10,88 @@ import React, { useState } from 'react';
 import ListTable from './ListTable';
 
 function TaskList(props) {
+  const [listName, setListName] = useState('');
 
-    const [listName, setListName] = useState("");
+  function updateListName(text) {
+    setListName(text);
+  }
 
-    function updateListName(text) {
-        setListName(text);
-    }
-
-    return (
-        <div>
-            <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#AllTasks"}>
-                <Row>
-                    <Col sm={2}>
-                        <ListGroup>
-                            <ListGroup.Item key={"AllTasks"} action href={"#AllTasks"} className="d-flex justify-content-between align-items-start">
-                                All Tasks
-                                <Badge bg="primary" pill>
-                                    {props.numItems}
-                                </Badge>
-                            </ListGroup.Item>
-                            {props.lists.map((item) => (
-                                <ListGroup.Item key={item.name} action href={`#${item.name}`} className="d-flex justify-content-between align-items-start">
-                                    {item.name}
-                                    <Badge bg="primary" pill>
-                                        {item.items.length}
-                                    </Badge>
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    </Col>
-                    <Col sm={8}>
-                        <Tab.Content>
-                            <Tab.Pane key={"AllTasks"} eventKey={"#AllTasks"}>
-                                <ListTable list={props.lists} setChecked={props.setChecked} insertTask={props.insertTask} deleteTask = {props.deleteTask}/>
-                            </Tab.Pane>
-                            {props.lists.map((task) => (
-                                <Tab.Pane key={`${task.name}`} eventKey={`#${task.name}`}>
-                                    <ListTable listName={`${task.name}`} list={[task]} setChecked={props.setChecked} insertTask={props.insertTask} deleteTask = {props.deleteTask}/>
-                                </Tab.Pane>
-                            ))}
-                        </Tab.Content>
-                    </Col>
-                </Row>
-            </Tab.Container>
-            <Col sm={2}>
-                <Stack direction="horizontal" gap={2}>
-                    <Form.Control
-                        type="text"
-                        id="newList"
-                        aria-describedby="helpBlock"
-                        placeholder="List Name"
-                        onChange={(e) => updateListName(e.target.value)}
-                    />
-                    <Button variant="dark" onClick={() => props.addList(listName)}>
-                        Create
-                    </Button>
-                </Stack>
-            </Col>
-        </div>
-    );
+  return (
+    <div>
+      <Tab.Container
+        id="list-group-tabs-example"
+        defaultActiveKey={'#AllTasks'}
+      >
+        <Row>
+          <Col sm={2}>
+            <ListGroup>
+              <ListGroup.Item
+                key={'AllTasks'}
+                action
+                href={'#AllTasks'}
+                className="d-flex justify-content-between align-items-start"
+              >
+                All Tasks
+                <Badge bg="primary" pill>
+                  {props.numItems}
+                </Badge>
+              </ListGroup.Item>
+              {props.lists.map((item) => (
+                <ListGroup.Item
+                  key={item.name}
+                  action
+                  href={`#${item.name}`}
+                  className="d-flex justify-content-between align-items-start"
+                >
+                  {item.name}
+                  <Badge bg="primary" pill>
+                    {item.items.length}
+                  </Badge>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Col>
+          <Col sm={8}>
+            <Tab.Content>
+              <Tab.Pane key={'AllTasks'} eventKey={'#AllTasks'}>
+                <ListTable
+                  list={props.lists}
+                  setChecked={props.setChecked}
+                  insertTask={props.insertTask}
+                  deleteTask={props.deleteTask}
+                />
+              </Tab.Pane>
+              {props.lists.map((task) => (
+                <Tab.Pane key={`${task.name}`} eventKey={`#${task.name}`}>
+                  <ListTable
+                    listName={`${task.name}`}
+                    list={[task]}
+                    setChecked={props.setChecked}
+                    insertTask={props.insertTask}
+                    deleteTask={props.deleteTask}
+                  />
+                </Tab.Pane>
+              ))}
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
+      <Col sm={2}>
+        <Stack direction="horizontal" gap={2}>
+          <Form.Control
+            type="text"
+            id="newList"
+            aria-describedby="helpBlock"
+            placeholder="List Name"
+            onChange={(e) => updateListName(e.target.value)}
+          />
+          <Button variant="dark" onClick={() => props.addList(listName)}>
+            Create
+          </Button>
+        </Stack>
+      </Col>
+    </div>
+  );
 }
 
 export default TaskList;
