@@ -1,3 +1,4 @@
+/* Filename: service.js */
 const mongoose = require("mongoose");
 const {TodoItem, TodoList} = require("./schemas");
 mongoose.set("debug", true);
@@ -77,7 +78,7 @@ function createTodoItem(listName, itemData) {
 }
 
 
-
+// Delete a to-do item by name
 function deleteTodoItem(listName, itemName) {
     return getTodoList(listName)
         .then((result) => {
@@ -95,16 +96,7 @@ function deleteTodoItem(listName, itemName) {
 }
 
 
-function getTodoItem(itemID) {
-    let promise = TodoItem.find({_id: itemID});
-    return promise;
-}
-
-function getAllToDos() {
-    let promise = TodoItem.find();
-    return promise;
-}
-
+// Update a to-do item's completed status
 function toggleCheck(listName, taskName, status) {
     return getTodoList(listName)
         .then((list) => {

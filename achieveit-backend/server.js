@@ -1,3 +1,4 @@
+/* Filename: server.js */
 const express = require('express')
 const cors = require("cors")
 const service = require( "../achieveit-database/service");
@@ -25,7 +26,7 @@ function ValidateItem(item) {
     }
     return true;
 }
-
+// Get all to-do lists
 app.get('/', async (req, res) => {
     try {
         const name = req.query['name'];
@@ -36,7 +37,7 @@ app.get('/', async (req, res) => {
         res.status(500).send(error);
     }
 });
-
+// Create a new to-do list
 app.post('/', async (req, res) => {
     try {
         const newList = req.query['name'];
@@ -47,7 +48,7 @@ app.post('/', async (req, res) => {
         res.status(500).send(error);
     }
 });
-
+// Add a new task to a to-do list
 app.post('/tasks/', async (req, res) => {
     try {
         // Validate the item
@@ -74,7 +75,7 @@ app.post('/tasks/', async (req, res) => {
         res.status(500).send(error);
     }
 });
-
+// Update a task's status
 app.patch('/', async (req, res) => {
     try {
         const listName = req.query['name'];
@@ -88,16 +89,7 @@ app.patch('/', async (req, res) => {
     }
 });
 
-app.get('/tasks/', async (req, res) => {
-    try {
-        const result = await service.getAllToDos();
-        res.send(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-    }
-});
-
+// Delete a task from a to-do list
 app.delete('/', async (req, res) => {
     try {
         const listName = req.query['name'];
@@ -110,6 +102,7 @@ app.delete('/', async (req, res) => {
     }
 });
 
+// Run the server
 app.listen(port, () => {
   console.log(`AchieveIt listening on port ${port}`)
 })

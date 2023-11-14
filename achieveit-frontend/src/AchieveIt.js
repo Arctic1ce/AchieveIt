@@ -1,4 +1,4 @@
-// AchieveIt.js
+/* Filename: AchieveIt.js */
 import Navbar from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
@@ -11,6 +11,9 @@ function AchieveIt() {
         getTasks();
     }, []);
 
+    /*
+    * GetTasks: Fetches all the tasks from the database and updates the state
+    * */
     function getTasks() {
         fetch('http://localhost:8000/')
             .then(response => {
@@ -24,7 +27,10 @@ function AchieveIt() {
                 console.error('Fetch error:', error);
             });
     }
-    
+
+    /*
+    * Update the number of items in the list
+    *  */
     useEffect(() => {
         let count = 0;
         for (let i = 0; i < taskLists.length; i++) {
@@ -45,7 +51,9 @@ function AchieveIt() {
             console.error('Fetch error:', error);
         }
     }
-
+    /*
+    * Insert a task into the database
+    * */
     function insertTask(list, task) {
         const requestOptions = {
             method: 'POST',
@@ -63,6 +71,7 @@ function AchieveIt() {
             .then(() => getTasks())
             .catch(error => console.error('Fetch error:', error));
     }
+    /* Check or uncheck a task */
     async function setChecked(taskName, itemName, status) {
         try {
             // Set the task to completed
@@ -92,7 +101,7 @@ function AchieveIt() {
             throw error;
         }
     }
-
+    /* Delete a task */
     async function deleteTask(listName, taskName) {
         try {
             // Delete the task
@@ -120,7 +129,7 @@ function AchieveIt() {
             throw error;
         }
     }
-
+    /* Render the page */
     return (
         <div className="AchieveIt">
             <div className="header">
@@ -132,5 +141,5 @@ function AchieveIt() {
         </div>
     );
 }
-
+/* Export the component! */
 export default AchieveIt;

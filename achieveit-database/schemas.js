@@ -1,15 +1,6 @@
+/* Filename: schemas.js */
 const mongoose = require('mongoose');
 const {mongo} = require("mongoose");
-// schemas.js
-// mock to do item
-const mockTodoItem = {
-    name: 'Do homework',
-    description: 'some semi description',
-    due_date: 'some random time',
-    priority: 'Low',
-    task_category: 'School',
-    completed: false
-};
 const todoItemSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -38,7 +29,6 @@ const todoItemSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    // other fields...
 });
 
 const todoListSchema = new mongoose.Schema({
