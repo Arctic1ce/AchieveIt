@@ -34,11 +34,17 @@ function AchieveIt() {
     }, [taskLists]);
 
     function addList(listName) {
-        const newItem = {
-            name: listName,
-            items: [],
+
+        // POST request using fetch with async/await
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
         };
-        setTasks([...taskLists, newItem]);
+        fetch('http://localhost:8000/?name=' + listName, requestOptions).then(
+            // update the state of the list of tasks
+            getTasks()
+        );
+        // setTasks([...taskLists, newItem]);
     }
 
     function insertTask(list, task) {
@@ -64,20 +70,62 @@ function AchieveIt() {
         );
     }
 
-    function setChecked(taskName, itemName, status) {
-        const updatedTaskLists = taskLists.map((taskList) => {
-            if (taskList.name === taskName) {
-                const updatedItems = taskList.items.map((item) => {
-                    if (item.task === itemName) {
-                        return { ...item, completed: status };
-                    }
-                    return item;
-                });
-                return { ...taskList, items: updatedItems };
+    async function setChecked(taskName, itemName, status) {
+        try {
+            // Set the task to completed
+            const requestOptions = {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            console.log('checking: ' + taskName + ' ' + itemName + ' ' + status);
+
+            // PATCH request using fetch with async/await
+            const response = await fetch('http://localhost:8000/?name=' + taskName + '&task=' + itemName + '&status=' + status, requestOptions);
+
+            // Check if the request was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Failed to update task status. Status: ${response.status}`);
             }
-            return taskList;
-        });
-        setTasks(updatedTaskLists);
+
+            // Update the state of the list of tasks
+            await getTasks();
+
+            // Optionally, you might want to return some information about the update
+            return { success: true, message: 'Task status updated successfully' };
+        } catch (error) {
+            console.error('An error occurred:', error);
+            // Handle or propagate the error as needed
+            throw error;
+        }
+    }
+
+    async function deleteTask(listName, taskName) {
+        try {
+            // Delete the task
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            // DELETE request using fetch with async/await
+            const response = await fetch('http://localhost:8000/?name=' + listName + '&task=' + taskName, requestOptions);
+
+            // Check if the request was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Failed to delete task. Status: ${response.status}`);
+            }
+
+            // Update the state of the list of tasks
+            await getTasks();
+
+            // Optionally, you might want to return some information about the update
+            return { success: true, message: 'Task deleted successfully' };
+        } catch (error) {
+            console.error('An error occurred:', error);
+            // Handle or propagate the error as needed
+            throw error;
+        }
     }
 
     return (
@@ -86,7 +134,7 @@ function AchieveIt() {
                 <Navbar />
             </div>
             <div className="taskList">
-                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} insertTask={insertTask} />
+                <TaskList lists={taskLists} addList={addList} numItems={numItems} setChecked={setChecked} insertTask={insertTask} deleteTask={deleteTask} />
             </div>
         </div>
     );

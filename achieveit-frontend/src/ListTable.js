@@ -37,21 +37,30 @@ function ListTable(props) {
                                                 type={'checkbox'}
                                                 id={`default-checkbox`}
                                                 checked={val.completed}
-                                                onChange={() => props.setChecked(item, val, !val.completed)}
+                                                onChange={() => props.setChecked(item.name,val.name, !val.completed)}
                                             />
                                         </Form>
                                     </td>
-                                    {!val.completed && <td>{val.task}</td>}
+                                    {!val.completed && <td>{val.name}</td>}
                                     {!val.completed && <td>{val.description}</td>}
                                     {!val.completed && <td>{val.due_date}</td>}
                                     {!val.completed && <td>{val.priority}</td>}
-                                    {!val.completed && <td>{val.task_category}</td>}
+                                    {!val.completed && <td>{item.name}</td>}
 
                                     {val.completed && <td style={listItemStyle}>{val.task}</td>}
                                     {val.completed && <td style={listItemStyle}>{val.description}</td>}
                                     {val.completed && <td style={listItemStyle}>{val.due_date}</td>}
                                     {val.completed && <td style={listItemStyle}>{val.priority}</td>}
                                     {val.completed && <td style={listItemStyle}>{val.task_category}</td>}
+                                    {/*    Button to delete item*/}
+                                    <td>
+                                        <btn
+                                            variant="danger"
+                                            onClick={() => props.deleteTask(item.name, val.name)}
+                                        >
+                                            Delete
+                                        </btn>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

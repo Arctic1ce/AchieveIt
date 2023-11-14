@@ -42,11 +42,11 @@ function TaskList(props) {
                     <Col sm={8}>
                         <Tab.Content>
                             <Tab.Pane key={"AllTasks"} eventKey={"#AllTasks"}>
-                                <ListTable list={props.lists} setChecked={props.setChecked} insertTask={props.insertTask}/>
+                                <ListTable list={props.lists} setChecked={props.setChecked} insertTask={props.insertTask} deleteTask = {props.deleteTask}/>
                             </Tab.Pane>
                             {props.lists.map((task) => (
                                 <Tab.Pane key={`${task.name}`} eventKey={`#${task.name}`}>
-                                    <ListTable list={[task]} setChecked={props.setChecked} insertTask={props.insertTask}/>
+                                    <ListTable listName={`${task.name}`} list={[task]} setChecked={props.setChecked} insertTask={props.insertTask} deleteTask = {props.deleteTask}/>
                                 </Tab.Pane>
                             ))}
                         </Tab.Content>

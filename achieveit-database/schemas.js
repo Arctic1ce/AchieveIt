@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {mongo} = require("mongoose");
 // schemas.js
 // mock to do item
 const mockTodoItem = {
@@ -41,11 +42,11 @@ const todoItemSchema = new mongoose.Schema({
 });
 
 const todoListSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    items: [todoItemSchema]
+    name: String,
+    items: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TodoItem'
+    }]
 });
 
 

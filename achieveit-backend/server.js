@@ -137,26 +137,30 @@ app.post('/tasks/', (req, res) => {
 app.patch('/', (req, res) => {
     const listName = req.query['name'];
     const taskName = req.query['task'];
-    const list = service.getTodoList(listName);
-    if (list === undefined) {
-        res.status(404).send();
-        return;
-    }
-    let found = false;
-    for (let i = 0; i < list.items.length; i++) {
-        if (list.items[i].task === taskName) {
-            list.items[i].completed = true;
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
-        res.status(404).send();
-        return;
-    }
-    service.deleteTodoItem(listName, taskName).then((result) => {
-        res.send(result);
+    const status = req.query['status'];
 
+        service.toggleCheck(listName, taskName,status).then((result) => {
+            res.send(result);
+        });
+
+})
+
+app.get('/tasks/', (req, res) => {
+    // get all the tasks
+    service.getAllToDos().then((result) => {
+        res.send(result);
+    });
+}, (error) => {
+    console.log(error);
+    res.send(error);
+})
+
+app.delete('/', (req, res) => {
+    const listName = req.query['name'];
+    const taskName = req.query['task'];
+    service.deleteTodoItem(listName, taskName).then((result) => {
+        // send 200 if successful
+        res.status(200).send();
     });
 })
 
