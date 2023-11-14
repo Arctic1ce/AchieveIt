@@ -1,8 +1,10 @@
-CSC 307 - AchieveIt
+# CSC 307 - AchieveIt
+
+[![CI Testing](https://github.com/Arctic1ce/AchieveIt/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/Arctic1ce/AchieveIt/actions/workflows/ci-testing.yml)
 
 Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, Russ Sobti
 
-# Contributing
+## Contributing
 
 To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
 
