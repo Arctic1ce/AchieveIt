@@ -33,43 +33,36 @@ function AchieveIt() {
         setNumItems(count);
     }, [taskLists]);
 
-    function addList(listName) {
-
-        // POST request using fetch with async/await
+    async function addList(listName) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         };
-        fetch('http://localhost:8000/?name=' + listName, requestOptions).then(
-            // update the state of the list of tasks
-            getTasks()
-        );
-        // setTasks([...taskLists, newItem]);
+        try {
+            await fetch('http://localhost:8000/?name=' + listName, requestOptions);
+            await getTasks();
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
     }
 
     function insertTask(list, task) {
-        /*
-        let newLists = [...taskLists];
-        for (let i = 0; i < taskLists.length; i++) {
-            if (taskLists[i].name === list) {
-                newLists[i].items.push(task);
-            }
-        }
-
-        setTasks(newLists);
-         */
-        // POST request using fetch with async/await
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(task)
+            body: JSON.stringify(task),
         };
-        fetch('http://localhost:8000/tasks/?name=' + list, requestOptions).then(
-            // update the state of the list of tasks
-            getTasks()
-        );
-    }
 
+        fetch(`http://localhost:8000/tasks/?name=${list}`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => getTasks())
+            .catch(error => console.error('Fetch error:', error));
+    }
     async function setChecked(taskName, itemName, status) {
         try {
             // Set the task to completed

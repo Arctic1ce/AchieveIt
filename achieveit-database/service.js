@@ -43,34 +43,38 @@ function deleteTodoList(listName) {
 
 // Create a new to-do item for a specific to-do list
 function createTodoItem(listName, itemData) {
-    let promise;
-    // get the list id from the list name
-    let listId;
-    getTodoList(itemData.task_category).then((result) => {
-        listId = result[0]._id;
+    return getTodoList(itemData.task_category)
+        .then((result) => {
+            const listId = result[0]._id;
 
-    console.log("listId: " + listId)
-    console.log(itemData)
-    let obj = {
-        name: itemData.task,
-        listId: listId,
-        description: itemData.description,
-        due_date: itemData.due_date,
-        priority: itemData.priority,
-        completed: itemData.completed
-    }
-    promise = TodoItem.create(
-        obj
-    ).then((result) => {
-        console.log("result: " + result)
-        TodoList.updateOne({name: listName}, {$push: {items: result._id}}).then((result) => {
-            console.log("result: " + result)
+            console.log("listId: " + listId);
+            console.log(itemData);
+
+            const obj = {
+                name: itemData.task,
+                listId: listId,
+                description: itemData.description,
+                due_date: itemData.due_date,
+                priority: itemData.priority,
+                completed: itemData.completed,
+            };
+
+            return TodoItem.create(obj)
+                .then((createdItem) => {
+                    return TodoList.updateOne(
+                        { name: listName },
+                        { $push: { items: createdItem._id } }
+                    );
+                })
+                .then(() => {
+                    console.log("TodoItem created and linked to TodoList successfully.");
+                });
         })
-    }  );
-    return promise;
-    });
-
-    }
+        .catch((error) => {
+            console.error("An error occurred:", error);
+            throw error; // Propagate the error if needed
+        });
+}
 
 
 
