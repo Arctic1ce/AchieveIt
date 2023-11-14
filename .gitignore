@@ -2,6 +2,7 @@
 .idea/*
 achieveit-frontend/node_modules/*
 achieveit-database/node_modules*
+achieveit-backend/node_modules/*
 /node_modules
 /package-lock.json
 /*/node_modules
