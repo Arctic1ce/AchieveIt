@@ -3,6 +3,10 @@ import Navbar from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
 
+// The server location
+const backend = require('./server-locations.json')['backend'];
+const serverUrl = backend;
+
 function AchieveIt() {
     const [taskLists, setTasks] = useState([]);
     const [numItems, setNumItems] = useState(0);
@@ -15,7 +19,7 @@ function AchieveIt() {
     * GetTasks: Fetches all the tasks from the database and updates the state
     * */
     function getTasks() {
-        fetch('http://localhost:8000/')
+        fetch(serverUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -45,7 +49,7 @@ function AchieveIt() {
             headers: { 'Content-Type': 'application/json' },
         };
         try {
-            await fetch('http://localhost:8000/?name=' + listName, requestOptions);
+            await fetch(serverUrl+'/?name=' + listName, requestOptions);
             await getTasks();
         } catch (error) {
             console.error('Fetch error:', error);
@@ -61,7 +65,7 @@ function AchieveIt() {
             body: JSON.stringify(task),
         };
 
-        fetch(`http://localhost:8000/tasks/?name=${list}`, requestOptions)
+        fetch(serverUrl+`/tasks/?name=${list}`, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -83,7 +87,7 @@ function AchieveIt() {
             console.log('checking: ' + taskName + ' ' + itemName + ' ' + status);
 
             // PATCH request using fetch with async/await
-            const response = await fetch('http://localhost:8000/?name=' + taskName + '&task=' + itemName + '&status=' + status, requestOptions);
+            const response = await fetch(serverUrl+'/?name=' + taskName + '&task=' + itemName + '&status=' + status, requestOptions);
 
             // Check if the request was successful (status code 2xx)
             if (!response.ok) {
@@ -111,7 +115,7 @@ function AchieveIt() {
             };
 
             // DELETE request using fetch with async/await
-            const response = await fetch('http://localhost:8000/?name=' + listName + '&task=' + taskName, requestOptions);
+            const response = await fetch(serverUrl+'/?name=' + listName + '&task=' + taskName, requestOptions);
 
             // Check if the request was successful (status code 2xx)
             if (!response.ok) {

@@ -4,11 +4,16 @@
   "description": "CSC 307 - AchieveIt",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "cd achieveit-frontend && npm start",
+    "backend": "cd achieveit-backend && npm start",
+    "db": "cd achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "create-react-app": "^5.0.1",
     "express": "^4.18.2"
   }

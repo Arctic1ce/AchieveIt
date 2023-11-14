@@ -1,9 +1,12 @@
 /* Filename: service.js */
 const mongoose = require("mongoose");
 const {TodoItem, TodoList} = require("./schemas");
+// read the URL to connect to the database from ../server-locations.json
+const serverLocations = require("./server-locations.json");
+const serverUrl = serverLocations["database"];
 mongoose.set("debug", true);
 
-mongoose.connect("mongodb://localhost:27017/users", {
+mongoose.connect(serverUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

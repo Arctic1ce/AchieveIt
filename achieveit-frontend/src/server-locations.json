@@ -1,0 +1,4 @@
+{
+  "database": "mongodb://localhost:27017/users",
+  "backend" : "http://localhost:8000"
+}
