@@ -40,6 +40,10 @@ app.get('/', async (req, res) => {
 app.post('/', async (req, res) => {
   try {
     const newList = req.query['name'];
+    const list = await service.getTodoList(newList);
+    if (list) {
+      res.send();
+    }
     const result = await service.createTodoList(newList);
     res.send(result);
   } catch (error) {
