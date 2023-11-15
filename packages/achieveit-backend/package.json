@@ -4,8 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" ",
-    "build": "npm install"
+    "test": "echo \"Error: no test specified\" "
   },
   "author": "",
   "license": "ISC",
