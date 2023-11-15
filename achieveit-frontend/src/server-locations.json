@@ -1,4 +1,0 @@
-{
-  "database": "mongodb://localhost:27017/users",
-  "backend": "https://achieveit-api-csc307.azurewebsites.net/"
-}

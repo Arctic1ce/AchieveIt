@@ -6,11 +6,11 @@
   "scripts": {
     "lint": "npx prettier --check .",
     "test": "echo \"Error: no test specified\" ",
-    "frontend": "cd achieveit-frontend && npm start",
-    "backend": "cd achieveit-backend && npm start",
-    "db": "cd achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
+    "frontend": "cd packages/achieveit-frontend && npm start",
+    "backend": "cd packages/achieveit-backend && npm start",
+    "db": "cd packages/achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" ",
-    "start": "concurrently \"npm install\" \"cd achieveit-frontend\" \"npm install\" \"cd ..\" \"npm run dev\" "
+    "start": "concurrently \"npm install\" \"cd packages/achieveit-frontend\" \"npm install\" \"cd ../..\" \"npm run dev\" "
   },
   "author": "",
   "license": "ISC",
@@ -22,9 +22,7 @@
     "mongoose": "^8.0.0"
   },
   "workspaces": [
-    "achieveit-frontend",
-    "achieveit-backend",
-    "achieveit-database"
+    "packages/*"
   ],
   "devDependencies": {
     "prettier": "^3.1.0"
