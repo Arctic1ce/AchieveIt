@@ -23,7 +23,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install
+          npm install --workspaces=false
           npm run -w achieveit-backend build --if-present
           npm run -w achieveit-backend test --if-present
         working-directory: achieveit-backend
