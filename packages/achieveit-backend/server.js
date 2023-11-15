@@ -41,10 +41,12 @@ app.post('/', async (req, res) => {
   try {
     const newList = req.query['name'];
     const list = await service.getTodoList(newList);
+    const result;
     if (list) {
-      res.send();
+      result = list;
+    } else {
+      result = await service.createTodoList(newList);
     }
-    const result = await service.createTodoList(newList);
     res.send(result);
   } catch (error) {
     console.error(error);
