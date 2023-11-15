@@ -10,9 +10,7 @@
     "backend": "cd achieveit-backend && npm start",
     "db": "cd achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" ",
-    "start": "concurrently \"npm run install\" \"npm run dev\" ",
-    "install": "concurrently \"npm install\" \"cd achieveit-frontend\" \"npm install\" \"cd ..\"  ",
-    "build": "cd achieveit-frontend && npm run build && mv build ../public"
+    "start": "concurrently \"npm install\" \"cd achieveit-frontend\" \"npm install\" \"cd ..\" \"npm run dev\" "
   },
   "author": "",
   "license": "ISC",
