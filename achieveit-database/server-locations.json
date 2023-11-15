@@ -1,4 +1,4 @@
 {
   "database": "mongodb+srv://rsobti:TVhf48SEGqrxLdTa@achieveit.6igmkle.mongodb.net/?retryWrites=true&w=majority",
-  "backend": "http://localhost:8000"
+  "backend": "https://achieveit-api-csc307.azurewebsites.net/"
 }
