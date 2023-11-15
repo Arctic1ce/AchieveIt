@@ -47,7 +47,7 @@ function ListTable(props) {
                   {!val.completed && <td>{val.priority}</td>}
                   {!val.completed && <td>{item.name}</td>}
 
-                  {val.completed && <td style={listItemStyle}>{val.task}</td>}
+                  {val.completed && <td style={listItemStyle}>{val.name}</td>}
                   {val.completed && (
                     <td style={listItemStyle}>{val.description}</td>
                   )}
@@ -58,7 +58,7 @@ function ListTable(props) {
                     <td style={listItemStyle}>{val.priority}</td>
                   )}
                   {val.completed && (
-                    <td style={listItemStyle}>{val.task_category}</td>
+                    <td style={listItemStyle}>{item.name}</td>
                   )}
                   {/*    Button to delete item*/}
                   <td>
