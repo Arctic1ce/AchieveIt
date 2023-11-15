@@ -105,6 +105,6 @@ app.delete('/', async (req, res) => {
 });
 
 // Run the server
-app.listen(process.env.PORT || port, () => {
+app.listen(process.env.PORT, () => {
   console.log(`AchieveIt listening on port ${port}`);
 });
