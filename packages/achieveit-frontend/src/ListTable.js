@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import NewItem from './NewItem';
+import Button from 'react-bootstrap/Button';
 
 function ListTable(props) {
   const listItemStyle = {
@@ -62,12 +63,9 @@ function ListTable(props) {
                   )}
                   {/*    Button to delete item*/}
                   <td>
-                    <btn
-                      variant="danger"
-                      onClick={() => props.deleteTask(item.name, val.name)}
-                    >
-                      Delete
-                    </btn>
+                  <Button variant="dark" onClick={() => props.deleteTask(item.name, val.name)} className="me-2">
+                    Delete
+                  </Button>
                   </td>
                 </tr>
               ))}
@@ -76,7 +74,7 @@ function ListTable(props) {
         })}
       </Table>
       {props.list.length === 1 && (
-        <Button variant="dark" onClick={() => props.deleteList(listName)} className="me-2">
+        <Button variant="dark" onClick={() => props.deleteList(props.list[0].name)} className="me-2">
           Delete List
         </Button>
       )}

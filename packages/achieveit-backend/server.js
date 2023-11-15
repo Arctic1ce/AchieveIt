@@ -107,7 +107,7 @@ app.delete('/', async (req, res) => {
 });
 
 // Delete a to-do list
-app.delete('/', async (req, res) => {
+app.delete('/list/', async (req, res) => {
   try {
     const listName = req.query['name'];
     await service.deleteTodoList(listName);

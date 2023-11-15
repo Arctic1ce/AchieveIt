@@ -59,7 +59,6 @@ function TaskList(props) {
                   setChecked={props.setChecked}
                   insertTask={props.insertTask}
                   deleteTask={props.deleteTask}
-                  deleteList={props.deleteList}
                 />
               </Tab.Pane>
               {props.lists.map((task) => (
@@ -70,6 +69,7 @@ function TaskList(props) {
                     setChecked={props.setChecked}
                     insertTask={props.insertTask}
                     deleteTask={props.deleteTask}
+                    deleteList={props.deleteList}
                   />
                 </Tab.Pane>
               ))}

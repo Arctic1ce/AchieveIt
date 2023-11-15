@@ -120,6 +120,7 @@ function AchieveIt() {
   /* Delete a list */
   async function deleteList(listName) {
     try {
+      console.log(listName);
       // Delete the list
       const requestOptions = {
         method: 'DELETE',
@@ -128,7 +129,7 @@ function AchieveIt() {
 
       // DELETE request using fetch with async/await
       const response = await fetch(
-        serverUrl + '/?name=' + listName,
+        serverUrl + '/list/?name=' + listName,
         requestOptions,
       );
 
