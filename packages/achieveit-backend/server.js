@@ -1,7 +1,7 @@
 /* Filename: server.js */
 const express = require('express');
 const cors = require('cors');
-const service = require('../achieveit-database/service');
+const service = require('./achieveit-database/service');
 const app = express();
 const port = 8000;
 app.use(cors());

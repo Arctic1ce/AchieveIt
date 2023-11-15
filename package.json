@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" ",
     "frontend": "cd packages/achieveit-frontend && npm start",
     "backend": "cd packages/achieveit-backend && npm start",
-    "db": "cd packages/achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
+    "db": "cd packages/achieveit-backend/achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" ",
     "start": "concurrently \"npm install\" \"cd packages/achieveit-frontend\" \"npm install\" \"cd ../..\" \"npm run dev\" "
   },

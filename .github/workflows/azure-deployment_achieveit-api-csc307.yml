@@ -9,10 +9,6 @@ on:
       - azure-deployment
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: packages/achieveit-backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
