@@ -12,9 +12,6 @@ function ValidateItem(item) {
   if (item.task === undefined || item.task === '') {
     return false;
   }
-  if (item.description === undefined || item.description === '') {
-    return false;
-  }
   if (item.due_date === undefined || item.due_date === '') {
     return false;
   }
@@ -53,6 +50,7 @@ app.post('/', async (req, res) => {
 // Add a new task to a to-do list
 app.post('/tasks/', async (req, res) => {
   try {
+    console.log()
     // Validate the item
     if (!ValidateItem(req.body) || req.query['name'] === undefined) {
       res.status(420).send();
@@ -105,6 +103,6 @@ app.delete('/', async (req, res) => {
 });
 
 // Run the server
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`AchieveIt listening on port ${port}`);
 });
