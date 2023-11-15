@@ -106,6 +106,18 @@ app.delete('/', async (req, res) => {
   }
 });
 
+// Delete a to-do list
+app.delete('/', async (req, res) => {
+  try {
+    const listName = req.query['name'];
+    await service.deleteTodoList(listName);
+    res.status(200).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
 // Run the server
 app.listen(process.env.PORT || port, () => {
   console.log(`AchieveIt listening on port ${port}`);

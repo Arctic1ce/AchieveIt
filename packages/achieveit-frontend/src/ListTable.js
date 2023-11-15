@@ -75,6 +75,11 @@ function ListTable(props) {
           );
         })}
       </Table>
+      {props.list.length === 1 && (
+        <Button variant="dark" onClick={() => props.deleteList(listName)} className="me-2">
+          Delete List
+        </Button>
+      )}
     </div>
   );
 }

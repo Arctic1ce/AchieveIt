@@ -116,6 +116,39 @@ function AchieveIt() {
       throw error;
     }
   }
+
+  /* Delete a list */
+  async function deleteList(listName) {
+    try {
+      // Delete the list
+      const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      };
+
+      // DELETE request using fetch with async/await
+      const response = await fetch(
+        serverUrl + '/?name=' + listName,
+        requestOptions,
+      );
+
+      // Check if the request was successful (status code 2xx)
+      if (!response.ok) {
+        throw new Error(`Failed to delete list. Status: ${response.status}`);
+      }
+
+      // Update the state of the list of tasks
+      await getTasks();
+
+      // Optionally, you might want to return some information about the update
+      return { success: true, message: 'List deleted successfully' };
+    } catch (error) {
+      console.error('An error occurred:', error);
+      // Handle or propagate the error as needed
+      throw error;
+    }
+  }
+
   /* Delete a task */
   async function deleteTask(listName, taskName) {
     try {
@@ -161,6 +194,7 @@ function AchieveIt() {
           setChecked={setChecked}
           insertTask={insertTask}
           deleteTask={deleteTask}
+          deleteList={deleteList}
         />
       </div>
     </div>
