@@ -50,7 +50,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-        working-directory: packages/achieveit-backend
+          path: release.zip
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
