@@ -1,10 +1,10 @@
 /* Filename: server.js */
 const express = require('express');
-/* const cors = require('cors'); */
+const cors = require('cors');
 const service = require('./achieveit-database/service');
 const app = express();
 const port = 8000;
-//app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 /* Validate a to-do item */
@@ -40,13 +40,7 @@ app.get('/', async (req, res) => {
 app.post('/', async (req, res) => {
   try {
     const newList = req.query['name'];
-    const list = await service.getTodoList(newList);
-    const result;
-    if (list) {
-      result = list;
-    } else {
-      result = await service.createTodoList(newList);
-    }
+    result = await service.createTodoList(newList);
     res.send(result);
   } catch (error) {
     console.error(error);
