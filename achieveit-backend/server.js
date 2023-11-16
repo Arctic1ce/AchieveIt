@@ -1,10 +1,10 @@
 /* Filename: server.js */
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const service = require('../achieveit-database/service');
 const app = express();
 const port = 8000;
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 /* Validate a to-do item */
@@ -21,10 +21,8 @@ function ValidateItem(item) {
   if (item.priority === undefined || item.priority === '') {
     return false;
   }
-  if (item.task_category === undefined || item.task_category === '') {
-    return false;
-  }
-  return true;
+  return !(item.task_category === undefined || item.task_category === '');
+
 }
 // Get all to-do lists
 app.get('/', async (req, res) => {
