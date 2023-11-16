@@ -4,11 +4,27 @@
   "description": "CSC 307 - AchieveIt",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx prettier --check .",
+    "test": "echo \"Error: no test specified\" ",
+    "frontend": "cd packages/achieveit-frontend && npm start",
+    "backend": "cd packages/achieveit-backend && npm start",
+    "db": "cd packages/achieveit-backend/achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" ",
+    "start": "concurrently \"npm install\" \"cd packages/achieveit-frontend\" \"npm install\" \"cd ../..\" \"npm run dev\" "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "create-react-app": "^5.0.1"
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "create-react-app": "^5.0.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "prettier": "^3.1.0"
   }
 }
