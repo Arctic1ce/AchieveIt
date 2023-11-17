@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Inter from '@fontsource/inter/700.css';
 
@@ -31,21 +32,26 @@ const navbarTheme = createTheme({
   },
 });
 
-function Navbar() {
+const Navbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={navbarTheme}>
         <AppBar position="static" color="primary">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              AchieveIt
-            </Typography>
-            <Button color="inherit">Login</Button>
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+            <Button color="inherit" component={Link} to="/">
+              <Typography variant="h6" component="div">
+                AchieveIt
+              </Typography>
+            </Button>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
       </ThemeProvider>
     </Box>
   );
 }
+
 
 export default Navbar;
