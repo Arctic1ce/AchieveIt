@@ -1,12 +1,7 @@
 *.iml
 .idea/*
-/achieveit-frontend/node_modules
-<<<<<<< HEAD
-/achieveit-database/node_modules
-/achieveit-backend/node_modules
+/achieveit-frontend/node_modules/*
+/achieveit-database/node_modules/*
+/achieveit-backend/node_modules/*
 /node_modules
 /*/node_modules
-=======
-/achieveit-frontend/package-lock.json
-.idea/*
->>>>>>> 704e97a3365d06804f920c6b7ce0c041f0615f57

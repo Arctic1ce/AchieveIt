@@ -1,5 +1,5 @@
 /* Filename: AchieveIt.js */
-import Navbar from './Navbar';
+import Nav from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
 
@@ -185,7 +185,7 @@ function AchieveIt() {
   return (
     <div className="AchieveIt">
       <div className="header">
-        <Navbar />
+        <Nav />
       </div>
       <div className="taskList">
         <TaskList
