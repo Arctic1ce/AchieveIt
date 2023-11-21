@@ -1,11 +1,10 @@
 /* Filename: AchieveIt.js */
-import Navbar from './Navbar';
+import Nav from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
-
 
 // The server location
 const backend = require('./server-locations.json')['backend'];
@@ -190,12 +189,12 @@ function AchieveIt() {
     <Router>
       <div className="AchieveIt">
         <div className="header">
-          <Navbar />
+          <Nav />
         </div>
         <div className="taskList">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element = {<Signup />}/>
+            <Route path="/signup" element={<Signup />} />
             <Route
               path="/"
               element={
