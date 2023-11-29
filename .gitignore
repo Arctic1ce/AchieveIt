@@ -1,5 +1,7 @@
 *.iml
 .idea/*
+/achieveit-frontend/node_modules/.cache/babel-loader/*
+/achieveit-frontend/node_modules/.cache/default-development/*
 /achieveit-frontend/node_modules/*
 /achieveit-database/node_modules/*
 /achieveit-backend/node_modules/*
