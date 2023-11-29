@@ -1,2 +1,4 @@
 *.iml
 .idea/*
+/packages/achieveit-frontend/node_modules/.cache/babel-loader/0b5cd4ddacede8d8c822aea17ac0be25a967f51bc3133978495a0c8b6d058f76.json
+/packages/achieveit-frontend/node_modules/*
