@@ -20,25 +20,9 @@ function ListTable(props) {
     style to look closer to Figma model
   */
 
-  const initialSelectedKeys = () => {
-    const storedSelectedKeys = sessionStorage.getItem('selectedKeys');
-    if (storedSelectedKeys) {
-      return new Set(JSON.parse(storedSelectedKeys));
-    }
-    return new Set([]);
-  };
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
-  const [selectedKeys, setSelectedKeys] = useState(initialSelectedKeys);
-
-  // Save selectedKeys to sessionStorage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem(
-      'selectedKeys',
-      JSON.stringify(Array.from(selectedKeys)),
-    );
-
-    console.log('Saved Selected Keys:', Array.from(selectedKeys));
-  }, [selectedKeys]);
+  const previouskeys = new Set([]);
 
   const listItemStyle = {
     textDecoration: 'line-through',
@@ -47,31 +31,20 @@ function ListTable(props) {
     color: '#ff0000',
   };
 
-  const grabList = (list, val) => {
-    for (let sub of list) {
-      if (sub.name == val) {
-        if (sub.items == undefined) {
-          return 'undefined';
-        } else {
-          return sub.items;
-        }
-      }
-    }
-    return [];
-  };
+  useEffect(() => {
+    // Use an effect to update the state once after the loop
+    const completedKeys = new Set();
 
-  const grabCompleted = (items, val) => {
-    for (let sub of items) {
-      if (sub.name == val) {
-        if (sub.completed == undefined) {
-          return 'undefined';
-        } else {
-          return sub.completed;
+    props.list.forEach((list) => {
+      list.items.forEach((val) => {
+        if (val.completed) {
+          completedKeys.add(`${list._id}-${val._id}`);
         }
-      }
-    }
-    return [];
-  };
+      });
+    });
+    // Update the state with completed keys
+    setSelectedKeys(completedKeys);
+  }, [props.list]);
 
   const isRowSelected = (rowId) => {
     if (selectedKeys === 'all') {
@@ -81,23 +54,64 @@ function ListTable(props) {
     }
   };
 
-  const handleSelect = (key) => {
-    setSelectedKeys(key);
-    console.log(key);
-
-    if (key === 'all') {
-      Array.from(selectedKeys).map((key) => {
-        let arr = key.split('-', 2);
-        props.setChecked(arr[0], arr[1], true);
-        console.log('check');
-      });
-    } else if (key.currentKey !== undefined) {
-      let arr = key.currentKey.split('-', 2);
-      if (isRowSelected(`${arr[0]}-${arr[1]}`)) {
-        props.setChecked(arr[0], arr[1], false);
-      } else {
-        props.setChecked(arr[0], arr[1], true);
+  const findlist = (id) => {
+    for (let list of props.list) {
+      if (list._id == id) {
+        return list;
       }
+    }
+    return null;
+  };
+
+  const findtask = (list, id) => {
+    console.log('findtask');
+    console.log(list);
+    for (let task of list.items) {
+      console.log(id);
+      console.log(task._id);
+      if (task._id == id) {
+        return task;
+      }
+    }
+    return null;
+  };
+
+  const handleSelect = (key) => {
+    Array.from(selectedKeys).map((val) => previouskeys.add(val));
+    setSelectedKeys(key);
+
+    if (previouskeys.size > key.size) {
+      //we've unselected a row - set that rows completed value to false
+      previouskeys.forEach((element) => {
+        if (!key.has(element)) {
+          let arr = element.split('-', 2);
+          let list = findlist(arr[0]);
+          if (list !== null) {
+            let task = findtask(list, arr[1]);
+            if (task !== null) {
+              props.setChecked(list.name, task.name, false);
+            }
+          }
+        }
+      });
+    } else if (previouskeys.size < key.size) {
+      //we've selected a row - set that rows completed value to true
+      key.forEach((element) => {
+        if (!previouskeys.has(element)) {
+          let arr = element.split('-', 2);
+          let list = findlist(arr[0]);
+          if (list !== null) {
+            let task = findtask(list, arr[1]);
+            if (task !== null) {
+              props.setChecked(list.name, task.name, true);
+            }
+          }
+        }
+      });
+    } else {
+      //something went wrong
+      //we haven't changed anything --> handler shouldn't have been called
+      console.log('?');
     }
   };
 
@@ -118,19 +132,13 @@ function ListTable(props) {
           <TableColumn></TableColumn>
         </TableHeader>
         <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
-
-        <TableBody key={'unique'}>
+        <TableBody>
           {props.list.map((list) =>
             list.items.map((val) => {
-              
               return (
                 <TableRow
-                  style={
-                    isRowSelected(`${list.name}-${val.name}`)
-                      ? listItemStyle
-                      : null
-                  }
-                  key={`${list.name}-${val.name}`}>
+                  style={val.completed ? listItemStyle : {}}
+                  key={`${list._id}-${val._id}`}>
                   <TableCell>{val.name}</TableCell>
                   <TableCell>{val.description}</TableCell>
                   <TableCell>{val.due_date}</TableCell>
@@ -148,7 +156,10 @@ function ListTable(props) {
             }),
           )}
         </TableBody>
+
+        {/* Update the state outside the loop */}
       </Table>
+
       {props.list.length === 1 && (
         <Button onClick={() => props.deleteList(props.list[0].name)}>
           Delete List
