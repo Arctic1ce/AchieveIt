@@ -47,6 +47,9 @@ function generateAccessToken(username) {
 * Use this for API access in server.js to find the user
  */
 function authenticateUser(token) {
+    const authHeader = req.headers["authorization"];
+    //Getting the 2nd part of the auth header (the token)
+    const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
         console.log("No token received");
@@ -72,32 +75,36 @@ function authenticateUser(token) {
 *  Send the JWT as a cookie
 *  Send the JWT as a response body (for testing purposes, delete this in production)
 *  */
-function loginUser(req, res) {
-    const {username, pwd} = req.body; // from form
+export function loginUser(req, res) {
+    const { username, pwd } = req.body; // from form
     const retrievedUser = creds.find(
-        (c) => c.username === username
+      (c) => c.username === username
     );
-
+  
     if (!retrievedUser) {
-        // invalid username
-        res.status(401).send("Unauthorized");
+      // invalid username
+      res.status(401).send("Unauthorized");
     } else {
-        bcrypt
-            .compare(pwd, retrievedUser.hashedPassword)
-            .then((matched) => {
-                if (matched) {
-                    generateAccessToken(username).then((token) => {
-                        // send the token as a cookie
-                        res.cookie("token", token, {httpOnly: true, maxAge: 86400000});
-                        res.status(200).send({token: token});
-                    });
-                } else {
-                    // invalid password
-                    res.status(401).send("Unauthorized");
-                }
-            })
-            .catch(() => {
-                res.status(401).send("Unauthorized");
+      bcrypt
+        .compare(pwd, retrievedUser.hashedPassword)
+        .then((matched) => {
+          if (matched) {
+            generateAccessToken(username).then((token) => {
+              res.status(200).send({ token: token });
             });
+          } else {
+            // invalid password
+            res.status(401).send("Unauthorized");
+          }
+        })
+        .catch(() => {
+          res.status(401).send("Unauthorized");
+        });
     }
+}
+
+export default {
+    registerUser,
+    authenticateUser,
+    loginUser
 }
