@@ -1,5 +1,3 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const User = require('./achieveit-database/schemas').User;
 
 function registerUser(req, res) {
