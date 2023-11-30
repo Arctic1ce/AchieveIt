@@ -1,21 +1,26 @@
 /* Filename: service.js */
 const mongoose = require('mongoose');
-const { TodoItem, TodoList } = require('./schemas');
+const {TodoItem, TodoList} = require('./schemas');
 // read the URL to connect to the database from ../server-locations.json
 const serverLocations = require('./server-locations.json');
-const serverUrl = serverLocations['database'];
+let serverUrl = serverLocations['database'];
 mongoose.set('debug', true);
 
+// check if argv contains --local
+if (process.argv.includes('--local')) {
+    // set to mongodb://localhost:27017/users for
+    serverUrl = "mongodb://localhost:27017/users";
+}
 mongoose
-  .connect(serverUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.log(error));
+    .connect(serverUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .catch((error) => console.log(error));
 
 // Create a new to-do list
 function createTodoList(listName) {
-  // create a new list
+    // create a new list
   let promise = TodoList.create({ name: listName, items: [] });
   return promise;
 }

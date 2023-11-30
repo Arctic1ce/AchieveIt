@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const service = require('./achieveit-database/service');
 const app = express();
+const auth = require('./auth');
 const port = 8000;
 app.use(cors());
 app.use(express.json());
@@ -111,6 +112,17 @@ app.delete('/list/', async (req, res) => {
     res.status(500).send(error);
   }
 });
+app.post('/signup/', async (req, res) => {
+  try {
+    const {username, password} = req.body;
+    const result = await auth.registerUser(username, password);
+    res.status(200).send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
 
 // Run the server
 app.listen(process.env.PORT || port, () => {

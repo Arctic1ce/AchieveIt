@@ -1,14 +1,19 @@
 /* Filename: AchieveIt.js */
 import Navbar from './Navbar';
 import TaskList from './TaskList';
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 
 
 // The server location
-const backend = require('./server-locations.json')['backend'];
+let backend = require('./server-locations.json')['backend'];
+if (process.argv.includes('--local')) {
+  // set to http://localhost:8000 for local development
+  backend = 'http://localhost:8000';
+}
+
 const serverUrl = backend;
 
 function AchieveIt() {

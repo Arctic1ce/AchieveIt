@@ -1,9 +1,9 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require('./achieveit-database/schemas').User;
 
-const creds = [];
-export function registerUser(req, res) {
-    const { username, pwd } = req.body; // from form
+function registerUser(req, res) {
+    const {username, pwd} = req.body; // from form
 
     if (!username || !pwd) {
         res.status(400).send("Bad request: Invalid input data.");
@@ -16,13 +16,15 @@ export function registerUser(req, res) {
             .then((hashedPassword) => {
                 generateAccessToken(username).then((token) => {
                     console.log("Token:", token);
-                    res.status(201).send({ token: token });
-                    creds.push({ username, hashedPassword });
+                    res.status(201).send({token: token});
+                    // add to the db
+                    User.create({username: username, password: hashedPassword});
                 });
             });
     }
 }
 
+/* Generate a JWT with the username, encoded with the TOKEN_SECRET environment variable */
 function generateAccessToken(username) {
     return new Promise((resolve, reject) => {
         jwt.sign(
@@ -39,10 +41,14 @@ function generateAccessToken(username) {
         );
     });
 }
-export function authenticateUser(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    //Getting the 2nd part of the auth header (the token)
-    const token = authHeader && authHeader.split(" ")[1];
+
+/*
+* Authenticate a user
+* Return the username if authentication succeeds
+* Otherwise, return an error
+* Use this for API access in server.js to find the user
+ */
+function authenticateUser(token) {
 
     if (!token) {
         console.log("No token received");
@@ -53,7 +59,7 @@ export function authenticateUser(req, res, next) {
             process.env.TOKEN_SECRET,
             (error, decoded) => {
                 if (decoded) {
-                    next();
+                    return decoded.username
                 } else {
                     console.log("JWT error:", error);
                     res.status(401).end();
@@ -63,8 +69,13 @@ export function authenticateUser(req, res, next) {
     }
 }
 
-export function loginUser(req, res) {
-    const { username, pwd } = req.body; // from form
+/* Login a user
+*  Generate a JWT if authentication succeeds
+*  Send the JWT as a cookie
+*  Send the JWT as a response body (for testing purposes, delete this in production)
+*  */
+function loginUser(req, res) {
+    const {username, pwd} = req.body; // from form
     const retrievedUser = creds.find(
         (c) => c.username === username
     );
@@ -78,7 +89,9 @@ export function loginUser(req, res) {
             .then((matched) => {
                 if (matched) {
                     generateAccessToken(username).then((token) => {
-                        res.status(200).send({ token: token });
+                        // send the token as a cookie
+                        res.cookie("token", token, {httpOnly: true, maxAge: 86400000});
+                        res.status(200).send({token: token});
                     });
                 } else {
                     // invalid password

@@ -9,7 +9,7 @@
     "frontend": "cd packages/achieveit-frontend && npm start",
     "backend": "cd packages/achieveit-backend && npm start",
     "db": "cd packages/achieveit-backend/achieveit-database && npm start && echo \"Make sure MongoDB is running\" ",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run db\" ",
+    "dev": "concurrently \"npm run frontend --local\" \"npm run backend --local\" \"npm run db --local\" ",
     "start": "concurrently \"npm install\" \"cd packages/achieveit-frontend\" \"npm install\" \"cd ../..\" \"npm run dev\" "
   },
   "author": "",

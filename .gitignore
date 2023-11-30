@@ -2,5 +2,6 @@
 .idea/*
 packages/achieveit-backend/node_modules/
 packages/achieveit-frontend/node_modules/
+packages/*/node_modules
 achieveit-frontend/node_modules/
 node_modules/
