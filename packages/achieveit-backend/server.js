@@ -1,4 +1,7 @@
 /* Filename: server.js */
+
+import { registerUser } from './auth.js';
+
 const express = require('express');
 const cors = require('cors');
 const service = require('./achieveit-database/service');
@@ -111,6 +114,17 @@ app.delete('/list/', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// Register a new user
+app.post("/signup", registerUser);
+
+app.post("/users", authenticateUser, (req, res) => {
+  const userToAdd = req.body;
+  Users.addUser(userToAdd).then((result) =>
+    res.status(201).send(result)
+  );
+});
+
 
 // Run the server
 app.listen(process.env.PORT || port, () => {
