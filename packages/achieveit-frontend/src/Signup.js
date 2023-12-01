@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {authenticateUser} from "achieveit-backend/auth";
+import React, { useState } from 'react';
+
 function Signup() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -44,19 +44,7 @@ function Signup() {
     // If there are no errors, proceed with form submission
     if (Object.keys(errors).length === 0) {
       // Perform form submission logic here
-      try {
-        console.log(formData);
-        // POST to backend
-        const requestOptions = {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(formData)
-        };
-        // fetch('http://localhost:8080/signup', requestOptions)
-      } catch (error) {
-        console.error(error);
-      }
-      console.log('Signed up user:', formData);
+      console.log('Form submitted:', formData);
     }
   };
 

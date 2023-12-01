@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { MDBBtn,MDBContainer,MDBCard,MDBCardBody,MDBCardImage,MDBRow,MDBCol,MDBIcon,MDBInput
+import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput
 } from 'mdb-react-ui-kit';
+import { loginUser, setToken } from './services/authService';
 
-function Login() {
+function Login(props) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -10,10 +11,10 @@ function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+       [name]: value,
+    }));
   };
 
   const isFormValid = () => {
@@ -22,11 +23,29 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!isFormValid()) {
+      // Handle form validation error
       return;
     }
 
-    console.log('Form submitted:', formData);
+    authService.loginUser(formData)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          // Handle login error
+          throw new Error(`Login Error ${response.status}`);
+        }
+      })
+      .then((data) => {
+        setToken(data.token);
+        localStorage.setItem('authToken', data.token);  // Save the token to localStorage
+      })
+      .catch((error) => {
+        // Handle login error
+        console.error('Login Error:', error);
+      });
   };
 
   return (
@@ -76,7 +95,7 @@ function Login() {
                   className="mb-4 px-5"
                   color='dark'
                   size='lg'
-                  disabled={!isFormValid()} 
+                  disabled={!isFormValid()}
                   type="submit"
                 >
                   Login

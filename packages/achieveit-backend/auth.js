@@ -2,10 +2,8 @@ import User from './achieveit-database/schemas.js';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const creds = [];
-
 function registerUser(req, res) {
-    const {username, pwd} = req.body; // from form
+    const { username, pwd } = req.body;
 
     if (!username || !pwd) {
         res.status(400).send("Bad request: Invalid input data.");
@@ -17,16 +15,14 @@ function registerUser(req, res) {
             .then((salt) => bcrypt.hash(pwd, salt))
             .then((hashedPassword) => {
                 generateAccessToken(username).then((token) => {
-                    console.log("Token:", token);
-                    res.status(201).send({token: token});
-                    // add to the db
-                    User.create({username: username, password: hashedPassword});
+                    // Add to the db
+                    User.create({ username: username, password: hashedPassword });
+                    res.status(201).send({ token: token });
                 });
             });
     }
 }
 
-/* Generate a JWT with the username, encoded with the TOKEN_SECRET environment variable */
 function generateAccessToken(username) {
     return new Promise((resolve, reject) => {
         jwt.sign(
@@ -44,66 +40,52 @@ function generateAccessToken(username) {
     });
 }
 
-/*
-* Authenticate a user
-* Return the username if authentication succeeds
-* Otherwise, return an error
-* Use this for API access in server.js to find the user
- */
 function authenticateUser(req, res, next) {
     const authHeader = req.headers["authorization"];
-    //Getting the 2nd part of the auth header (the token)
     const token = authHeader && authHeader.split(" ")[1];
-  
+
     if (!token) {
-      console.log("No token received");
-      res.status(401).end();
+        console.log("No token received");
+        res.status(401).end();
     } else {
-      jwt.verify(
-        token,
-        process.env.TOKEN_SECRET,
-        (error, decoded) => {
-          if (decoded) {
-            next();
-          } else {
-            console.log("JWT error:", error);
-            res.status(401).end();
-          }
-        }
-      );
+        jwt.verify(
+            token,
+            process.env.TOKEN_SECRET,
+            (error, decoded) => {
+                if (decoded) {
+                    next();
+                } else {
+                    console.log("JWT error:", error);
+                    res.status(401).end();
+                }
+            }
+        );
     }
 }
 
-/* Login a user
-*  Generate a JWT if authentication succeeds
-*  Send the JWT as a cookie
-*  Send the JWT as a response body (for testing purposes, delete this in production)
-*  */
 function loginUser(req, res) {
-    const { username, pwd } = req.body; // from form
-    const retrievedUser = creds.find(
-      (c) => c.username === username
-    );
-  
+    const { username, pwd } = req.body;
+    const retrievedUser = creds.find((c) => c.username === username);
+
     if (!retrievedUser) {
-      // invalid username
-      res.status(401).send("Unauthorized");
+        // Invalid username
+        res.status(401).send("Unauthorized");
     } else {
-      bcrypt
-        .compare(pwd, retrievedUser.hashedPassword)
-        .then((matched) => {
-          if (matched) {
-            generateAccessToken(username).then((token) => {
-              res.status(200).send({ token: token });
+        bcrypt
+            .compare(pwd, retrievedUser.hashedPassword)
+            .then((matched) => {
+                if (matched) {
+                    generateAccessToken(username).then((token) => {
+                        res.status(200).send({ token: token });
+                    });
+                } else {
+                    // Invalid password
+                    res.status(401).send("Unauthorized");
+                }
+            })
+            .catch(() => {
+                res.status(401).send("Unauthorized");
             });
-          } else {
-            // invalid password
-            res.status(401).send("Unauthorized");
-          }
-        })
-        .catch(() => {
-          res.status(401).send("Unauthorized");
-        });
     }
 }
 

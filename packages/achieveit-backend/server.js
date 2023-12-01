@@ -127,7 +127,7 @@ app.post("/signup", auth.registerUser);
 // Login a user
 app.post("/login", auth.loginUser);
 
-// Authenticate a user
+//Authenticate a user
 // app.post("/users", authenticateUser, (req, res) => {
 //   const userToAdd = req.body;
 //   Users.addUser(userToAdd).then((result) =>

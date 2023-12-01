@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import * as process from "process";
+import { loginUser, fetchUsers, addAuthHeader} from './services/authService';
 
 
 // The server location
@@ -18,10 +19,17 @@ if (process.argv.includes('--local')) {
 const serverUrl = backend;
 
 function AchieveIt() {
+  const [token, setToken] = useState(null);  // State to store the token
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
 
-  useEffect(() => {
+    useEffect(() => {
+    // Check if there is a token in localStorage when the component mounts
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+
     getTasks();
   }, []);
 
@@ -200,7 +208,8 @@ function AchieveIt() {
         </div>
         <div className="taskList">
           <Routes>
-            <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setToken={setToken} />}  // Pass setToken to Login component
+          />
             <Route path="/signup" element = {<Signup />}/>
             <Route
               path="/"
