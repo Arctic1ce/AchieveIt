@@ -1,11 +1,13 @@
 /* Filename: server.js */
-import { registerUser, authenticateUser, loginUser } from './auth.js';
-
-const express = require('express');
-const cors = require('cors');
-const service = require('./achieveit-database/service');
+import express from 'express';
+import cors from 'cors';
+import service from './achieveit-database/service.js';
+import auth from './auth.js';
+//const express = require('express');
+//const cors = require('cors');
+//const service = require('./achieveit-database/service');
 const app = express();
-const auth = require('./auth');
+//const auth = require('./auth');
 const port = 8000;
 app.use(cors());
 app.use(express.json());
@@ -26,7 +28,7 @@ function ValidateItem(item) {
 }
 
 // Get all to-do lists
-app.get('/', async (req, res) => {
+app.get('/', auth.authenticateUser, async (req, res) => {
   try {
     const name = req.query['name'];
     const result = name
@@ -120,19 +122,18 @@ app.delete('/list/', async (req, res) => {
 });
 
 // Register a new user
-app.post("/signup", registerUser);
+app.post("/signup", auth.registerUser);
 
 // Login a user
-app.post("/login", registerUser);
+app.post("/login", auth.loginUser);
 
 // Authenticate a user
-app.post("/users", authenticateUser, (req, res) => {
-  const userToAdd = req.body;
-  Users.addUser(userToAdd).then((result) =>
-    res.status(201).send(result)
-  );
-});
-
+// app.post("/users", authenticateUser, (req, res) => {
+//   const userToAdd = req.body;
+//   Users.addUser(userToAdd).then((result) =>
+//     res.status(201).send(result)
+//   );
+// });
 
 // Run the server
 app.listen(process.env.PORT || port, () => {
