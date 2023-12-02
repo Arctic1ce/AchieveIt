@@ -2,9 +2,6 @@
 import Nav from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
 
 // The server location
 const backend = require('./server-locations.json')['backend'];
@@ -186,33 +183,23 @@ function AchieveIt() {
   }
   /* Render the page */
   return (
-    <Router>
-      <div className="AchieveIt">
-        <div className="header">
-          <Nav />
-        </div>
-        <div className="taskList">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route
-              path="/"
-              element={
-                <TaskList
-                  lists={taskLists}
-                  addList={addList}
-                  numItems={numItems}
-                  setChecked={setChecked}
-                  insertTask={insertTask}
-                  deleteTask={deleteTask}
-                  deleteList={deleteList}
-                />
-              }
-            />
-          </Routes>
-        </div>
+    <div className="flex flex-col AchieveIt">
+      <div className="Navbar">
+        <Nav />
       </div>
-    </Router>
+
+      <div className="flex-1 taskList">
+        <TaskList
+          lists={taskLists}
+          addList={addList}
+          numItems={numItems}
+          setChecked={setChecked}
+          insertTask={insertTask}
+          deleteTask={deleteTask}
+          deleteList={deleteList}
+        />
+      </div>
+    </div>
   );
 }
 /* Export the component! */

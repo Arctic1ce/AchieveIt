@@ -161,7 +161,9 @@ function ListTable(props) {
       </Table>
 
       {props.list.length === 1 && (
-        <Button onClick={() => props.deleteList(props.list[0].name)}>
+        <Button
+          className="mt-3"
+          onClick={() => props.deleteList(props.list[0].name)}>
           Delete List
         </Button>
       )}
