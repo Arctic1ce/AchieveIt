@@ -716,10 +716,6 @@ video {
   margin: 0px;
 }
 
-.m-3 {
-  margin: 0.75rem;
-}
-
 .m-auto {
   margin: auto;
 }
@@ -764,6 +760,16 @@ video {
   margin-bottom: 4rem;
 }
 
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
 .my-\[calc\(\(theme\(spacing\.5\)-theme\(spacing\.1\)\)\/2\)\] {
   margin-top: calc((1.25rem - 0.25rem) / 2);
   margin-bottom: calc((1.25rem - 0.25rem) / 2);
@@ -779,22 +785,16 @@ video {
   margin-bottom: calc((1.75rem - 1.25rem) / 2);
 }
 
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .-mr-2 {
   margin-right: -0.5rem;
 }
 
 .-ms-2 {
   margin-inline-start: -0.5rem;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
 }
 
 .mb-1 {
@@ -813,6 +813,10 @@ video {
   margin-bottom: 0.75rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -825,8 +829,8 @@ video {
   margin-inline-end: 0.5rem;
 }
 
-.ml-0 {
-  margin-left: 0px;
+.me-3 {
+  margin-inline-end: 0.75rem;
 }
 
 .ml-1 {
@@ -855,22 +859,6 @@ video {
 
 .mt-3 {
   margin-top: 0.75rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
-}
-
-.mt-4 {
-  margin-top: 1rem;
-}
-
-.mr-4 {
-  margin-right: 1rem;
-}
-
-.mr-3 {
-  margin-right: 0.75rem;
 }
 
 .box-border {
@@ -1098,6 +1086,10 @@ video {
   width: 3.5rem;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
 .w-2 {
   width: 0.5rem;
 }
@@ -1188,10 +1180,6 @@ video {
 
 .w-unit-8 {
   width: var(--nextui-spacing-unit-8);
-}
-
-.w-16 {
-  width: 4rem;
 }
 
 .min-w-\[200px\] {
@@ -2213,11 +2201,6 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-primary-100 {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--nextui-primary-100) / var(--nextui-primary-100-opacity, var(--tw-bg-opacity)));
-}
-
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -2411,6 +2394,10 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
 .pe-2 {
   padding-inline-end: 0.5rem;
 }
@@ -2453,14 +2440,6 @@ video {
 
 .pt-2 {
   padding-top: 0.5rem;
-}
-
-.pt-3 {
-  padding-top: 0.75rem;
-}
-
-.pt-5 {
-  padding-top: 1.25rem;
 }
 
 .text-left {
@@ -3434,7 +3413,7 @@ video {
   --nextui-foreground: 202 24% 9%;
   --nextui-divider: 0 0% 7%;
   --nextui-divider-opacity: 0.15;
-  --nextui-focus: 255 94% 67%;
+  --nextui-focus: 82 85% 67%;
   --nextui-overlay: 0 0% 0%;
   --nextui-content1: 0 0% 100%;
   --nextui-content1-foreground: 202 24% 9%;

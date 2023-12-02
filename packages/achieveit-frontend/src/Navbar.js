@@ -7,7 +7,7 @@ import {
   Link,
   Button,
 } from '@nextui-org/react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 function Nav() {
   return (
@@ -23,13 +23,7 @@ function Nav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button
-            as={Link}
-            color="secondary"
-            href="#"
-            variant="flat"
-            component={Link}
-            to="/login">
+          <Button as={Link} color="secondary" href="/login" variant="flat">
             <p className="font-normal">LOGIN</p>
           </Button>
         </NavbarItem>
