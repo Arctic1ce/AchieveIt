@@ -187,7 +187,6 @@ function AchieveIt() {
       <div className="Navbar">
         <Nav />
       </div>
-
       <div className="flex-1 taskList">
         <TaskList
           lists={taskLists}

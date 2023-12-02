@@ -81,7 +81,7 @@ function ListTable(props) {
     setSelectedKeys(key);
 
     if (previouskeys.size > key.size) {
-      //we've unselected a row - set that rows completed value to false
+      //we've unselected a row - set that row's completed value to false
       previouskeys.forEach((element) => {
         if (!key.has(element)) {
           let arr = element.split('-', 2);
@@ -95,7 +95,7 @@ function ListTable(props) {
         }
       });
     } else if (previouskeys.size < key.size) {
-      //we've selected a row - set that rows completed value to true
+      //we've selected a row - set that row's completed value to true
       key.forEach((element) => {
         if (!previouskeys.has(element)) {
           let arr = element.split('-', 2);
@@ -111,7 +111,7 @@ function ListTable(props) {
     } else {
       //something went wrong
       //we haven't changed anything --> handler shouldn't have been called
-      console.log('?');
+      //console.log('?');
     }
   };
 
@@ -119,6 +119,7 @@ function ListTable(props) {
     <div>
       <NewItem insertTask={props.insertTask} list={props.list} />
       <Table
+        showSelectAllCheckbox={false}
         selectionMode="multiple"
         selectedKeys={selectedKeys}
         onSelectionChange={handleSelect}
@@ -156,8 +157,6 @@ function ListTable(props) {
             }),
           )}
         </TableBody>
-
-        {/* Update the state outside the loop */}
       </Table>
 
       {props.list.length === 1 && (
@@ -170,80 +169,4 @@ function ListTable(props) {
     </div>
   );
 }
-//   return (
-//     <div>
-//       <NewItem insertTask={props.insertTask} list={props.list} />
-//       <Table striped bordered hover>
-//         <thead>
-//           <tr>
-//             <th></th>
-//             <th>Task</th>
-//             <th>Description</th>
-//             <th>Due Date</th>
-//             <th>Priority</th>
-//             <th>List Name</th>
-//           </tr>
-//         </thead>
-
-//         {props.list.map((item) => {
-//           return (
-//             <tbody key={`${item.name}`}>
-//               {item.items.map((val) => (
-//                 <tr key={`${item.name}`}>
-//                   <td>
-//                     <Form>
-//                       <Form.Check
-//                         type={'checkbox'}
-//                         id={`default-checkbox`}
-//                         checked={val.completed}
-//                         onChange={() =>
-//                           props.setChecked(item.name, val.name, !val.completed)
-//                         }
-//                       />
-//                     </Form>
-//                   </td>
-//                   {!val.completed && <td>{val.name}</td>}
-//                   {!val.completed && <td>{val.description}</td>}
-//                   {!val.completed && <td>{val.due_date}</td>}
-//                   {!val.completed && <td>{val.priority}</td>}
-//                   {!val.completed && <td>{item.name}</td>}
-
-//                   {val.completed && <td style={listItemStyle}>{val.name}</td>}
-//                   {val.completed && (
-//                     <td style={listItemStyle}>{val.description}</td>
-//                   )}
-//                   {val.completed && (
-//                     <td style={listItemStyle}>{val.due_date}</td>
-//                   )}
-//                   {val.completed && (
-//                     <td style={listItemStyle}>{val.priority}</td>
-//                   )}
-//                   {val.completed && <td style={listItemStyle}>{item.name}</td>}
-//                   {/*    Button to delete item*/}
-//                   <td>
-//                     <Button
-//                       variant="dark"
-//                       onClick={() => props.deleteTask(item.name, val.name)}
-//                       className="me-2">
-//                       Delete
-//                     </Button>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           );
-//         })}
-//       </Table>
-//       {props.list.length === 1 && (
-//         <Button
-//           variant="dark"
-//           onClick={() => props.deleteList(props.list[0].name)}
-//           className="me-2">
-//           Delete List
-//         </Button>
-//       )}
-//     </div>
-//   );
-// }
-
 export default ListTable;
