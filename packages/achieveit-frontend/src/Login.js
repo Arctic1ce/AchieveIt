@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput
 } from 'mdb-react-ui-kit';
-import { loginUser, setToken } from './services/authService';
 
 function Login(props) {
   const [formData, setFormData] = useState({
@@ -29,23 +28,7 @@ function Login(props) {
       return;
     }
 
-    authService.loginUser(formData)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          // Handle login error
-          throw new Error(`Login Error ${response.status}`);
-        }
-      })
-      .then((data) => {
-        setToken(data.token);
-        localStorage.setItem('authToken', data.token);  // Save the token to localStorage
-      })
-      .catch((error) => {
-        // Handle login error
-        console.error('Login Error:', error);
-      });
+    props.handleSubmit(formData);
   };
 
   return (

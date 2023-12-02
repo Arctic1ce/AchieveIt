@@ -1,53 +1,58 @@
-// authService.js
-const API_PREFIX = "http://localhost:3000";
+// // authService.js
+// import { useState } from 'react';
+// import { setToken } from '../AchieveIt.js';
 
-const INVALID_TOKEN = "INVALID_TOKEN";
+// const API_PREFIX = "http://localhost:8000";
 
-function loginUser(creds, setToken, setMessage) {
-  const promise = fetch(`${API_PREFIX}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(creds)
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        response
-          .json()
-          .then((payload) => setToken(payload.token));
-        setMessage(`Login successful; auth token saved`);
-      } else {
-        setMessage(
-          `Login Error ${response.status}: ${response.data}`
-        );
-      }
-    })
-    .catch((error) => {
-      setMessage(`Login Error: ${error}`);
-    });
+// const INVALID_TOKEN = "INVALID_TOKEN";
 
-  return promise;
-}
+// //const [token, setToken] = useState(null);
 
-function fetchUsers(setToken, setMessage) {
-  const promise = fetch(`${API_PREFIX}/users`, {
-    headers: addAuthHeader(setToken)
-  });
+// function loginUser(creds, setToken, setMessage) {
+//   const promise = fetch(`${API_PREFIX}/login`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(creds)
+//   })
+//     .then((response) => {
+//       if (response.status === 200) {
+//         response
+//           .json()
+//           .then((payload) => setToken(payload.token));
+//         setMessage(`Login successful; auth token saved`);
+//       } else {
+//         setMessage(
+//           `Login Error ${response.status}: ${response.data}`
+//         );
+//       }
+//     })
+//     .catch((error) => {
+//       setMessage(`Login Error: ${error}`);
+//     });
 
-  return promise;
-}
+//   return promise;
+// }
 
-function addAuthHeader(setToken) {
-  const token = getToken(); // You might need a function to get the token
-  if (token === INVALID_TOKEN) {
-    return {};
-  } else {
-    setToken(token);
-    return {
-      Authorization: `Bearer ${token}`
-    };
-  }
-}
+// // function fetchUsers(setToken, setMessage) {
+// //   const promise = fetch(`${API_PREFIX}/users`, {
+// //     headers: addAuthHeader(setToken)
+// //   });
 
-export { loginUser, fetchUsers, addAuthHeader };
+// //   return promise;
+// // }
+
+// // function addAuthHeader(setToken) {
+// //   const token = getToken(); // You might need a function to get the token
+// //   if (token === INVALID_TOKEN) {
+// //     return {};
+// //   } else {
+// //     setToken(token);
+// //     return {
+// //       Authorization: `Bearer ${token}`
+// //     };
+// //   }
+// // }
+
+// export default { loginUser, setToken };

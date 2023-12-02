@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import * as process from "process";
-import { loginUser, fetchUsers, addAuthHeader} from './services/authService';
+import authService from './services/authService';
 
 
 // The server location
@@ -19,11 +19,13 @@ if (process.argv.includes('--local')) {
 const serverUrl = backend;
 
 function AchieveIt() {
-  const [token, setToken] = useState(null);  // State to store the token
+  const INVALID_TOKEN = "INVALID_TOKEN";
+  const [token, setToken] = useState(INVALID_TOKEN);  // State to store the token
+  const [message, setMessage] = useState("");
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
 
-    useEffect(() => {
+  useEffect(() => {
     // Check if there is a token in localStorage when the component mounts
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
@@ -37,7 +39,11 @@ function AchieveIt() {
    * GetTasks: Fetches all the tasks from the database and updates the state
    * */
   function getTasks() {
-    fetch(serverUrl)
+    console.log(serverUrl);
+    console.log("LSKDFJ   " + token);
+    fetch(serverUrl, {
+      headers: addAuthHeader()
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -64,7 +70,7 @@ function AchieveIt() {
   async function addList(listName) {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: addAuthHeader({ 'Content-Type': 'application/json' }),
     };
     try {
       await fetch(serverUrl + '/?name=' + listName, requestOptions);
@@ -79,7 +85,7 @@ function AchieveIt() {
   function insertTask(list, task) {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(task),
     };
 
@@ -99,7 +105,7 @@ function AchieveIt() {
       // Set the task to completed
       const requestOptions = {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       console.log('checking: ' + taskName + ' ' + itemName + ' ' + status);
@@ -142,7 +148,7 @@ function AchieveIt() {
       // Delete the list
       const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       // DELETE request using fetch with async/await
@@ -174,7 +180,7 @@ function AchieveIt() {
       // Delete the task
       const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       // DELETE request using fetch with async/await
@@ -199,6 +205,94 @@ function AchieveIt() {
       throw error;
     }
   }
+
+  function loginUser(creds) {
+    const cred = {
+      username: creds.email,
+      pwd: creds.password
+    }
+    console.log(cred);
+    const promise = fetch(`${serverUrl}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cred)
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response
+            .json()
+            .then((payload) => {
+              console.log("LOGIN TOKEN: " + payload.token);
+              setToken(payload.token);
+            });
+          setMessage(`Login successful; auth token saved`);
+        } else {
+          setMessage(
+            `Login Error ${response.status}: ${response.data}`
+          );
+        }
+      })
+      .catch((error) => {
+        setMessage(`Login Error: ${error}`);
+      });
+  
+    return promise;
+  }
+
+  function signupUser(creds) {
+    const cred = {
+      username: creds.email,
+      pwd: creds.password
+    }
+    console.log(cred);
+    const promise = fetch(`${serverUrl}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cred)
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          response
+            .json()
+            .then((payload) => {
+              console.log("IDK    " + payload.token);
+              setToken(payload.token);
+              localStorage.setItem('authToken', payload.token);
+            });
+          setMessage(
+            `Signup successful for user: ${creds.username}; auth token saved`
+          );
+        } else {
+          setMessage(
+            `Signup Error ${response.status}: ${response.data}`
+          );
+        }
+      })
+      .catch((error) => {
+        setMessage(`Signup Error: ${error}`);
+      });
+    
+    console.log("TOK   " + token);
+  
+    return promise;
+  }
+
+  function addAuthHeader(otherHeaders = {}) {
+    console.log("TOKEN" + token);
+    if (token === INVALID_TOKEN) {
+      return otherHeaders;
+    } else {
+      return {
+        ...otherHeaders,
+        Authorization: `Bearer ${token}`
+      };
+    }
+  }
+
   /* Render the page */
   return (
     <Router>
@@ -208,9 +302,9 @@ function AchieveIt() {
         </div>
         <div className="taskList">
           <Routes>
-          <Route path="/login" element={<Login setToken={setToken} />}  // Pass setToken to Login component
+          <Route path="/login" element={<Login handleSubmit={loginUser} />}
           />
-            <Route path="/signup" element = {<Signup />}/>
+            <Route path="/signup" element = {<Signup handleSubmit={signupUser} />}/>
             <Route
               path="/"
               element={

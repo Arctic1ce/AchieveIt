@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Signup() {
+function Signup(props) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -45,13 +45,15 @@ function Signup() {
     if (Object.keys(errors).length === 0) {
       // Perform form submission logic here
       console.log('Form submitted:', formData);
+      props.handleSubmit(formData);
     }
+
   };
 
   return (
     <div className="d-flex align-items-center justify-content-center" style={{ height: '100vh' }}>
       <div className="card" style={{ width: '400px' }}>
-        <form className="card-body" onSubmit={handleSubmit}>
+        <form className="card-body">
           <h3 className="text-center mb-4">Sign Up</h3>
 
           <div className="mb-3">
@@ -107,7 +109,7 @@ function Signup() {
           </div>
 
           <div className="d-grid">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" onClick={handleSubmit} >
               Sign Up
             </button>
           </div>

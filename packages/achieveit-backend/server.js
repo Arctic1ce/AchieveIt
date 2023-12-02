@@ -2,7 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import service from './achieveit-database/service.js';
-import auth from './auth.js';
+import auth from './achieveit-database/auth.js';
 //const express = require('express');
 //const cors = require('cors');
 //const service = require('./achieveit-database/service');
@@ -34,15 +34,17 @@ app.get('/', auth.authenticateUser, async (req, res) => {
     const result = name
       ? await service.getTodoList(name)
       : await service.getTodoList();
+    console.log("SUCCESS");
     res.send(result);
   } catch (error) {
+    console.log("FAIL");
     console.error(error);
     res.status(500).send(error);
   }
 });
 
 // Create a new to-do list
-app.post('/', async (req, res) => {
+app.post('/', auth.authenticateUser, async (req, res) => {
   try {
     const newList = req.query['name'];
     result = await service.createTodoList(newList);
@@ -54,7 +56,7 @@ app.post('/', async (req, res) => {
 });
 
 // Add a new task to a to-do list
-app.post('/tasks/', async (req, res) => {
+app.post('/tasks/', auth.authenticateUser, async (req, res) => {
   try {
     console.log()
     // Validate the item
@@ -83,7 +85,7 @@ app.post('/tasks/', async (req, res) => {
 });
 
 // Update a task's status
-app.patch('/', async (req, res) => {
+app.patch('/', auth.authenticateUser, async (req, res) => {
   try {
     const listName = req.query['name'];
     const taskName = req.query['task'];
@@ -97,7 +99,7 @@ app.patch('/', async (req, res) => {
 });
 
 // Delete a task from a to-do list
-app.delete('/', async (req, res) => {
+app.delete('/', auth.authenticateUser, async (req, res) => {
   try {
     const listName = req.query['name'];
     const taskName = req.query['task'];
@@ -110,7 +112,7 @@ app.delete('/', async (req, res) => {
 });
 
 // Delete a to-do list
-app.delete('/list/', async (req, res) => {
+app.delete('/list/', auth.authenticateUser, async (req, res) => {
   try {
     const listName = req.query['name'];
     await service.deleteTodoList(listName);
