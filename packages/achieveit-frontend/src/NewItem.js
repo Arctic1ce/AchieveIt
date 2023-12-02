@@ -88,7 +88,7 @@ function NewItem(props) {
 
   return (
     <div>
-      <Button color="primary" onPress={onOpen}>
+      <Button className="mb-3" color="primary" onPress={onOpen}>
         Add New Item
       </Button>
       <Modal

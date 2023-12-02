@@ -183,11 +183,12 @@ function AchieveIt() {
   }
   /* Render the page */
   return (
-    <div className="AchieveIt">
-      <div className="header">
+    <div className="flex flex-col AchieveIt">
+      <div className="Navbar">
         <Nav />
       </div>
-      <div className="taskList">
+
+      <div className="flex-1 taskList">
         <TaskList
           lists={taskLists}
           addList={addList}

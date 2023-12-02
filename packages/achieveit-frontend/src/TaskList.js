@@ -1,45 +1,137 @@
-import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Badge from 'react-bootstrap/Badge';
-import Row from 'react-bootstrap/Row';
-// import Tab from 'react-bootstrap/Tab';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Stack from 'react-bootstrap/Stack';
 import React, { useState } from 'react';
 import ListTable from './ListTable';
-import { Tabs, Tab } from '@nextui-org/react';
+import { Tooltip, Input, Chip, Badge, Button } from '@nextui-org/react';
+import Sidebar, { SidebarItem } from './Sidebar';
+import Form from 'react-bootstrap/Form';
+
 function TaskList(props) {
   const [listName, setListName] = useState('');
+  const [selectedTab, setSelectedTab] = useState('All Tasks');
 
   function updateListName(text) {
     setListName(text);
   }
 
+  function handleTab(key) {
+    console.log(key);
+    setSelectedTab(key);
+  }
+
   return (
-    <div>
-      <Tabs aria-label="Dynamic tabs">
-        <Tab key={'AllTasks'} title={'AllTasks'}>
+    <div className="h-full flex">
+      <Sidebar className="flex-2">
+        <div
+          style={{
+            maxHeight: '73vh',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'transparent transparent',
+          }}>
+          <div
+            key="All Tasks"
+            onClick={(e) => {
+              handleTab('All Tasks');
+            }}>
+            <SidebarItem
+              icon={
+                <Badge color="primary" content={props.numItems}>
+                  T
+                </Badge>
+              }
+              text="All Tasks"
+              elem={
+                <Chip className="ml-2" size="sm" color="primary">
+                  {props.numItems}
+                </Chip>
+              }
+              active={selectedTab === 'All Tasks' ? true : false}
+            />
+          </div>
+
+          {props.lists.map((list) => {
+            return (
+              <div
+                key={list.name}
+                onClick={(e) => {
+                  handleTab(`${list.name}`);
+                }}>
+                <SidebarItem
+                  icon={
+                    <Badge content={list.items.length} color="primary">
+                      T
+                    </Badge>
+                  }
+                  text={list.name}
+                  elem={
+                    <Chip className="ml-2" size="sm" color="primary">
+                      {list.items.length}
+                    </Chip>
+                  }
+                  active={selectedTab === `${list.name}` ? true : false}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <div>
+          <SidebarItem
+            nohover
+            elem={
+              <div className="flex flex-row items-center overflow-hidden mb-2 border-t pt-2 ">
+                <Input
+                  autoFocus
+                  radius="full"
+                  variant="underlined"
+                  className="absolute-left hover:bg-primary-50 selection:bg-primary-100"
+                  size="sm"
+                  type="text"
+                  placeholder="List Name"
+                  value={listName}
+                  onChange={(e) => updateListName(e.target.value)}
+                  // isInvalid={!!errors.task}
+                  // errorMessage={errors.task}
+                  isRequired
+                />
+                <Tooltip placement="right" content="Add this list">
+                  <Button
+                    className="min-w-4 w-10 h-10 ml-3 bg-primary-50"
+                    radius="full"
+                    variant="dark"
+                    onClick={() => {
+                      listName !== '' && props.addList(listName);
+                    }}>
+                    +
+                  </Button>
+                </Tooltip>
+              </div>
+            }
+          />
+        </div>
+      </Sidebar>
+      <div className="flex-1 w-full p-4">
+        {selectedTab === 'All Tasks' && (
           <ListTable
             list={props.lists}
             setChecked={props.setChecked}
             insertTask={props.insertTask}
             deleteTask={props.deleteTask}
           />
-        </Tab>
-        {props.lists.map((list) => (
-          <Tab key={list.name} title={list.name}>
+        )}
+        {props.lists.map((list) =>
+          selectedTab === list.name ? (
             <ListTable
-              listName={`${list.name}`}
+              key={list.name}
+              listName={list.name}
               list={[list]}
               setChecked={props.setChecked}
               insertTask={props.insertTask}
               deleteTask={props.deleteTask}
               deleteList={props.deleteList}
             />
-          </Tab>
-        ))}
-      </Tabs>
+          ) : null,
+        )}
+      </div>
 
       {/* <Tab.Container
         id="list-group-tabs-example"
