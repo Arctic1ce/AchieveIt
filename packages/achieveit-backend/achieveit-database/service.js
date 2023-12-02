@@ -1,6 +1,6 @@
 /* Filename: service.js */
 const mongoose = require('mongoose');
-const {TodoItem, TodoList} = require('./schemas');
+const { TodoItem, TodoList, User } = require('./schemas');
 // read the URL to connect to the database from ../server-locations.json
 const serverLocations = require('./server-locations.json');
 let serverUrl = serverLocations['database'];
@@ -17,6 +17,13 @@ mongoose
         useUnifiedTopology: true,
     })
     .catch((error) => console.log(error));
+
+
+// Find a user with the given username
+function findUser(username) {
+    let promise = User.find({ username: username });
+    return promise;
+}
 
 // Create a new to-do list
 function createTodoList(listName) {
@@ -121,6 +128,7 @@ function toggleCheck(listName, taskName, status) {
 }
 
 module.exports = {
+  findUser,
   createTodoList,
   getTodoList,
   deleteTodoList,

@@ -41,7 +41,6 @@ function AchieveIt() {
    * GetTasks: Fetches all the tasks from the database and updates the state
    * */
   function getTasks() {
-    console.log(serverUrl);
     fetch(serverUrl, {
       headers: addAuthHeader()
     })
@@ -230,7 +229,6 @@ function AchieveIt() {
           response
             .json()
             .then((payload) => {
-              console.log("LOGIN TOKEN: " + payload.token);
               const decoded = jwtDecode(payload.token);
               setUser(decoded);
               cookies.set('authToken', payload.token);
@@ -267,7 +265,6 @@ function AchieveIt() {
           response
             .json()
             .then((payload) => {
-              console.log("IDK    " + payload.token);
               const decoded = jwtDecode(payload.token);
               setUser(decoded);
               cookies.set('authToken', payload.token);
@@ -290,7 +287,6 @@ function AchieveIt() {
 
   function addAuthHeader(otherHeaders = {}) {
     const thing = cookies.get('authToken');
-    console.log("TOKEN" + thing);
     if (thing === INVALID_TOKEN) {
       return otherHeaders;
     } else {
