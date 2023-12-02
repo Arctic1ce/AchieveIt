@@ -6,7 +6,8 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import * as process from "process";
-import authService from './services/authService';
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 
 // The server location
@@ -19,17 +20,18 @@ if (process.argv.includes('--local')) {
 const serverUrl = backend;
 
 function AchieveIt() {
+  const cookies = new Cookies();
   const INVALID_TOKEN = "INVALID_TOKEN";
-  const [token, setToken] = useState(INVALID_TOKEN);  // State to store the token
+  const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
 
   useEffect(() => {
     // Check if there is a token in localStorage when the component mounts
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      setToken(storedToken);
+    const storedToken = cookies.get('authToken');
+    if (!storedToken) {
+      cookies.set('authToken', INVALID_TOKEN);
     }
 
     getTasks();
@@ -40,7 +42,6 @@ function AchieveIt() {
    * */
   function getTasks() {
     console.log(serverUrl);
-    console.log("LSKDFJ   " + token);
     fetch(serverUrl, {
       headers: addAuthHeader()
     })
@@ -206,6 +207,11 @@ function AchieveIt() {
     }
   }
 
+  function logoutUser() {
+    cookies.set('authToken', INVALID_TOKEN);
+    setUser(null);
+  }
+
   function loginUser(creds) {
     const cred = {
       username: creds.email,
@@ -225,7 +231,9 @@ function AchieveIt() {
             .json()
             .then((payload) => {
               console.log("LOGIN TOKEN: " + payload.token);
-              setToken(payload.token);
+              const decoded = jwtDecode(payload.token);
+              setUser(decoded);
+              cookies.set('authToken', payload.token);
             });
           setMessage(`Login successful; auth token saved`);
         } else {
@@ -260,8 +268,9 @@ function AchieveIt() {
             .json()
             .then((payload) => {
               console.log("IDK    " + payload.token);
-              setToken(payload.token);
-              localStorage.setItem('authToken', payload.token);
+              const decoded = jwtDecode(payload.token);
+              setUser(decoded);
+              cookies.set('authToken', payload.token);
             });
           setMessage(
             `Signup successful for user: ${creds.username}; auth token saved`
@@ -275,20 +284,19 @@ function AchieveIt() {
       .catch((error) => {
         setMessage(`Signup Error: ${error}`);
       });
-    
-    console.log("TOK   " + token);
   
     return promise;
   }
 
   function addAuthHeader(otherHeaders = {}) {
-    console.log("TOKEN" + token);
-    if (token === INVALID_TOKEN) {
+    const thing = cookies.get('authToken');
+    console.log("TOKEN" + thing);
+    if (thing === INVALID_TOKEN) {
       return otherHeaders;
     } else {
       return {
         ...otherHeaders,
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${thing}`
       };
     }
   }
@@ -298,7 +306,7 @@ function AchieveIt() {
     <Router>
       <div className="AchieveIt">
         <div className="header">
-          <Navbar />
+          <Navbar logoutUser={logoutUser} token={cookies.get('authToken')} />
         </div>
         <div className="taskList">
           <Routes>

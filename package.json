@@ -20,9 +20,11 @@
     "create-react-app": "^5.0.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^7.0.0",
     "mongoose": "^8.0.0",
-    "react-router-dom": "^6.19.0"
+    "react-router-dom": "^6.19.0",
+    "universal-cookie": "^6.1.1"
   },
   "workspaces": [
     "packages/*"
