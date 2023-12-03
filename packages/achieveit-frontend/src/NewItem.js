@@ -13,7 +13,6 @@ import Form from 'react-bootstrap/Form';
 import { Select, SelectItem, Textarea } from '@nextui-org/react';
 
 function NewItem(props) {
-  // const [show, setShow] = useState(false);
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -31,9 +30,6 @@ function NewItem(props) {
         [field]: null,
       });
   };
-
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
 
   const priority = [
     { label: 'High', value: 'High' },
@@ -155,6 +151,7 @@ function NewItem(props) {
                       isRequired
                     />
 
+                    {/* Input for time if we want to implement */}
                     <Input
                       type="time"
                       label={<b>{'Time'}</b>}

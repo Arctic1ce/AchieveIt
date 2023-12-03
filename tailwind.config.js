@@ -41,7 +41,8 @@ export default {
             secondary: {
               DEFAULT: '#000000',
             },
-            focus: '#BEF264',
+
+            focus: '#835BFA',
           },
           layout: {
             disabledOpacity: '0.3',
