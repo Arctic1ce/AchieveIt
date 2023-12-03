@@ -1,5 +1,7 @@
 // import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
+// import Table from 'react-bootstrap/Table';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import NewItem from './NewItem';
 import { Button } from '@nextui-org/react';
@@ -26,6 +28,7 @@ function ListTable(props) {
 
   const listItemStyle = {
     textDecoration: 'line-through',
+    textDecorationThickness: '2px',
     textDecorationThickness: '2px',
     marginBottom: '8px',
     color: '#ff0000',
@@ -164,7 +167,8 @@ function ListTable(props) {
         <Button
           className="mt-3"
           onClick={() => props.deleteList(props.list[0].name)}>
-          Delete List
+          {' '}
+          Delete List{' '}
         </Button>
       )}
     </div>
