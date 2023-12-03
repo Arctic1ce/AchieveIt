@@ -12,12 +12,19 @@ import {
 function Nav() {
   return (
     <Navbar
-      className="bg-primary-300"
+      className="flex bg-primary-300"
       maxWidth={'full'}
       isBordered
       shouldHideOnScroll>
       <NavbarContent justify="start">
-        <NavbarBrand>
+        <NavbarBrand className="flex items-center">
+          <div className="flex-shrink-0">
+            <img
+              src="logo.jpg"
+              className="h-auto max-h-10 w-auto max-w-full mr-2"
+              alt=""
+            />
+          </div>
           <p className="font-semibold text-large">AchieveIt</p>
         </NavbarBrand>
       </NavbarContent>

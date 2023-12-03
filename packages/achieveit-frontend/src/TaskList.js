@@ -34,9 +34,11 @@ function TaskList(props) {
             }}>
             <SidebarItem
               icon={
-                <Badge color="primary" content={props.numItems}>
-                  T
-                </Badge>
+                <div>
+                  <Badge color="primary" content={props.numItems}>
+                    T
+                  </Badge>
+                </div>
               }
               text="All Tasks"
               elem={
@@ -57,9 +59,11 @@ function TaskList(props) {
                 }}>
                 <SidebarItem
                   icon={
-                    <Badge content={list.items.length} color="primary">
-                      T
-                    </Badge>
+                    <div>
+                      <Badge content={list.items.length} color="primary">
+                        T
+                      </Badge>
+                    </div>
                   }
                   text={list.name}
                   elem={

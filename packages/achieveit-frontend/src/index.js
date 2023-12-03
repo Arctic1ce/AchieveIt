@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './AchieveIt';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import 'achieveit-frontend/dist/output.css';
+
 import './additional.css';
 import { NextUIProvider } from '@nextui-org/react';
 

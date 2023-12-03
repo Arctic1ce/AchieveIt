@@ -676,6 +676,10 @@ video {
   top: var(--navbar-height);
 }
 
+.left-full {
+  left: 100%;
+}
+
 .-z-30 {
   z-index: -30;
 }
@@ -718,6 +722,10 @@ video {
 
 .m-auto {
   margin: auto;
+}
+
+.m-2 {
+  margin: 0.5rem;
 }
 
 .mx-0 {
@@ -859,6 +867,10 @@ video {
 
 .me-2 {
   margin-inline-end: 0.5rem;
+}
+
+.ml-6 {
+  margin-left: 1.5rem;
 }
 
 .box-border {
@@ -1042,6 +1054,22 @@ video {
   max-height: calc(100% - 7.5rem);
 }
 
+.max-h-full {
+  max-height: 100%;
+}
+
+.max-h-16 {
+  max-height: 4rem;
+}
+
+.max-h-12 {
+  max-height: 3rem;
+}
+
+.max-h-10 {
+  max-height: 2.5rem;
+}
+
 .min-h-unit-10 {
   min-height: var(--nextui-spacing-unit-10);
 }
@@ -1180,6 +1208,10 @@ video {
 
 .w-unit-8 {
   width: var(--nextui-spacing-unit-8);
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .min-w-\[200px\] {
@@ -1380,6 +1412,11 @@ video {
 
 .translate-y-1\/2 {
   --tw-translate-y: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-x-3 {
+  --tw-translate-x: -0.75rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -2201,6 +2238,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-indigo-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 231 255 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -2503,6 +2545,11 @@ video {
   line-height: 1.75rem;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .font-medium {
   font-weight: 500;
 }
@@ -2734,6 +2781,10 @@ video {
 
 .opacity-disabled {
   opacity: var(--nextui-disabled-opacity);
+}
+
+.opacity-20 {
+  opacity: 0.2;
 }
 
 .shadow {
@@ -4841,6 +4892,10 @@ video {
   opacity: var(--nextui-disabled-opacity);
 }
 
+.group:hover .group-hover\:visible {
+  visibility: visible;
+}
+
 .group:hover .group-hover\:block {
   display: block;
 }
@@ -4849,12 +4904,21 @@ video {
   display: none;
 }
 
+.group:hover .group-hover\:translate-x-0 {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .group:hover .group-hover\:border-current {
   border-color: currentColor;
 }
 
 .group:hover .group-hover\:text-current {
   color: currentColor;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
 }
 
 .group.is-splitted .group-\[\.is-splitted\]\:rounded-medium {

@@ -1,6 +1,5 @@
 /* Filename: AchieveIt.js */
 import Nav from './Navbar';
-import Nav from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -188,11 +187,11 @@ function AchieveIt() {
   /* Render the page */
   return (
     <Router>
-      <div className="AchieveIt">
+      <div className="flex flex-col AchieveIt">
         <div className="header">
           <Nav />
         </div>
-        <div className="taskList">
+        <div className="flex-1 taskList">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

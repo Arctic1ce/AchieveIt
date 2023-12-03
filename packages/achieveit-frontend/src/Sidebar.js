@@ -60,19 +60,12 @@ export default function Sidebar({ children }) {
 
 export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
   const { expanded } = useContext(SidebarContext);
+  const [isOpen, setIsOpen] = useState(false);
 
   const big_width = 'w-52';
 
   return (
     <li>
-      {/* <Tooltip
-        isOpen={isOpen}
-        onOpenChange={(open) => {
-          !expanded && setIsOpen(open);
-        }}
-        closeDelay={0}
-        content={text}
-        placement="right"> */}
       <div
         key={text}
         className={`
@@ -87,7 +80,19 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
               : 'hover:bg-indigo-50 text-gray-600'
         }
     `}>
-        {!expanded && <div>{icon} </div>}
+        <div>
+          <Tooltip
+            isOpen={isOpen}
+            onOpenChange={(open) => {
+              !expanded && setIsOpen(open);
+            }}
+            closeDelay={0}
+            content={text}
+            offset={20}
+            placement="right">
+            {!expanded && <div>{icon} </div>}
+          </Tooltip>
+        </div>
         <span
           style={{
             maxWidth: '10rem',
@@ -107,7 +112,6 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
           </div>
         )}
       </div>
-      {/* </Tooltip> */}
     </li>
   );
 }

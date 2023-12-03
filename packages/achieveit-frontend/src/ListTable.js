@@ -1,7 +1,5 @@
 // import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
-// import Table from 'react-bootstrap/Table';
-import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import NewItem from './NewItem';
 import { Button } from '@nextui-org/react';
