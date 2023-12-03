@@ -188,7 +188,7 @@ function AchieveIt() {
   return (
     <Router>
       <div className="flex flex-col AchieveIt">
-        <div className="header">
+        <div className="flex-row header">
           <Nav />
         </div>
         <div className="flex-1 taskList">

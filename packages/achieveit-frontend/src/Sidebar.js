@@ -65,10 +65,9 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
   const big_width = 'w-52';
 
   return (
-    <li>
-      <div
-        key={text}
-        className={`
+    <li
+      key={text}
+      className={`
         relative flex content-center py-2 px-3 my-1
         font-medium rounded-md cursor-pointer
         transition-colors group
@@ -80,8 +79,9 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
               : 'hover:bg-indigo-50 text-gray-600'
         }
     `}>
+      {!expanded && (
         <div>
-          <Tooltip
+          {/* <Tooltip
             isOpen={isOpen}
             onOpenChange={(open) => {
               !expanded && setIsOpen(open);
@@ -89,29 +89,29 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
             closeDelay={0}
             content={text}
             offset={20}
-            placement="right">
-            {!expanded && <div>{icon} </div>}
-          </Tooltip>
+            placement="right"> */}
+          <div>{icon}</div>
+          {/* </Tooltip> */}
         </div>
-        <span
-          style={{
-            maxWidth: '10rem',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-          }}
-          className={`overflow-hidden transition-all ${
-            expanded ? `${big_width} ml-3` : 'w-0 h-0'
-          }`}>
-          {text}
-        </span>
+      )}
+      <span
+        style={{
+          maxWidth: '10rem',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+        }}
+        className={`overflow-hidden transition-all ${
+          expanded ? `${big_width} ml-3` : 'w-0 h-0'
+        }`}>
+        {text}
+      </span>
 
-        {expanded && (
-          <div className="overflow-hidden transition-all absolute right-2">
-            {elem}
-          </div>
-        )}
-      </div>
+      {expanded && (
+        <div className="overflow-hidden transition-all absolute right-2">
+          {elem}
+        </div>
+      )}
     </li>
   );
 }

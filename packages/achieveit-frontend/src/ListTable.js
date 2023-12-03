@@ -117,58 +117,76 @@ function ListTable(props) {
   };
 
   return (
-    <div>
-      <NewItem insertTask={props.insertTask} list={props.list} />
-      <Table
-        selectionMode="multiple"
-        selectedKeys={selectedKeys}
-        onSelectionChange={handleSelect}
-        aria-label="collection table">
-        <TableHeader>
-          <TableColumn>Task</TableColumn>
-          <TableColumn>Description</TableColumn>
-          <TableColumn>Due Date</TableColumn>
-          <TableColumn>Priority</TableColumn>
-          <TableColumn>List Name</TableColumn>
-          <TableColumn></TableColumn>
-        </TableHeader>
-        <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
-        <TableBody>
-          {props.list.map((list) =>
-            list.items.map((val) => {
-              return (
-                <TableRow
-                  style={val.completed ? listItemStyle : {}}
-                  key={`${list._id}-${val._id}`}>
-                  <TableCell>{val.name}</TableCell>
-                  <TableCell>{val.description}</TableCell>
-                  <TableCell>{val.due_date}</TableCell>
-                  <TableCell>{val.priority}</TableCell>
-                  <TableCell>{list.name}</TableCell>
-                  <TableCell>
-                    <Button
-                      color="danger"
-                      onClick={() => props.deleteTask(list.name, val.name)}>
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            }),
-          )}
-        </TableBody>
+    <div className="flex flex-col">
+      <div className="flex flex-row items-center ">
+        <p className="font-semibold text-xl ml-3">
+          {props.listName ? props.listName : 'All Tasks'}
+        </p>
+        <div className="ml-auto">
+          <NewItem insertTask={props.insertTask} list={props.list} />
+        </div>
+      </div>
+      <div className="flex flex-row overflow-hidden">
+        <Table
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+          onSelectionChange={handleSelect}
+          aria-label="collection table">
+          <TableHeader>
+            <TableColumn>Task</TableColumn>
+            <TableColumn>Description</TableColumn>
+            <TableColumn>Due Date</TableColumn>
+            <TableColumn>Priority</TableColumn>
+            <TableColumn>List Name</TableColumn>
+            <TableColumn></TableColumn>
+          </TableHeader>
+          <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
+          <TableBody>
+            {props.list.map((list) =>
+              list.items.map((val) => {
+                return (
+                  <TableRow
+                    style={val.completed ? listItemStyle : {}}
+                    key={`${list._id}-${val._id}`}>
+                    <TableCell>{val.name}</TableCell>
+                    <TableCell>{val.description}</TableCell>
+                    <TableCell>{val.due_date}</TableCell>
+                    <TableCell>{val.priority}</TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '8 rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {list.name}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        color="danger"
+                        onClick={() => props.deleteTask(list.name, val.name)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              }),
+            )}
+          </TableBody>
 
-        {/* Update the state outside the loop */}
-      </Table>
-
-      {props.list.length === 1 && (
-        <Button
-          className="mt-3"
-          onClick={() => props.deleteList(props.list[0].name)}>
-          {' '}
-          Delete List{' '}
-        </Button>
-      )}
+          {/* Update the state outside the loop */}
+        </Table>
+      </div>
+      <div className="flex-col">
+        {props.list.length === 1 && (
+          <Button
+            className="mt-3"
+            onClick={() => props.deleteList(props.list[0].name)}>
+            {' '}
+            Delete List{' '}
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

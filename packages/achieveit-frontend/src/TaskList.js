@@ -34,11 +34,9 @@ function TaskList(props) {
             }}>
             <SidebarItem
               icon={
-                <div>
-                  <Badge color="primary" content={props.numItems}>
-                    T
-                  </Badge>
-                </div>
+                <Badge color="primary" content={props.numItems}>
+                  T
+                </Badge>
               }
               text="All Tasks"
               elem={
@@ -103,7 +101,9 @@ function TaskList(props) {
                     radius="full"
                     variant="dark"
                     onClick={() => {
-                      listName !== '' && props.addList(listName);
+                      listName !== '' &&
+                        props.addList(listName) &&
+                        updateListName('');
                     }}>
                     +
                   </Button>
@@ -115,12 +115,14 @@ function TaskList(props) {
       </Sidebar>
       <div className="flex-1 w-full p-4">
         {selectedTab === 'All Tasks' && (
-          <ListTable
-            list={props.lists}
-            setChecked={props.setChecked}
-            insertTask={props.insertTask}
-            deleteTask={props.deleteTask}
-          />
+          <div>
+            <ListTable
+              list={props.lists}
+              setChecked={props.setChecked}
+              insertTask={props.insertTask}
+              deleteTask={props.deleteTask}
+            />
+          </div>
         )}
         {props.lists.map((list) =>
           selectedTab === list.name ? (
