@@ -15,7 +15,7 @@ export default function Sidebar({ children }) {
 
   return (
     <aside className={`flex-shrink-0 ${expanded ? big_width : small_width}`}>
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <nav className="h-full flex flex-col border-r shadow-sm">
         <div
           className={`p-4 pb-2 flex justify-center items-center
               overflow-hidden transition-all ${
@@ -31,16 +31,15 @@ export default function Sidebar({ children }) {
           <Switch
             isSelected={expanded}
             onValueChange={() => setExpanded((curr) => !curr)}
-            size="sm"
-            className="rounded-lg bg-gray-50"></Switch>
+            size="sm"></Switch>
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul className="flex-1 content-center">{children}</ul>
         </SidebarContext.Provider>
 
         {!expanded && (
-          <div className="border-t flex p-3">
+          <div className="border-t shadow-sm flex p-3">
             <Tooltip placement="right" content="Add list">
               <Button
                 className="min-w-8 p-auto m-auto bg-primary-50"
@@ -68,30 +67,32 @@ export function SidebarItem({ icon, elem, text, active, nohover, alert }) {
     <li
       key={text}
       className={`
-        relative flex content-center py-2 px-3 my-1
+        relative flex content-center py-2 px-2 my-1 mx-2
         font-medium rounded-md cursor-pointer
         transition-colors group
         ${
           active
-            ? 'bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800'
+            ? 'bg-gradient-to-tr from-primary-200 to-primary-100 text-secondary'
             : nohover
               ? ''
-              : 'hover:bg-indigo-50 text-gray-600'
+              : 'hover:bg-primary-50 text-secondary'
         }
     `}>
       {!expanded && (
         <div>
-          {/* <Tooltip
+          <Tooltip
+            className="achieveit-light bg-primary-50"
             isOpen={isOpen}
             onOpenChange={(open) => {
               !expanded && setIsOpen(open);
             }}
+            isDismissable
             closeDelay={0}
             content={text}
             offset={20}
-            placement="right"> */}
-          <div>{icon}</div>
-          {/* </Tooltip> */}
+            placement="right">
+            <div>{icon}</div>
+          </Tooltip>
         </div>
       )}
       <span

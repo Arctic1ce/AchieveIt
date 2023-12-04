@@ -184,35 +184,47 @@ function AchieveIt() {
       throw error;
     }
   }
+
+  const [isDark, setIsDark] = useState(false);
+
+  function setDarkMode(val) {
+    setIsDark(val);
+  }
+
   /* Render the page */
   return (
-    <Router>
-      <div className="flex flex-col AchieveIt">
-        <div className="flex-row header">
-          <Nav />
+    <main
+      className={`${
+        isDark ? 'achieveit-dark' : 'achieveit-light'
+      } text-foreground bg-background`}>
+      <Router>
+        <div className="flex flex-col AchieveIt">
+          <div className="flex-row header">
+            <Nav isDark={isDark} setDarkMode={setDarkMode} />
+          </div>
+          <div className="flex-1 taskList">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route
+                path="/"
+                element={
+                  <TaskList
+                    lists={taskLists}
+                    addList={addList}
+                    numItems={numItems}
+                    setChecked={setChecked}
+                    insertTask={insertTask}
+                    deleteTask={deleteTask}
+                    deleteList={deleteList}
+                  />
+                }
+              />
+            </Routes>
+          </div>
         </div>
-        <div className="flex-1 taskList">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route
-              path="/"
-              element={
-                <TaskList
-                  lists={taskLists}
-                  addList={addList}
-                  numItems={numItems}
-                  setChecked={setChecked}
-                  insertTask={insertTask}
-                  deleteTask={deleteTask}
-                  deleteList={deleteList}
-                />
-              }
-            />
-          </Routes>
-        </div>
-      </div>
-    </Router>
+      </Router>
+    </main>
   );
 }
 /* Export the component! */

@@ -58,6 +58,47 @@ export default {
             },
           },
         },
+        'achieveit-dark': {
+          extend: 'dark', // <- inherit default values from dark theme
+
+          colors: {
+            background: '#0D001A',
+            foreground: '#eee7e3',
+            primary: {
+              50: '#13002B',
+              100: '#2F026D',
+              200: '#5008B7',
+              300: '#6214DE',
+              400: '#6C25ED',
+              500: '#763DF5',
+              600: '#9882FC',
+              700: '#A698FD',
+              800: '#B6AFFE',
+              900: '#C9C6FE',
+              1000: '#DEDEFF',
+              foreground: '#000000',
+              DEFAULT: '#835BFA',
+            },
+            secondary: {
+              DEFAULT: '#FFFFFF',
+            },
+
+            focus: '#835BFA',
+          },
+          layout: {
+            disabledOpacity: '0.3',
+            radius: {
+              small: '4px',
+              medium: '6px',
+              large: '8px',
+            },
+            borderWidth: {
+              small: '1px',
+              medium: '2px',
+              large: '3px',
+            },
+          },
+        },
       },
     }),
   ],

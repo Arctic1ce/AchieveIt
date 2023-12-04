@@ -22,7 +22,7 @@ function TaskList(props) {
       <Sidebar className="flex-2">
         <div
           style={{
-            maxHeight: '73vh',
+            maxHeight: '72vh',
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             scrollbarColor: 'transparent transparent',
@@ -34,9 +34,15 @@ function TaskList(props) {
             }}>
             <SidebarItem
               icon={
-                <Badge color="primary" content={props.numItems}>
-                  T
-                </Badge>
+                <div
+                  className="transition-transform transform hover:scale-110"
+                  onClick={(e) => {
+                    handleTab('All Tasks');
+                  }}>
+                  <Badge color="primary" content={props.numItems}>
+                    <span className="material-symbols-outlined">task</span>
+                  </Badge>
+                </div>
               }
               text="All Tasks"
               elem={
@@ -50,27 +56,35 @@ function TaskList(props) {
 
           {props.lists.map((list) => {
             return (
-              <div
-                key={list.name}
-                onClick={(e) => {
-                  handleTab(`${list.name}`);
-                }}>
-                <SidebarItem
-                  icon={
-                    <div>
-                      <Badge content={list.items.length} color="primary">
-                        T
-                      </Badge>
-                    </div>
-                  }
-                  text={list.name}
-                  elem={
-                    <Chip className="ml-2" size="sm" color="primary">
-                      {list.items.length}
-                    </Chip>
-                  }
-                  active={selectedTab === `${list.name}` ? true : false}
-                />
+              <div className="relative">
+                <div
+                  key={list.name}
+                  onClick={(e) => {
+                    handleTab(`${list.name}`);
+                  }}>
+                  <SidebarItem
+                    icon={
+                      <div
+                        className="transition-transform transform hover:scale-110"
+                        onClick={(e) => {
+                          handleTab(`${list.name}`);
+                        }}>
+                        <Badge content={list.items.length} color="primary">
+                          <span className="material-symbols-outlined">
+                            task
+                          </span>
+                        </Badge>
+                      </div>
+                    }
+                    text={list.name}
+                    elem={
+                      <Chip className="ml-2" size="sm" color="primary">
+                        {list.items.length}
+                      </Chip>
+                    }
+                    active={selectedTab === `${list.name}` ? true : false}
+                  />
+                </div>
               </div>
             );
           })}
@@ -80,12 +94,11 @@ function TaskList(props) {
           <SidebarItem
             nohover
             elem={
-              <div className="flex flex-row items-center overflow-hidden mb-2 border-t pt-2 ">
+              <div className="flex flex-row items-center overflow-hidden mb-2 border-t p-2 ">
                 <Input
                   autoFocus
                   radius="full"
-                  variant="underlined"
-                  className="absolute-left hover:bg-primary-50 selection:bg-primary-100"
+                  className="absolute-left"
                   size="sm"
                   type="text"
                   placeholder="List Name"
@@ -95,9 +108,12 @@ function TaskList(props) {
                   // errorMessage={errors.task}
                   isRequired
                 />
-                <Tooltip placement="right" content="Add this list">
+                <Tooltip
+                  className="achieveit-light bg-primary-50"
+                  placement="right"
+                  content="Add to Task Lists">
                   <Button
-                    className="min-w-4 w-10 h-10 ml-3 bg-primary-50"
+                    className="min-w-4 w-10 h-10 ml-3 bg-primary-100 hover:bg-primary-200 hover:font-bold"
                     radius="full"
                     variant="dark"
                     onClick={() => {

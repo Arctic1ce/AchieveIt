@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
   Navbar,
   NavbarBrand,
@@ -6,10 +6,15 @@ import {
   NavbarItem,
   Link,
   Button,
+  Switch,
 } from '@nextui-org/react';
 // import { Link } from 'react-router-dom';
 
-function Nav() {
+function Nav(props) {
+  function handleSwitch() {
+    props.setDarkMode(!props.isDark);
+  }
+
   return (
     <Navbar
       className="flex bg-primary-300"
@@ -30,9 +35,18 @@ function Nav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="secondary" href="/login" variant="flat">
+          <Button
+            className="mx-2"
+            as={Link}
+            color="secondary"
+            href="/login"
+            variant="flat">
             <p className="font-normal">LOGIN</p>
           </Button>
+          <Switch
+            isSelected={props.isDark}
+            onValueChange={handleSwitch}
+            size="sm"></Switch>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
