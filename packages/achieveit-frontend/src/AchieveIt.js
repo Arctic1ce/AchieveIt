@@ -34,6 +34,11 @@ function AchieveIt() {
       cookies.set('authToken', INVALID_TOKEN);
     }
 
+    const username = cookies.get('username');
+    if (!username) {
+      cookies.set('username', null);
+    }
+
     getTasks();
   }, []);
 
@@ -208,6 +213,7 @@ function AchieveIt() {
 
   function logoutUser() {
     cookies.set('authToken', INVALID_TOKEN);
+    cookies.set('username', null);
     setUser(null);
   }
 
@@ -216,7 +222,7 @@ function AchieveIt() {
       username: creds.email,
       pwd: creds.password
     }
-    console.log(cred);
+
     const promise = fetch(`${serverUrl}/login`, {
       method: "POST",
       headers: {
@@ -232,6 +238,7 @@ function AchieveIt() {
               const decoded = jwtDecode(payload.token);
               setUser(decoded);
               cookies.set('authToken', payload.token);
+              cookies.set('username', cred.username);
             });
           setMessage(`Login successful; auth token saved`);
         } else {
@@ -252,7 +259,7 @@ function AchieveIt() {
       username: creds.email,
       pwd: creds.password
     }
-    console.log(cred);
+
     const promise = fetch(`${serverUrl}/signup`, {
       method: "POST",
       headers: {
@@ -268,6 +275,7 @@ function AchieveIt() {
               const decoded = jwtDecode(payload.token);
               setUser(decoded);
               cookies.set('authToken', payload.token);
+              cookies.set('username', cred.username);
             });
           setMessage(
             `Signup successful for user: ${creds.username}; auth token saved`
@@ -286,13 +294,16 @@ function AchieveIt() {
   }
 
   function addAuthHeader(otherHeaders = {}) {
-    const thing = cookies.get('authToken');
-    if (thing === INVALID_TOKEN) {
+    const authToken = cookies.get('authToken');
+    const username = cookies.get('username');
+    
+    if (authToken === INVALID_TOKEN) {
       return otherHeaders;
     } else {
       return {
         ...otherHeaders,
-        Authorization: `Bearer ${thing}`
+        username: username,
+        Authorization: `Bearer ${authToken}`
       };
     }
   }

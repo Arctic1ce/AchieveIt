@@ -89,6 +89,7 @@ function authenticateUser(req, res, next) {
 }
 
 async function loginUser(req, res) {
+    console.log("LOGIN");
     const { username, pwd } = req.body;
 
     let retrievedUser;
@@ -109,6 +110,7 @@ async function loginUser(req, res) {
             .then((matched) => {
                 if (matched) {
                     generateAccessToken(username).then((token) => {
+                        console.log("SUCESSFUL LOGIN");
                         res.status(200).send({ token: token });
                     });
                 } else {

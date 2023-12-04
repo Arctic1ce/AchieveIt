@@ -3,7 +3,3 @@
 /node_modules
 packages/*/node_modules/
 packages/*/*/node_modules/
-/achieveit-frontend/package-lock.json
-/achieveit-frontend/package-lock.json
-/*/node_modules
-/achieveit-frontend/node_modules

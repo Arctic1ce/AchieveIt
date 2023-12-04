@@ -3,11 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import service from './achieveit-database/service.js';
 import auth from './achieveit-database/auth.js';
-//const express = require('express');
-//const cors = require('cors');
-//const service = require('./achieveit-database/service');
 const app = express();
-//const auth = require('./auth');
 const port = 8000;
 app.use(cors());
 app.use(express.json());
@@ -30,14 +26,14 @@ function ValidateItem(item) {
 // Get all to-do lists
 app.get('/', auth.authenticateUser, async (req, res) => {
   try {
+    const username = req.headers['username'];
     const name = req.query['name'];
     const result = name
-      ? await service.getTodoList(name)
-      : await service.getTodoList();
-    console.log("SUCCESS");
+      ? await service.getTodoList(username, name)
+      : await service.getTodoList(username);
+    console.log(result);
     res.send(result);
   } catch (error) {
-    console.log("FAIL");
     console.error(error);
     res.status(500).send(error);
   }
@@ -46,8 +42,9 @@ app.get('/', auth.authenticateUser, async (req, res) => {
 // Create a new to-do list
 app.post('/', auth.authenticateUser, async (req, res) => {
   try {
+    const username = req.headers['username'];
     const newList = req.query['name'];
-    result = await service.createTodoList(newList);
+    const result = await service.createTodoList(username, newList);
     res.send(result);
   } catch (error) {
     console.error(error);
@@ -65,17 +62,18 @@ app.post('/tasks/', auth.authenticateUser, async (req, res) => {
       return;
     }
 
+    const username = req.headers['username'];
     const listName = req.query['name'];
     const newTask = req.body;
-    const list = await service.getTodoList(listName);
+    const list = await service.getTodoList(username, listName);
 
     if (!list) {
-      const result = await service.createTodoList(listName);
+      const result = await service.createTodoList(username, listName);
       res.send(result);
     } else {
-      await service.createTodoItem(listName, newTask);
+      await service.createTodoItem(username, newTask);
       // Get updated tasks and send the response after creating the task
-      const updatedTasks = await service.getTodoList(listName);
+      const updatedTasks = await service.getTodoList(username, listName);
       res.send(updatedTasks);
     }
   } catch (error) {
@@ -87,10 +85,11 @@ app.post('/tasks/', auth.authenticateUser, async (req, res) => {
 // Update a task's status
 app.patch('/', auth.authenticateUser, async (req, res) => {
   try {
+    const username = req.headers['username'];
     const listName = req.query['name'];
     const taskName = req.query['task'];
     const status = req.query['status'];
-    const result = await service.toggleCheck(listName, taskName, status);
+    const result = await service.toggleCheck(username, listName, taskName, status);
     res.send(result);
   } catch (error) {
     console.error(error);
@@ -101,9 +100,10 @@ app.patch('/', auth.authenticateUser, async (req, res) => {
 // Delete a task from a to-do list
 app.delete('/', auth.authenticateUser, async (req, res) => {
   try {
+    const username = req.headers['username'];
     const listName = req.query['name'];
     const taskName = req.query['task'];
-    await service.deleteTodoItem(listName, taskName);
+    await service.deleteTodoItem(username, listName, taskName);
     res.status(200).send();
   } catch (error) {
     console.error(error);
@@ -114,8 +114,9 @@ app.delete('/', auth.authenticateUser, async (req, res) => {
 // Delete a to-do list
 app.delete('/list/', auth.authenticateUser, async (req, res) => {
   try {
+    const username = req.headers['username'];
     const listName = req.query['name'];
-    await service.deleteTodoList(listName);
+    await service.deleteTodoList(username, listName);
     res.status(200).send();
   } catch (error) {
     console.error(error);
@@ -128,14 +129,6 @@ app.post("/signup", auth.registerUser);
 
 // Login a user
 app.post("/login", auth.loginUser);
-
-//Authenticate a user
-// app.post("/users", authenticateUser, (req, res) => {
-//   const userToAdd = req.body;
-//   Users.addUser(userToAdd).then((result) =>
-//     res.status(201).send(result)
-//   );
-// });
 
 // Run the server
 app.listen(process.env.PORT || port, () => {
