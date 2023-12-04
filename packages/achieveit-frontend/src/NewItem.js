@@ -96,7 +96,9 @@ function NewItem(props) {
         radius="2x1"
         classNames={{
           body: 'py-6',
-          base: 'border-[#292f46] achieveit-light bg-primary-50 text-secondary',
+          base: `border-[#292f46] ${
+            props.isDark ? 'achieveit-dark' : 'achieveit-light'
+          } text-foreground bg-background bg-primary-50 text-secondary`,
           header: 'border-b-[1px] border-[#292f46] text-secondary',
           footer: 'border-t-[1px] border-[#292f46]',
           closeButton: 'hover:bg-black/10 active:bg-black/10',
@@ -206,9 +208,7 @@ function NewItem(props) {
                 </Form>
               </ModalBody>
               <ModalFooter>
-                <Button color="secondary" onClick={handleClose}>
-                  Close
-                </Button>
+                <Button onClick={handleClose}>Close</Button>
                 <Button color="primary" type="submit" onClick={handleSubmit}>
                   Add Item
                 </Button>

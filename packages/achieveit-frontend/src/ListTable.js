@@ -123,7 +123,11 @@ function ListTable(props) {
           {props.listName ? props.listName : 'All Tasks'}
         </p>
         <div className="ml-auto">
-          <NewItem insertTask={props.insertTask} list={props.list} />
+          <NewItem
+            insertTask={props.insertTask}
+            list={props.list}
+            isDark={props.isDark}
+          />
         </div>
       </div>
       <div className="flex flex-row overflow-hidden">

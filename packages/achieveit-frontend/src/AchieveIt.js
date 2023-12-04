@@ -217,6 +217,7 @@ function AchieveIt() {
                     insertTask={insertTask}
                     deleteTask={deleteTask}
                     deleteList={deleteList}
+                    isDark={isDark}
                   />
                 }
               />

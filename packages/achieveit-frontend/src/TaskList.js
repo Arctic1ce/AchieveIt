@@ -137,6 +137,7 @@ function TaskList(props) {
               setChecked={props.setChecked}
               insertTask={props.insertTask}
               deleteTask={props.deleteTask}
+              isDark={props.isDark}
             />
           </div>
         )}
@@ -150,6 +151,7 @@ function TaskList(props) {
               insertTask={props.insertTask}
               deleteTask={props.deleteTask}
               deleteList={props.deleteList}
+              isDark={props.isDark}
             />
           ) : null,
         )}
