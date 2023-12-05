@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ListTable from './ListTable';
 import { Tooltip, Input, Chip, Badge, Button } from '@nextui-org/react';
 import Sidebar, { SidebarItem } from './Sidebar';
-import Form from 'react-bootstrap/Form';
 
 function TaskList(props) {
   const [listName, setListName] = useState('');

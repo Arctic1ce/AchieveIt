@@ -1,6 +1,5 @@
 // import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
-import Form from 'react-bootstrap/Form';
 import NewItem from './NewItem';
 import { Button } from '@nextui-org/react';
 import {
@@ -27,7 +26,6 @@ function ListTable(props) {
   const listItemStyle = {
     textDecoration: 'line-through',
     textDecorationThickness: '2px',
-    textDecorationThickness: '2px',
     marginBottom: '8px',
     color: '#ff0000',
   };
@@ -47,17 +45,9 @@ function ListTable(props) {
     setSelectedKeys(completedKeys);
   }, [props.list]);
 
-  const isRowSelected = (rowId) => {
-    if (selectedKeys === 'all') {
-      return true;
-    } else {
-      return selectedKeys.has(rowId);
-    }
-  };
-
   const findlist = (id) => {
     for (let list of props.list) {
-      if (list._id == id) {
+      if (list._id === id) {
         return list;
       }
     }
@@ -70,7 +60,7 @@ function ListTable(props) {
     for (let task of list.items) {
       console.log(id);
       console.log(task._id);
-      if (task._id == id) {
+      if (task._id === id) {
         return task;
       }
     }
