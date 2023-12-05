@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { MDBBtn,MDBContainer,MDBCard,MDBCardBody,MDBCardImage,MDBRow,MDBCol,MDBIcon,MDBInput
+import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput
 } from 'mdb-react-ui-kit';
 
-function Login() {
+function Login(props) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -10,10 +10,10 @@ function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+       [name]: value,
+    }));
   };
 
   const isFormValid = () => {
@@ -22,11 +22,13 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!isFormValid()) {
+      // Handle form validation error
       return;
     }
 
-    console.log('Form submitted:', formData);
+    props.handleSubmit(formData);
   };
 
   return (
@@ -76,7 +78,7 @@ function Login() {
                   className="mb-4 px-5"
                   color='dark'
                   size='lg'
-                  disabled={!isFormValid()} 
+                  disabled={!isFormValid()}
                   type="submit"
                 >
                   Login

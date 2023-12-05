@@ -8,12 +8,14 @@ import {
   Button,
   Switch,
 } from '@nextui-org/react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Nav(props) {
   function handleSwitch() {
     props.setDarkMode(!props.isDark);
   }
+
+  const INVALID_TOKEN = 'INVALID_TOKEN';
 
   return (
     <Navbar
@@ -35,14 +37,24 @@ function Nav(props) {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button
-            className="mx-2"
-            as={Link}
-            color="secondary"
-            href="/login"
-            variant="flat">
-            <p className="font-normal">LOGIN</p>
-          </Button>
+          {props.token === INVALID_TOKEN && (
+            <Button
+              className="mx-2"
+              as={Link}
+              color="secondary"
+              href="/login"
+              variant="flat">
+              <p className="font-normal">LOGIN</p>
+            </Button>
+          )}
+          {props.token !== INVALID_TOKEN && (
+            <Button
+              className="mx-2"
+              color="secondary"
+              onClick={props.logoutUser}>
+              <p className="font-normal">LOGOUT</p>
+            </Button>
+          )}
           <Switch
             isSelected={props.isDark}
             onValueChange={handleSwitch}
