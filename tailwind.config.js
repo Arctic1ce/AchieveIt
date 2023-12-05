@@ -82,6 +82,9 @@ export default {
             secondary: {
               DEFAULT: '#FFFFFF',
             },
+            danger: {
+              DEFAULT: '#FF474B',
+            },
 
             focus: '#835BFA',
           },
