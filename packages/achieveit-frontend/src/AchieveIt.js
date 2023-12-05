@@ -1,21 +1,44 @@
 /* Filename: AchieveIt.js */
 import Navbar from './Navbar';
 import TaskList from './TaskList';
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
+import * as process from "process";
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 
 // The server location
-const backend = require('./server-locations.json')['backend'];
+let backend = require('./server-locations.json')['backend'];
+if (process.argv.includes('--local')) {
+  // set to http://localhost:8000 for local development
+  backend = 'http://localhost:8000';
+}
+
 const serverUrl = backend;
 
 function AchieveIt() {
+  const cookies = new Cookies();
+  const INVALID_TOKEN = "INVALID_TOKEN";
+  const [user, setUser] = useState(null);
+  const [message, setMessage] = useState("");
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
 
   useEffect(() => {
+    // Check if there is a token in localStorage when the component mounts
+    const storedToken = cookies.get('authToken');
+    if (!storedToken) {
+      cookies.set('authToken', INVALID_TOKEN);
+    }
+
+    const username = cookies.get('username');
+    if (!username) {
+      cookies.set('username', null);
+    }
+
     getTasks();
   }, []);
 
@@ -23,7 +46,9 @@ function AchieveIt() {
    * GetTasks: Fetches all the tasks from the database and updates the state
    * */
   function getTasks() {
-    fetch(serverUrl)
+    fetch(serverUrl, {
+      headers: addAuthHeader()
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -50,7 +75,7 @@ function AchieveIt() {
   async function addList(listName) {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: addAuthHeader({ 'Content-Type': 'application/json' }),
     };
     try {
       await fetch(serverUrl + '/?name=' + listName, requestOptions);
@@ -65,7 +90,7 @@ function AchieveIt() {
   function insertTask(list, task) {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(task),
     };
 
@@ -85,7 +110,7 @@ function AchieveIt() {
       // Set the task to completed
       const requestOptions = {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       console.log('checking: ' + taskName + ' ' + itemName + ' ' + status);
@@ -128,7 +153,7 @@ function AchieveIt() {
       // Delete the list
       const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       // DELETE request using fetch with async/await
@@ -160,7 +185,7 @@ function AchieveIt() {
       // Delete the task
       const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: addAuthHeader({ 'Content-Type': 'application/json' }),
       };
 
       // DELETE request using fetch with async/await
@@ -185,17 +210,116 @@ function AchieveIt() {
       throw error;
     }
   }
+
+  function logoutUser() {
+    cookies.set('authToken', INVALID_TOKEN);
+    cookies.set('username', null);
+    setUser(null);
+  }
+
+  function loginUser(creds) {
+    const cred = {
+      username: creds.email,
+      pwd: creds.password
+    }
+
+    const promise = fetch(`${serverUrl}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cred)
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response
+            .json()
+            .then((payload) => {
+              const decoded = jwtDecode(payload.token);
+              setUser(decoded);
+              cookies.set('authToken', payload.token);
+              cookies.set('username', cred.username);
+            });
+          setMessage(`Login successful; auth token saved`);
+        } else {
+          setMessage(
+            `Login Error ${response.status}: ${response.data}`
+          );
+        }
+      })
+      .catch((error) => {
+        setMessage(`Login Error: ${error}`);
+      });
+  
+    return promise;
+  }
+
+  function signupUser(creds) {
+    const cred = {
+      username: creds.email,
+      pwd: creds.password
+    }
+
+    const promise = fetch(`${serverUrl}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cred)
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          response
+            .json()
+            .then((payload) => {
+              const decoded = jwtDecode(payload.token);
+              setUser(decoded);
+              cookies.set('authToken', payload.token);
+              cookies.set('username', cred.username);
+            });
+          setMessage(
+            `Signup successful for user: ${creds.username}; auth token saved`
+          );
+        } else {
+          setMessage(
+            `Signup Error ${response.status}: ${response.data}`
+          );
+        }
+      })
+      .catch((error) => {
+        setMessage(`Signup Error: ${error}`);
+      });
+  
+    return promise;
+  }
+
+  function addAuthHeader(otherHeaders = {}) {
+    const authToken = cookies.get('authToken');
+    const username = cookies.get('username');
+    
+    if (authToken === INVALID_TOKEN) {
+      return otherHeaders;
+    } else {
+      return {
+        ...otherHeaders,
+        username: username,
+        Authorization: `Bearer ${authToken}`
+      };
+    }
+  }
+
   /* Render the page */
   return (
     <Router>
       <div className="AchieveIt">
         <div className="header">
-          <Navbar />
+          <Navbar logoutUser={logoutUser} token={cookies.get('authToken')} />
         </div>
         <div className="taskList">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element = {<Signup />}/>
+          <Route path="/login" element={<Login handleSubmit={loginUser} />}
+          />
+            <Route path="/signup" element = {<Signup handleSubmit={signupUser} />}/>
             <Route
               path="/"
               element={

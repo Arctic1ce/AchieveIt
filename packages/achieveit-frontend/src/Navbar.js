@@ -32,7 +32,9 @@ const navbarTheme = createTheme({
   },
 });
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const INVALID_TOKEN = "INVALID_TOKEN";
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={navbarTheme}>
@@ -43,9 +45,16 @@ const Navbar = () => {
                 AchieveIt
               </Typography>
             </Button>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
+            {props.token === INVALID_TOKEN && (
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+            )}
+            {props.token !== INVALID_TOKEN && (
+              <Button color="inherit" onClick={props.logoutUser}>
+                Logout
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </ThemeProvider>
