@@ -270,6 +270,7 @@ function AchieveIt() {
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
+            console.log("sign up token: " + payload.token)
           });
           setMessage(
             `Signup successful for user: ${creds.username}; auth token saved`,
