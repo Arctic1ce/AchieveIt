@@ -2,9 +2,7 @@
 const mongoose = require('mongoose');
 const { TodoItem, TodoList, User } = require('./schemas');
 // read the URL to connect to the database from ../server-locations.json
-const serverLocations = require('./server-locations.json');
-let serverUrl = serverLocations['database'];
-mongoose.set('debug', true);
+let serverUrl = process.env.DATABASE_URL;
 
 // check if argv contains --local
 if (process.argv.includes('--local')) {

@@ -7,8 +7,7 @@ require("dotenv").config();
 
 mongoose.set('debug', true);
 
-const serverLocations = require('./server-locations.json');
-let serverUrl = serverLocations['database'];
+let serverUrl = process.env.DATABASE_URL;
 mongoose
     .connect(serverUrl, {
         useNewUrlParser: true,
