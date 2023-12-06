@@ -1,14 +1,13 @@
 /* Filename: AchieveIt.js */
 import Navbar from './Navbar';
 import TaskList from './TaskList';
-import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
-import * as process from "process";
+import * as process from 'process';
 import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
-
 
 // The server location
 let backend = require('./server-locations.json')['backend'];
@@ -21,9 +20,9 @@ const serverUrl = backend;
 
 function AchieveIt() {
   const cookies = new Cookies();
-  const INVALID_TOKEN = "INVALID_TOKEN";
+  const INVALID_TOKEN = 'INVALID_TOKEN';
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
 
@@ -40,6 +39,7 @@ function AchieveIt() {
     }
 
     getTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /*
@@ -47,7 +47,7 @@ function AchieveIt() {
    * */
   function getTasks() {
     fetch(serverUrl, {
-      headers: addAuthHeader()
+      headers: addAuthHeader(),
     })
       .then((response) => {
         if (!response.ok) {
@@ -220,90 +220,84 @@ function AchieveIt() {
   function loginUser(creds) {
     const cred = {
       username: creds.email,
-      pwd: creds.password
-    }
+      pwd: creds.password,
+    };
 
     const promise = fetch(`${serverUrl}/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(cred)
+      body: JSON.stringify(cred),
     })
       .then((response) => {
         if (response.status === 200) {
-          response
-            .json()
-            .then((payload) => {
-              const decoded = jwtDecode(payload.token);
-              setUser(decoded);
-              cookies.set('authToken', payload.token);
-              cookies.set('username', cred.username);
-            });
+          response.json().then((payload) => {
+            const decoded = jwtDecode(payload.token);
+            setUser(decoded);
+            cookies.set('authToken', payload.token);
+            cookies.set('username', cred.username);
+          });
           setMessage(`Login successful; auth token saved`);
         } else {
-          setMessage(
-            `Login Error ${response.status}: ${response.data}`
-          );
+          setMessage(`Login Error ${response.status}: ${response.data}`);
         }
       })
       .catch((error) => {
         setMessage(`Login Error: ${error}`);
       });
-  
+
     return promise;
   }
 
   function signupUser(creds) {
     const cred = {
       username: creds.email,
-      pwd: creds.password
-    }
+      pwd: creds.password,
+    };
 
     const promise = fetch(`${serverUrl}/signup`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(cred)
+      body: JSON.stringify(cred),
     })
       .then((response) => {
         if (response.status === 201) {
-          response
-            .json()
-            .then((payload) => {
-              const decoded = jwtDecode(payload.token);
-              setUser(decoded);
-              cookies.set('authToken', payload.token);
-              cookies.set('username', cred.username);
-            });
+          response.json().then((payload) => {
+            const decoded = jwtDecode(payload.token);
+            setUser(decoded);
+            cookies.set('authToken', payload.token);
+            cookies.set('username', cred.username);
+          });
           setMessage(
-            `Signup successful for user: ${creds.username}; auth token saved`
+            `Signup successful for user: ${creds.username}; auth token saved`,
           );
         } else {
-          setMessage(
-            `Signup Error ${response.status}: ${response.data}`
-          );
+          setMessage(`Signup Error ${response.status}: ${response.data}`);
         }
       })
       .catch((error) => {
         setMessage(`Signup Error: ${error}`);
       });
-  
+
+    console.log('user' + user);
+    console.log('message' + message);
     return promise;
   }
 
   function addAuthHeader(otherHeaders = {}) {
     const authToken = cookies.get('authToken');
     const username = cookies.get('username');
-    
+
     if (authToken === INVALID_TOKEN) {
       return otherHeaders;
     } else {
       return {
         ...otherHeaders,
         username: username,
-        Authorization: `Bearer ${authToken}`
+        Authorization: `Bearer ${authToken}`,
       };
     }
   }
@@ -317,9 +311,11 @@ function AchieveIt() {
         </div>
         <div className="taskList">
           <Routes>
-          <Route path="/login" element={<Login handleSubmit={loginUser} />}
-          />
-            <Route path="/signup" element = {<Signup handleSubmit={signupUser} />}/>
+            <Route path="/login" element={<Login handleSubmit={loginUser} />} />
+            <Route
+              path="/signup"
+              element={<Signup handleSubmit={signupUser} />}
+            />
             <Route
               path="/"
               element={
