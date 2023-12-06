@@ -2,7 +2,7 @@
 
 [![CI Testing](https://github.com/Arctic1ce/AchieveIt/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/Arctic1ce/AchieveIt/actions/workflows/ci-testing.yml)
 
-Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, Russ Sobti
+Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, and Russ Sobti
 
 ## Contributing
 
