@@ -8,7 +8,7 @@ import {
   Button,
   Switch,
 } from '@nextui-org/react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 function Nav(props) {
   function handleSwitch() {
