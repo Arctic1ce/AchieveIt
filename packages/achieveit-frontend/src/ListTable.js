@@ -1,3 +1,4 @@
+import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import NewItem from './NewItem';
@@ -39,6 +40,7 @@ function ListTable(props) {
                         onChange={() =>
                           props.setChecked(item.name, val.name, !val.completed)
                         }
+                        label={`Task: ${val.name}`}
                       />
                     </Form>
                   </td>

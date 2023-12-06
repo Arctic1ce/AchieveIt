@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1701880881487" clover="3.2.0">
+  <project timestamp="1701880881487" name="All files">
+    <metrics statements="41" coveredstatements="16" conditionals="42" coveredconditionals="17" methods="18" coveredmethods="7" elements="101" coveredelements="40" complexity="0" loc="41" ncloc="41" packages="1" files="2" classes="2"/>
+    <file name="ListTable.js" path="/Users/vibhugarg/Codin/Class/cs307/AchieveIt/packages/achieveit-frontend/src/ListTable.js">
+      <metrics statements="7" coveredstatements="6" conditionals="22" coveredconditionals="17" methods="6" coveredmethods="5"/>
+      <line num="8" count="3" type="stmt"/>
+      <line num="14" count="3" type="stmt"/>
+      <line num="30" count="3" type="stmt"/>
+      <line num="33" count="3" type="stmt"/>
+      <line num="41" count="1" type="stmt"/>
+      <line num="68" count="1" type="stmt"/>
+      <line num="79" count="0" type="stmt"/>
+    </file>
+    <file name="NewItem.js" path="/Users/vibhugarg/Codin/Class/cs307/AchieveIt/packages/achieveit-frontend/src/NewItem.js">
+      <metrics statements="34" coveredstatements="10" conditionals="20" coveredconditionals="0" methods="12" coveredmethods="2"/>
+      <line num="7" count="3" type="stmt"/>
+      <line num="8" count="3" type="stmt"/>
+      <line num="9" count="3" type="stmt"/>
+      <line num="11" count="3" type="stmt"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="24" count="3" type="stmt"/>
+      <line num="25" count="3" type="stmt"/>
+      <line num="27" count="3" type="stmt"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="29" count="0" type="stmt"/>
+      <line num="31" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="32" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="33" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="34" count="0" type="stmt"/>
+      <line num="35" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="36" count="0" type="stmt"/>
+      <line num="38" count="0" type="stmt"/>
+      <line num="41" count="3" type="stmt"/>
+      <line num="42" count="0" type="stmt"/>
+      <line num="44" count="0" type="stmt"/>
+      <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="46" count="0" type="stmt"/>
+      <line num="48" count="0" type="stmt"/>
+      <line num="49" count="0" type="stmt"/>
+      <line num="58" count="0" type="stmt"/>
+      <line num="62" count="3" type="stmt"/>
+      <line num="79" count="0" type="stmt"/>
+      <line num="95" count="0" type="stmt"/>
+      <line num="104" count="0" type="stmt"/>
+      <line num="116" count="0" type="stmt"/>
+      <line num="141" count="0" type="stmt"/>
+      <line num="148" count="3" type="stmt"/>
+    </file>
+  </project>
+</coverage>
