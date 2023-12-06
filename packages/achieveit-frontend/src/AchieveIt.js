@@ -256,7 +256,7 @@ function AchieveIt() {
       pwd: creds.password,
     };
 
-    const promise = fetch(`${serverUrl}/signup`, {
+    const promise = fetch(`${serverUrl}signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
