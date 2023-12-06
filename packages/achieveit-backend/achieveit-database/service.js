@@ -1,52 +1,123 @@
 /* Filename: service.js */
 const mongoose = require('mongoose');
-const { TodoItem, TodoList } = require('./schemas');
+const { TodoItem, TodoList, User } = require('./schemas');
 // read the URL to connect to the database from ../server-locations.json
 const serverLocations = require('./server-locations.json');
-const serverUrl = serverLocations['database'];
+let serverUrl = serverLocations['database'];
 mongoose.set('debug', true);
 
+// check if argv contains --local
+if (process.argv.includes('--local')) {
+    // set to mongodb://localhost:27017/users for
+    serverUrl = "mongodb://localhost:27017/users";
+}
 mongoose
-  .connect(serverUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.log(error));
+    .connect(serverUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .catch((error) => console.log(error));
+
+
+// Find a user with the given username
+function findUser(username) {
+    let promise = User.find({ username: username });
+    return promise;
+}
 
 // Create a new to-do list
-function createTodoList(listName) {
+async function createTodoList(username, listName) {
   // create a new list
-  let promise = TodoList.create({ name: listName, items: [] });
+
+  let promise = User.find({ username: username }).populate({
+    path: 'todoLists',
+    model: 'TodoList',
+  }).then((result) => {
+    return TodoList.create({ name: listName, items: [] })
+      .then((createdList) => {
+        return User.updateOne(
+          { username: username },
+          { $push: { todoLists: createdList._id } },
+        );
+      })
+      .then((result) => {
+        console.log("Successfully created list with name " + listName + " for user " + username);
+        return result;
+      })
+  })
+  .catch((error) => {
+    console.error("An error ocurred: " + error);
+    throw error;
+  });
+
   return promise;
 }
 
 // Read all to-do lists, or read a single to-do list by name
-function getTodoList(name) {
+async function getTodoList(username, name) {
   let promise;
+
   if (name) {
-    promise = TodoList.find({ name: name }).populate({
-      path: 'items',
-      model: 'TodoItem',
+    promise = User.find({ username: username }).populate({
+      path: 'todoLists',
+      model: 'TodoList',
+    }).then((result) => {
+      let res = result[0].todoLists.filter((list) => { 
+        if (list.name == name){
+          return list;
+        }
+      });
+
+      return res;
     });
   } else {
-    promise = TodoList.find().populate({
-      path: 'items',
-      model: 'TodoItem',
+    promise = User.find({ username: username }).populate({
+      path: 'todoLists',
+      model: 'TodoList',
+    }).then((result) => {
+      const res = result[0].todoLists.map((list) => {
+        return list.populate({
+          path: 'items',
+          model: 'TodoItem',
+        })
+        .then((l) => {
+          return l;
+        });
+      });
+
+      return Promise.all(res);
     });
   }
+
   return promise;
 }
 
 // Delete a to-do list by name
-function deleteTodoList(listName) {
-  let promise;
-  promise = TodoList.deleteOne({ name: listName });
-  return promise;
+function deleteTodoList(username, listName) {
+
+  return getTodoList(username, listName)
+      .then((result) => {
+        const listId = result[0]._id;
+        User.find({ username: username }).populate({
+          path: 'todoLists',
+          model: 'TodoList',
+        })
+        .then((result) => {
+          return User.updateOne(
+            { username: username },
+            { $pull: { todoLists: listId } },
+          );
+        })
+        .then((result) => {
+          console.log("Successfully removed list: " + listName);
+          return result;
+        })
+      });
 }
 
 // Create a new to-do item for a specific to-do list
-function createTodoItem(listName, itemData) {
-  return getTodoList(itemData.task_category)
+function createTodoItem(username, itemData) {
+  return getTodoList(username, itemData.task_category)
     .then((result) => {
       const listId = result[0]._id;
 
@@ -65,7 +136,7 @@ function createTodoItem(listName, itemData) {
       return TodoItem.create(obj)
         .then((createdItem) => {
           return TodoList.updateOne(
-            { name: listName },
+            { _id: listId },
             { $push: { items: createdItem._id } },
           );
         })
@@ -80,8 +151,9 @@ function createTodoItem(listName, itemData) {
 }
 
 // Delete a to-do item by name
-function deleteTodoItem(listName, itemName) {
-  return getTodoList(listName)
+function deleteTodoItem(username, listName, itemName) {
+  
+  return getTodoList(username, listName)
     .then((result) => {
       const listId = result[0]._id;
       console.log('listId: ' + listId);
@@ -97,8 +169,8 @@ function deleteTodoItem(listName, itemName) {
 }
 
 // Update a to-do item's completed status
-function toggleCheck(listName, taskName, status) {
-  return getTodoList(listName)
+function toggleCheck(username, listName, taskName, status) {
+  return getTodoList(username, listName)
     .then((list) => {
       const listId = list[0]._id;
       console.log('listId: ' + listId);
@@ -116,6 +188,7 @@ function toggleCheck(listName, taskName, status) {
 }
 
 module.exports = {
+  findUser,
   createTodoList,
   getTodoList,
   deleteTodoList,
