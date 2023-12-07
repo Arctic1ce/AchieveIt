@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*uses directives to style the dist/output.css file - 
+to run on dev use:
+`npx tailwindcss -i ./packages/achieveit-frontend/src/index.css -o ./packages/achieveit-frontend/dist/output.css --watch`
+on the root directory (with tailwindcss.config file)
+*/
