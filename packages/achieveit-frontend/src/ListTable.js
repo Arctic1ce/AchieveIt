@@ -1,4 +1,4 @@
-// import Table from 'react-bootstrap/Table';
+import React, { useState } from 'react';
 import NewItem from './NewItem';
 import {
   Table,
@@ -10,14 +10,24 @@ import {
   Button,
   Checkbox,
   Chip,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Tooltip,
 } from '@nextui-org/react';
 
 function ListTable(props) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [desc, setDesc] = useState('test');
+
   const listItemStyle = {
     textDecoration: 'line-through',
     textDecorationThickness: '2px',
     marginBottom: '8px',
-    color: '#ff0000',
+    color: '#835BFA',
   };
 
   const priorityStyle = (priority) => {
@@ -29,6 +39,11 @@ function ListTable(props) {
       return <Chip className="bg-orange-500/50">{priority}</Chip>;
     }
   };
+
+  function showDesc(val) {
+    setDesc(val);
+    onOpen();
+  }
 
   return (
     <div className="flex flex-col">
@@ -45,27 +60,22 @@ function ListTable(props) {
         </div>
       </div>
       <div className="flex flex-row overflow-hidden">
-        <Table aria-label="collection table" isStriped>
+        <Table aria-label="collection table">
           <TableHeader>
             <TableColumn></TableColumn>
             <TableColumn>
-              {' '}
               <p className="font-bold text-medium">Task</p>
             </TableColumn>
             <TableColumn>
-              {' '}
               <p className="font-bold text-medium">Description</p>
             </TableColumn>
             <TableColumn>
-              {' '}
               <p className="font-bold text-medium">Due Date</p>
             </TableColumn>
             <TableColumn>
-              {' '}
               <p className="font-bold text-medium">Priority</p>
             </TableColumn>
             <TableColumn>
-              {' '}
               <p className="font-bold text-medium">List Name</p>
             </TableColumn>
             <TableColumn></TableColumn>
@@ -76,6 +86,13 @@ function ListTable(props) {
               list.items.map((val) => {
                 return (
                   <TableRow
+                    className={`
+                      ${
+                        val.completed
+                          ? 'bg-primary-100'
+                          : 'hover:bg-primary-50 text-secondary'
+                      } 
+                      `}
                     style={val.completed ? listItemStyle : {}}
                     key={`${list._id}-${val._id}`}>
                     <TableCell>
@@ -96,18 +113,28 @@ function ListTable(props) {
                       className="max-w-sm overflow-hidden">
                       {val.name}
                     </TableCell>
-                    <TableCell className="max-w-sm">
-                      <div>
-                        <p
-                          // className="hover:text-primary"
-                          style={{
-                            maxWidth: '10rem',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                          }}>
-                          {val.description}
-                        </p>
+                    <TableCell className="max-w-md">
+                      <div className="flex flex-row items-center">
+                        {val.description !== '' ? (
+                          <Tooltip
+                            isDismissable
+                            closeDelay={0}
+                            className={`achieveit-light bg-primary-100`}
+                            content="Show Full Description"
+                            placement="right">
+                            <span
+                              className="hover:text-blue-800"
+                              style={{
+                                maxWidth: '8rem',
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis',
+                              }}
+                              onClick={() => showDesc(val.description)}>
+                              {val.description}
+                            </span>
+                          </Tooltip>
+                        ) : null}
                       </div>
                     </TableCell>
                     <TableCell
@@ -164,6 +191,34 @@ function ListTable(props) {
           </Button>
         )}
       </div>
+      <Modal
+        className={`${
+          props.isDark ? 'achieveit-dark' : 'achieveit-light'
+        } bg-primary-50`}
+        style={{ 'overflow-wrap': 'break-word' }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        scrollBehavior="outside">
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                <span className="py-2 border-b-2 border-secondary text-secondary">
+                  Description
+                </span>
+              </ModalHeader>
+              <ModalBody>
+                <span className="text-secondary">{desc}</span>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

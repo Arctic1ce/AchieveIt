@@ -104,6 +104,8 @@ function TaskList(props) {
                   isRequired
                 />
                 <Tooltip
+                  isDismissable
+                  closeDelay={0}
                   className="achieveit-light bg-primary-50"
                   placement="right"
                   content="Add to Task Lists">

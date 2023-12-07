@@ -40,7 +40,12 @@ export default function Sidebar({ children }) {
 
         {!expanded && (
           <div className="border-t shadow-sm flex p-3">
-            <Tooltip placement="right" content="Add list">
+            <Tooltip
+              className="achieveit-light bg-primary-50"
+              isDismissable
+              closeDelay={0}
+              placement="right"
+              content="Add list">
               <Button
                 className="min-w-8 p-auto m-auto bg-primary-100"
                 size="sm"

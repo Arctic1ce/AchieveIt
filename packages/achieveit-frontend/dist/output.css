@@ -1850,6 +1850,10 @@ video {
   border-top-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -2226,6 +2230,36 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-primary-200 {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary-200) / var(--nextui-primary-200-opacity, var(--tw-bg-opacity)));
+}
+
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.bg-slate-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
+.bg-secondary-100 {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-secondary-100) / var(--nextui-secondary-100-opacity, var(--tw-bg-opacity)));
+}
+
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-tr {
@@ -4915,6 +4949,25 @@ on the root directory (with tailwindcss.config file)
   background-color: hsl(var(--nextui-primary-50) / var(--nextui-primary-50-opacity, var(--tw-bg-opacity)));
 }
 
+.hover\:bg-slate-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-primary-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary-100) / var(--nextui-primary-100-opacity, var(--tw-bg-opacity)));
+}
+
+.hover\:bg-slate-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gradient-to-tr:hover {
+  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+}
+
 .hover\:font-bold:hover {
   font-weight: 700;
 }
@@ -4947,6 +5000,26 @@ on the root directory (with tailwindcss.config file)
 .hover\:text-secondary-foreground:hover {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-secondary-foreground) / var(--nextui-secondary-foreground-opacity, var(--tw-text-opacity)));
+}
+
+.hover\:text-primary-50:hover {
+  --tw-text-opacity: 1;
+  color: hsl(var(--nextui-primary-50) / var(--nextui-primary-50-opacity, var(--tw-text-opacity)));
+}
+
+.hover\:text-primary-200:hover {
+  --tw-text-opacity: 1;
+  color: hsl(var(--nextui-primary-200) / var(--nextui-primary-200-opacity, var(--tw-text-opacity)));
+}
+
+.hover\:text-blue-200:hover {
+  --tw-text-opacity: 1;
+  color: rgb(191 219 254 / var(--tw-text-opacity));
+}
+
+.hover\:text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
@@ -4998,6 +5071,31 @@ on the root directory (with tailwindcss.config file)
 .hover\:after\:opacity-100:hover::after {
   content: var(--tw-content);
   opacity: 1;
+}
+
+.focus\:bg-slate-300:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+}
+
+.focus\:bg-primary-300:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary-300) / var(--nextui-primary-300-opacity, var(--tw-bg-opacity)));
+}
+
+.focus\:bg-primary-200:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary-200) / var(--nextui-primary-200-opacity, var(--tw-bg-opacity)));
+}
+
+.focus\:bg-primary:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-bg-opacity)));
+}
+
+.focus\:bg-primary-50:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--nextui-primary-50) / var(--nextui-primary-50-opacity, var(--tw-bg-opacity)));
 }
 
 .focus\:underline:focus {
