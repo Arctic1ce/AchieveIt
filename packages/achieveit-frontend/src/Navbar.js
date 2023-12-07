@@ -7,6 +7,7 @@ import {
   Link,
   Button,
   Switch,
+  Chip,
 } from '@nextui-org/react';
 // import { Link } from 'react-router-dom';
 
@@ -19,7 +20,7 @@ function Nav(props) {
 
   return (
     <Navbar
-      className="flex bg-primary-300"
+      className="flex bg-primary-400 shadow"
       maxWidth={'full'}
       isBordered
       shouldHideOnScroll>
@@ -48,17 +49,23 @@ function Nav(props) {
             </Button>
           )}
           {props.token !== INVALID_TOKEN && (
-            <Button
-              className="mx-2"
-              color="secondary"
-              onClick={props.logoutUser}>
+            <Button className="mx-2" color="primary" onClick={props.logoutUser}>
               <p className="font-normal">LOGOUT</p>
             </Button>
           )}
-          <Switch
-            isSelected={props.isDark}
-            onValueChange={handleSwitch}
-            size="sm"></Switch>
+          <Chip className="my-3 py-5 bg-primary-100">
+            <Switch
+              isSelected={props.isDark}
+              onValueChange={handleSwitch}
+              color="primary"
+              size="sm">
+              {props.isDark ? (
+                <span class="material-symbols-outlined">light_mode</span>
+              ) : (
+                <span className="material-symbols-outlined">dark_mode</span>
+              )}
+            </Switch>
+          </Chip>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
