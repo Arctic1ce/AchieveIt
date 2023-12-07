@@ -1,7 +1,6 @@
 // import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 import NewItem from './NewItem';
-import { Button } from '@nextui-org/react';
 import {
   Table,
   TableHeader,
@@ -9,6 +8,8 @@ import {
   TableColumn,
   TableRow,
   TableCell,
+  Button,
+  Checkbox
 } from '@nextui-org/react';
 
 function ListTable(props) {
@@ -122,11 +123,10 @@ function ListTable(props) {
       </div>
       <div className="flex flex-row overflow-hidden">
         <Table
-          selectionMode="multiple"
-          selectedKeys={selectedKeys}
-          onSelectionChange={handleSelect}
-          aria-label="collection table">
+          aria-label="collection table"
+          isStriped>
           <TableHeader>
+            <TableColumn></TableColumn>
             <TableColumn>Task</TableColumn>
             <TableColumn>Description</TableColumn>
             <TableColumn>Due Date</TableColumn>
@@ -142,6 +142,14 @@ function ListTable(props) {
                   <TableRow
                     style={val.completed ? listItemStyle : {}}
                     key={`${list._id}-${val._id}`}>
+                    <TableCell>
+                      <Checkbox
+                        defaultSelected={val.completed}
+                        onChange={() => 
+                          props.setChecked(list.name, val.name, !val.completed)
+                        }
+                      />
+                    </TableCell>
                     <TableCell>{val.name}</TableCell>
                     <TableCell>{val.description}</TableCell>
                     <TableCell>{val.due_date}</TableCell>
