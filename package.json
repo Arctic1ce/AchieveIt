@@ -15,15 +15,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nextui-org/react": "^2.2.9",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "create-react-app": "^5.0.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "framer-motion": "^10.16.14",
     "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^7.0.0",
     "mongoose": "^8.0.0",
     "react-router-dom": "^6.20.1",
+    "react-scroll": "^1.9.0",
     "universal-cookie": "^6.1.1"
   },
   "workspaces": [

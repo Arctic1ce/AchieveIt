@@ -1,66 +1,74 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Inter from '@fontsource/inter/700.css';
+import React from 'react';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link,
+  Button,
+  Switch,
+  Chip,
+} from '@nextui-org/react';
 
-const navbarTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#9da4e8',
-    },
-  },
-  typography: {
-    fontFamily: 'Inter',
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-display: swap;
-              src: local('Inter'), local('Inter'), url(${Inter}) format('woff2');
-              unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
-            }
-          `,
-    },
-  },
-});
+function Nav(props) {
+  function handleSwitch() {
+    props.setDarkMode(!props.isDark);
+  }
 
-const Navbar = (props) => {
-  const INVALID_TOKEN = "INVALID_TOKEN";
+  const INVALID_TOKEN = 'INVALID_TOKEN';
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <ThemeProvider theme={navbarTheme}>
-        <AppBar position="static" color="primary">
-          <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Button color="inherit" component={Link} to="/">
-              <Typography variant="h6" component="div">
-                AchieveIt
-              </Typography>
+    <Navbar
+      className="flex bg-primary-400 shadow"
+      maxWidth={'full'}
+      isBordered
+      shouldHideOnScroll>
+      <NavbarContent justify="start">
+        <NavbarBrand className="flex items-center">
+          <div className="flex-shrink-0">
+            <img
+              src="logo.jpg"
+              className="h-auto max-h-10 w-auto max-w-full mr-2"
+              alt=""
+            />
+          </div>
+          <p className="font-semibold text-large">AchieveIt</p>
+        </NavbarBrand>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem>
+          {props.token === INVALID_TOKEN && (
+            <Button
+              className="mx-2"
+              as={Link}
+              color="secondary"
+              href="/login"
+              variant="flat">
+              <p className="font-normal">LOGIN</p>
             </Button>
-            {props.token === INVALID_TOKEN && (
-              <Button color="inherit" component={Link} to="/login">
-                Login
-              </Button>
-            )}
-            {props.token !== INVALID_TOKEN && (
-              <Button color="inherit" onClick={props.logoutUser}>
-                Logout
-              </Button>
-            )}
-          </Toolbar>
-        </AppBar>
-      </ThemeProvider>
-    </Box>
+          )}
+          {props.token !== INVALID_TOKEN && (
+            <Button className="mx-2" color="primary" onClick={props.logoutUser}>
+              <p className="font-normal">LOGOUT</p>
+            </Button>
+          )}
+          <Chip className="my-3 py-5 bg-primary-100">
+            <Switch
+              isSelected={props.isDark}
+              onValueChange={handleSwitch}
+              color="primary"
+              size="sm">
+              {props.isDark ? (
+                <span class="material-symbols-outlined">light_mode</span>
+              ) : (
+                <span className="material-symbols-outlined">dark_mode</span>
+              )}
+            </Switch>
+          </Chip>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 }
 
-
-export default Navbar;
+export default Nav;

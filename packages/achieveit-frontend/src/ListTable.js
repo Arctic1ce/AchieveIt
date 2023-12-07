@@ -1,85 +1,155 @@
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
+// import Table from 'react-bootstrap/Table';
 import NewItem from './NewItem';
-import Button from 'react-bootstrap/Button';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+  Button,
+  Checkbox,
+  Chip,
+} from '@nextui-org/react';
 
 function ListTable(props) {
   const listItemStyle = {
     textDecoration: 'line-through',
+    textDecorationThickness: '2px',
     marginBottom: '8px',
     color: '#ff0000',
   };
 
-  return (
-    <div>
-      <NewItem insertTask={props.insertTask} list={props.list} />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Task</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>List Name</th>
-          </tr>
-        </thead>
+  const priorityStyle = (priority) => {
+    if (priority === 'High') {
+      return <Chip className="bg-red-500/50">{priority}</Chip>;
+    } else if (priority === 'Low') {
+      return <Chip className="bg-amber-500/50">{priority}</Chip>;
+    } else {
+      return <Chip className="bg-orange-500/50">{priority}</Chip>;
+    }
+  };
 
-        {props.list.map((item) => {
-          return (
-            <tbody key={`${item.name}`}>
-              {item.items.map((val) => (
-                <tr key={`${item.name}`}>
-                  <td>
-                    <Form>
-                      <Form.Check
-                        type={'checkbox'}
-                        id={`default-checkbox`}
-                        checked={val.completed}
+  return (
+    <div className="flex flex-col">
+      <div className="flex flex-row items-center ">
+        <p className="font-semibold text-xl ml-3">
+          {props.listName ? props.listName : 'All Tasks'}
+        </p>
+        <div className="ml-auto">
+          <NewItem
+            insertTask={props.insertTask}
+            list={props.list}
+            isDark={props.isDark}
+          />
+        </div>
+      </div>
+      <div className="flex flex-row overflow-hidden">
+        <Table aria-label="collection table" isStriped>
+          <TableHeader>
+            <TableColumn></TableColumn>
+            <TableColumn>Task</TableColumn>
+            <TableColumn>Description</TableColumn>
+            <TableColumn>Due Date</TableColumn>
+            <TableColumn>Priority</TableColumn>
+            <TableColumn>List Name</TableColumn>
+            <TableColumn></TableColumn>
+          </TableHeader>
+          <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
+          <TableBody>
+            {props.list.map((list) =>
+              list.items.map((val) => {
+                return (
+                  <TableRow
+                    style={val.completed ? listItemStyle : {}}
+                    key={`${list._id}-${val._id}`}>
+                    <TableCell>
+                      <Checkbox
+                        defaultSelected={val.completed}
                         onChange={() =>
-                          props.setChecked(item.name, val.name, !val.completed)
+                          props.setChecked(list.name, val.name, !val.completed)
                         }
                       />
-                    </Form>
-                  </td>
-                  {!val.completed && <td>{val.name}</td>}
-                  {!val.completed && <td>{val.description}</td>}
-                  {!val.completed && <td>{val.due_date}</td>}
-                  {!val.completed && <td>{val.priority}</td>}
-                  {!val.completed && <td>{item.name}</td>}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {val.name}
+                    </TableCell>
+                    <TableCell className="max-w-sm">
+                      <div>
+                        <p
+                          // className="hover:text-primary"
+                          style={{
+                            maxWidth: '10rem',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                          }}>
+                          {val.description}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {val.due_date}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {priorityStyle(val.priority)}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '8 rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {list.name}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        color="danger"
+                        onClick={() => props.deleteTask(list.name, val.name)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              }),
+            )}
+          </TableBody>
 
-                  {val.completed && <td style={listItemStyle}>{val.name}</td>}
-                  {val.completed && (
-                    <td style={listItemStyle}>{val.description}</td>
-                  )}
-                  {val.completed && (
-                    <td style={listItemStyle}>{val.due_date}</td>
-                  )}
-                  {val.completed && (
-                    <td style={listItemStyle}>{val.priority}</td>
-                  )}
-                  {val.completed && (
-                    <td style={listItemStyle}>{item.name}</td>
-                  )}
-                  {/*    Button to delete item*/}
-                  <td>
-                  <Button variant="dark" onClick={() => props.deleteTask(item.name, val.name)} className="me-2">
-                    Delete
-                  </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          );
-        })}
-      </Table>
-      {props.list.length === 1 && (
-        <Button variant="dark" onClick={() => props.deleteList(props.list[0].name)} className="me-2">
-          Delete List
-        </Button>
-      )}
+          {/* Update the state outside the loop */}
+        </Table>
+      </div>
+      <div className="flex-col">
+        {props.list.length === 1 && (
+          <Button
+            className="mt-3"
+            onClick={() => props.deleteList(props.list[0].name)}>
+            Delete List
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
-
 export default ListTable;

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput
-} from 'mdb-react-ui-kit';
+import { Card, CardBody, Input, Button } from '@nextui-org/react';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (field, value) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-       [name]: value,
+      [field]: value,
     }));
   };
 
@@ -28,68 +28,88 @@ function Login(props) {
       return;
     }
 
-    props.handleSubmit(formData);
+    props.handleSubmit(formData)
+      .then((data) => {
+        console.log("DATA: " + data);
+        if (data) {
+          console.log("SUCCESS REROUTE TO /");
+          navigate('/');
+        }
+      });
   };
 
+  const backgroundImage = "url('login.jpg')";
+
   return (
-    <MDBContainer className="my-5">
-      <MDBCard>
-        <MDBRow className='g-0'>
-          <MDBCol md='4'>
-            <div className='d-flex align-items-center justify-content-center h-100'>
-              <MDBCardImage
-                src='logo.jpg'
-                alt='your-alt-text'
-                className='rounded-t-5 rounded-tr-lg-0'
-                fluid
-                style={{ maxWidth: '75%', maxHeight: '80%' }}
-              />
-            </div>
-          </MDBCol>
-          <MDBCol md='6'>
-            <MDBCardBody className='d-flex flex-column'>
-              <div className='d-flex flex-row mt-2'>
-                <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }} />
-                <span className="h1 fw-bold mb-0">AchieveIt</span>
+    <div
+      className="h-full flex items-center justify-center "
+      style={{
+        backgroundImage,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+      <Card className="flex p-2 bg-primary-50/90">
+        <CardBody className="flex flex-row ">
+          <div className="flex items-center justify-center">
+            <div className="flex flex-col p-10 border border-secondary ">
+              <div className="mt-2">
+                <span className="h1 fw-bold mb-0 font-bold text-3xl">
+                  Sign In
+                </span>
               </div>
-              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Sign into your account</h5>
-              <form onSubmit={handleSubmit}>
-                <MDBInput
-                  wrapperClass='mb-4'
-                  label='Email address'
-                  id='formControlLg'
-                  type='email'
-                  size="lg"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-                <MDBInput
-                  wrapperClass='mb-4'
-                  label='Password'
-                  id='formControlLg'
-                  type='password'
-                  size="lg"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                />
-                <MDBBtn
-                  className="mb-4 px-5"
-                  color='dark'
-                  size='lg'
-                  disabled={!isFormValid()}
-                  type="submit"
-                >
-                  Login
-                </MDBBtn>
-              </form>
-              <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>Don't have an account? <a href="/Signup" style={{ color: '#393f81' }}>Register here</a></p>
-            </MDBCardBody>
-          </MDBCol>
-        </MDBRow>
-      </MDBCard>
-    </MDBContainer>
+              <p
+                className="flex my-1 pb-3 font-semibold text-medium"
+                style={{ letterSpacing: '1px' }}>
+                Sign into your account
+              </p>
+              <div className="">
+                <form onSubmit={handleSubmit}>
+                  <Input
+                    className="mb-3"
+                    label="Email address"
+                    placeholder="achieveit@gmail.com"
+                    id="formControlLg"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    isRequired
+                  />
+                  <Input
+                    className="mb-3"
+                    label="Password"
+                    id="formControlLg"
+                    type="password"
+                    placeholder="password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      handleInputChange('password', e.target.value)
+                    }
+                    isRequired
+                  />
+                  <div className="flex justify-end">
+                    <Button
+                      className="mb-4 px-5 bg-primary-800"
+                      color="primary"
+                      size="lg"
+                      isDisabled={!isFormValid()}
+                      type="submit"
+                      onClick={handleSubmit}>
+                      Login
+                    </Button>
+                  </div>
+                </form>
+              </div>
+              <p className="mb-5 text-secondary">
+                Don't have an account?
+                <a href="/Signup" style={{ color: '#393f81' }}>
+                  Register here
+                </a>
+              </p>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+    </div>
   );
 }
 
