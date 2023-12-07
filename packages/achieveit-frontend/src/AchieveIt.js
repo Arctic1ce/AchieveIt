@@ -1,8 +1,8 @@
 /* Filename: AchieveIt.js */
 import Navbar from './Navbar';
 import TaskList from './TaskList';
-import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import * as process from 'process';
@@ -266,6 +266,7 @@ function AchieveIt() {
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
+            console.log("sign up token: " + payload.token)
           });
           setMessage(
             `Signup successful for user: ${creds.username}; auth token saved`,
@@ -298,6 +299,11 @@ function AchieveIt() {
     }
   }
 
+  const PrivateRoute = () => {
+    const authToken = cookies.get('authToken');
+    return authToken !== INVALID_TOKEN ? <Outlet /> : <Navigate to="/login" />;
+  };
+
   /* Render the page */
   return (
     <Router>
@@ -312,20 +318,24 @@ function AchieveIt() {
               path="/signup"
               element={<Signup handleSubmit={signupUser} />}
             />
-            <Route
-              path="/"
-              element={
-                <TaskList
-                  lists={taskLists}
-                  addList={addList}
-                  numItems={numItems}
-                  setChecked={setChecked}
-                  insertTask={insertTask}
-                  deleteTask={deleteTask}
-                  deleteList={deleteList}
-                />
-              }
-            />
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/"
+                element={
+                  <TaskList
+                    lists={taskLists}
+                    addList={addList}
+                    numItems={numItems}
+                    setChecked={setChecked}
+                    insertTask={insertTask}
+                    deleteTask={deleteTask}
+                    deleteList={deleteList}
+                    token={cookies.get('authToken')}
+                    loginUser={loginUser}
+                  />
+                }
+              />
+            </Route>
           </Routes>
         </div>
       </div>

@@ -29,7 +29,7 @@ async function registerUser(req, res) {
             res.status(409).send("Username already taken");
         }
 
-        if (result[0].username == username) {
+        if (result.length > 0 && result[0].username == username) {
             res.status(409).send("Username already taken");
         } else {
             bcrypt
