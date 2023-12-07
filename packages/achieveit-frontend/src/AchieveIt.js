@@ -31,6 +31,7 @@ function AchieveIt() {
   const [message, setMessage] = useState('');
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
+  const [selectedTab, setSelectedTab] = useState('All Tasks');
 
   useEffect(() => {
     // Check if there is a token in localStorage when the component mounts
@@ -320,6 +321,14 @@ function AchieveIt() {
     setIsDark(val);
   }
 
+  function setTab(tab) {
+    setSelectedTab(tab);
+  }
+
+  function getTab() {
+    return selectedTab;
+  }
+
   /* Render the page */
   return (
     <main
@@ -361,6 +370,8 @@ function AchieveIt() {
                       token={cookies.get('authToken')}
                       loginUser={loginUser}
                       isDark={isDark}
+                      setTab={setTab}
+                      getTab={getTab}
                     />
                   }
                 />
