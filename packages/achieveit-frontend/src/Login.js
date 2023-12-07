@@ -65,6 +65,7 @@ function Login(props) {
               <div className="">
                 <form onSubmit={handleSubmit}>
                   <Input
+                    radius="full"
                     className="mb-3"
                     label="Email address"
                     placeholder="achieveit@gmail.com"
@@ -75,6 +76,7 @@ function Login(props) {
                     isRequired
                   />
                   <Input
+                    radius="full"
                     className="mb-3"
                     label="Password"
                     id="formControlLg"
@@ -100,7 +102,7 @@ function Login(props) {
                 </form>
               </div>
               <p className="mb-5 text-secondary">
-                Don't have an account?
+                Don't have an account?{' '}
                 <a href="/Signup" style={{ color: '#393f81' }}>
                   Register here
                 </a>

@@ -13,6 +13,7 @@ import {
 } from '@nextui-org/react';
 
 function ListTable(props) {
+
   const listItemStyle = {
     textDecoration: 'line-through',
     textDecorationThickness: '2px',

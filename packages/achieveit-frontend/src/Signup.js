@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardBody, Input, Button } from '@nextui-org/react';
+import { useNavigate } from 'react-router-dom';
 
 function Signup(props) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -54,7 +56,15 @@ function Signup(props) {
     if (Object.keys(errors).length === 0) {
       // Perform form submission logic here
       console.log('Form submitted:', formData);
-      props.handleSubmit(formData);
+
+      props.handleSubmit(formData)
+      .then((data) => {
+        console.log("DATA: " + data);
+        if (data) {
+          console.log("SUCCESS REROUTE TO /");
+          navigate('/');
+        }
+      });
     }
   };
 
@@ -84,6 +94,7 @@ function Signup(props) {
             <div className="flex flex-row space-x-2">
               <div className="">
                 <Input
+                  radius="full"
                   autoFocus
                   type="text"
                   label="First Name"
@@ -100,6 +111,7 @@ function Signup(props) {
 
               <div className="">
                 <Input
+                  radius="full"
                   type="text"
                   label="Last Name"
                   placeholder="Last Name"
@@ -116,6 +128,7 @@ function Signup(props) {
 
             <div className="pt-2 mt-3">
               <Input
+                radius="full"
                 type="email"
                 label="Email"
                 placeholder="Enter Email"
@@ -129,6 +142,7 @@ function Signup(props) {
 
             <div className="py-2 mt-3">
               <Input
+                radius="full"
                 type="password"
                 label="Password"
                 placeholder="Enter Password"
