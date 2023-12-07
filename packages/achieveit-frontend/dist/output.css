@@ -1297,10 +1297,6 @@ video {
   max-width: 20rem;
 }
 
-.max-w-\[50\%\] {
-  max-width: 50%;
-}
-
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -3921,6 +3917,12 @@ video {
   --slide-exit: 80px;
 }
 
+/*uses directives to style the dist/output.css file - 
+to run on dev use:
+`npx tailwindcss -i ./packages/achieveit-frontend/src/index.css -o ./packages/achieveit-frontend/dist/output.css --watch`
+on the root directory (with tailwindcss.config file)
+*/
+
 .placeholder\:text-danger::placeholder {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-danger) / var(--nextui-danger-opacity, var(--tw-text-opacity)));
@@ -4937,14 +4939,14 @@ video {
   color: hsl(var(--nextui-warning-foreground) / var(--nextui-warning-foreground-opacity, var(--tw-text-opacity))) !important;
 }
 
-.hover\:text-secondary-foreground:hover {
-  --tw-text-opacity: 1;
-  color: hsl(var(--nextui-secondary-foreground) / var(--nextui-secondary-foreground-opacity, var(--tw-text-opacity)));
-}
-
 .hover\:text-primary:hover {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-text-opacity)));
+}
+
+.hover\:text-secondary-foreground:hover {
+  --tw-text-opacity: 1;
+  color: hsl(var(--nextui-secondary-foreground) / var(--nextui-secondary-foreground-opacity, var(--tw-text-opacity)));
 }
 
 .hover\:underline:hover {

@@ -48,11 +48,26 @@ function ListTable(props) {
         <Table aria-label="collection table" isStriped>
           <TableHeader>
             <TableColumn></TableColumn>
-            <TableColumn>Task</TableColumn>
-            <TableColumn>Description</TableColumn>
-            <TableColumn>Due Date</TableColumn>
-            <TableColumn>Priority</TableColumn>
-            <TableColumn>List Name</TableColumn>
+            <TableColumn>
+              {' '}
+              <p className="font-bold text-medium">Task</p>
+            </TableColumn>
+            <TableColumn>
+              {' '}
+              <p className="font-bold text-medium">Description</p>
+            </TableColumn>
+            <TableColumn>
+              {' '}
+              <p className="font-bold text-medium">Due Date</p>
+            </TableColumn>
+            <TableColumn>
+              {' '}
+              <p className="font-bold text-medium">Priority</p>
+            </TableColumn>
+            <TableColumn>
+              {' '}
+              <p className="font-bold text-medium">List Name</p>
+            </TableColumn>
             <TableColumn></TableColumn>
           </TableHeader>
           <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
