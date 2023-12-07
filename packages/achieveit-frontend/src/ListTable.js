@@ -9,16 +9,10 @@ import {
   TableColumn,
   TableRow,
   TableCell,
+  Chip,
 } from '@nextui-org/react';
 
 function ListTable(props) {
-  /*
-  TO-DO: 
-  selectedKeys should change the style of the row that it is on
-  use column key and mapping to make more readable code
-    style to look closer to Figma model
-  */
-
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
   const previouskeys = new Set([]);
@@ -67,11 +61,35 @@ function ListTable(props) {
     return null;
   };
 
+  const priorityStyle = (priority) => {
+    if (priority === 'High') {
+      return <Chip className="bg-red-500/50">{priority}</Chip>;
+    } else if (priority === 'Low') {
+      return <Chip className="bg-amber-500/50">{priority}</Chip>;
+    } else {
+      return <Chip className="bg-orange-500/50">{priority}</Chip>;
+    }
+  };
+
   const handleSelect = (key) => {
     Array.from(selectedKeys).map((val) => previouskeys.add(val));
     setSelectedKeys(key);
 
-    if (previouskeys.size > key.size) {
+    if (key === 'all') {
+      //we've selected the all checkbox
+      for (let list of props.list) {
+        for (let task of list.items) {
+          props.setChecked(list.name, task.name, true);
+        }
+      }
+    } else if (previouskeys === 'all' && key === '') {
+      //we've unselected the all checkboxs
+      for (let list of props.list) {
+        for (let task of list.items) {
+          props.setChecked(list.name, task.name, false);
+        }
+      }
+    } else if (previouskeys.size > key.size) {
       //we've unselected a row - set that row's completed value to false
       previouskeys.forEach((element) => {
         if (!key.has(element)) {
@@ -127,11 +145,21 @@ function ListTable(props) {
           onSelectionChange={handleSelect}
           aria-label="collection table">
           <TableHeader>
-            <TableColumn>Task</TableColumn>
-            <TableColumn>Description</TableColumn>
-            <TableColumn>Due Date</TableColumn>
-            <TableColumn>Priority</TableColumn>
-            <TableColumn>List Name</TableColumn>
+            <TableColumn>
+              <p className="font-bold text-medium">Task</p>
+            </TableColumn>
+            <TableColumn>
+              <p className="font-bold text-medium">Description</p>
+            </TableColumn>
+            <TableColumn>
+              <p className="font-bold text-medium">Due Date</p>
+            </TableColumn>
+            <TableColumn>
+              <p className="font-bold text-medium">Priority</p>
+            </TableColumn>
+            <TableColumn>
+              <p className="font-bold text-medium">List Name</p>
+            </TableColumn>
             <TableColumn></TableColumn>
           </TableHeader>
           <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
@@ -142,10 +170,50 @@ function ListTable(props) {
                   <TableRow
                     style={val.completed ? listItemStyle : {}}
                     key={`${list._id}-${val._id}`}>
-                    <TableCell>{val.name}</TableCell>
-                    <TableCell>{val.description}</TableCell>
-                    <TableCell>{val.due_date}</TableCell>
-                    <TableCell>{val.priority}</TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {val.name}
+                    </TableCell>
+                    <TableCell className="max-w-sm">
+                      <div>
+                        <p
+                          // className="hover:text-primary"
+                          style={{
+                            maxWidth: '10rem',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                          }}>
+                          {val.description}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {val.due_date}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        maxWidth: '10rem',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                      className="max-w-sm overflow-hidden">
+                      {priorityStyle(val.priority)}
+                    </TableCell>
                     <TableCell
                       style={{
                         maxWidth: '8 rem',
@@ -176,8 +244,7 @@ function ListTable(props) {
           <Button
             className="mt-3"
             onClick={() => props.deleteList(props.list[0].name)}>
-            {' '}
-            Delete List{' '}
+            Delete List
           </Button>
         )}
       </div>
