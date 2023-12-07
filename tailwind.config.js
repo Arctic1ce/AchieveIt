@@ -83,7 +83,7 @@ export default {
               DEFAULT: '#FFFFFF',
             },
             danger: {
-              DEFAULT: '#FF474B',
+              DEFAULT: '#FF4444',
             },
 
             focus: '#835BFA',

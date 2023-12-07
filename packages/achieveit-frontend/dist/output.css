@@ -1297,6 +1297,10 @@ video {
   max-width: 20rem;
 }
 
+.max-w-\[50\%\] {
+  max-width: 50%;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -2027,6 +2031,10 @@ video {
   border-top-color: transparent;
 }
 
+.bg-amber-500\/50 {
+  background-color: rgb(245 158 11 / 0.5);
+}
+
 .bg-background {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--nextui-background) / var(--nextui-background-opacity, var(--tw-bg-opacity)));
@@ -2124,6 +2132,10 @@ video {
   background-color: hsl(var(--nextui-foreground) / 0.1);
 }
 
+.bg-orange-500\/50 {
+  background-color: rgb(249 115 22 / 0.5);
+}
+
 .bg-overlay\/30 {
   background-color: hsl(var(--nextui-overlay) / 0.3);
 }
@@ -2142,9 +2154,9 @@ video {
   background-color: hsl(var(--nextui-primary-100) / var(--nextui-primary-100-opacity, var(--tw-bg-opacity)));
 }
 
-.bg-primary-300 {
+.bg-primary-400 {
   --tw-bg-opacity: 1;
-  background-color: hsl(var(--nextui-primary-300) / var(--nextui-primary-300-opacity, var(--tw-bg-opacity)));
+  background-color: hsl(var(--nextui-primary-400) / var(--nextui-primary-400-opacity, var(--tw-bg-opacity)));
 }
 
 .bg-primary-50 {
@@ -2163,6 +2175,10 @@ video {
 
 .bg-primary\/20 {
   background-color: hsl(var(--nextui-primary) / 0.2);
+}
+
+.bg-red-500\/50 {
+  background-color: rgb(239 68 68 / 0.5);
 }
 
 .bg-secondary {
@@ -2214,16 +2230,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-primary-500 {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--nextui-primary-500) / var(--nextui-primary-500-opacity, var(--tw-bg-opacity)));
-}
-
-.bg-primary-400 {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--nextui-primary-400) / var(--nextui-primary-400-opacity, var(--tw-bg-opacity)));
 }
 
 .bg-gradient-to-tr {
@@ -3691,7 +3697,7 @@ video {
   --nextui-danger-800: 340 92% 90%;
   --nextui-danger-900: 339 92% 95%;
   --nextui-danger-foreground: 0 0% 100%;
-  --nextui-danger: 359 100% 64%;
+  --nextui-danger: 0 100% 63%;
   --nextui-spacing-unit: 4px;
   --nextui-spacing-unit-0: 0px;
   --nextui-spacing-unit-1: 0.25rem;
@@ -4934,6 +4940,11 @@ video {
 .hover\:text-secondary-foreground:hover {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-secondary-foreground) / var(--nextui-secondary-foreground-opacity, var(--tw-text-opacity)));
+}
+
+.hover\:text-primary:hover {
+  --tw-text-opacity: 1;
+  color: hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-text-opacity)));
 }
 
 .hover\:underline:hover {
