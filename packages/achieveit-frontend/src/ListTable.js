@@ -1,7 +1,6 @@
 // import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 import NewItem from './NewItem';
-import { Button } from '@nextui-org/react';
 import {
   Table,
   TableHeader,
@@ -9,6 +8,8 @@ import {
   TableColumn,
   TableRow,
   TableCell,
+  Button,
+  Checkbox
   Chip,
 } from '@nextui-org/react';
 
@@ -140,26 +141,15 @@ function ListTable(props) {
       </div>
       <div className="flex flex-row overflow-hidden">
         <Table
-          selectionMode="multiple"
-          selectedKeys={selectedKeys}
-          onSelectionChange={handleSelect}
-          aria-label="collection table">
+          aria-label="collection table"
+          isStriped>
           <TableHeader>
-            <TableColumn>
-              <p className="font-bold text-medium">Task</p>
-            </TableColumn>
-            <TableColumn>
-              <p className="font-bold text-medium">Description</p>
-            </TableColumn>
-            <TableColumn>
-              <p className="font-bold text-medium">Due Date</p>
-            </TableColumn>
-            <TableColumn>
-              <p className="font-bold text-medium">Priority</p>
-            </TableColumn>
-            <TableColumn>
-              <p className="font-bold text-medium">List Name</p>
-            </TableColumn>
+            <TableColumn></TableColumn>
+            <TableColumn>Task</TableColumn>
+            <TableColumn>Description</TableColumn>
+            <TableColumn>Due Date</TableColumn>
+            <TableColumn>Priority</TableColumn>
+            <TableColumn>List Name</TableColumn>
             <TableColumn></TableColumn>
           </TableHeader>
           <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
@@ -170,6 +160,14 @@ function ListTable(props) {
                   <TableRow
                     style={val.completed ? listItemStyle : {}}
                     key={`${list._id}-${val._id}`}>
+                    <TableCell>
+                      <Checkbox
+                        defaultSelected={val.completed}
+                        onChange={() => 
+                          props.setChecked(list.name, val.name, !val.completed)
+                        }
+                      />
+                    </TableCell>
                     <TableCell
                       style={{
                         maxWidth: '10rem',
