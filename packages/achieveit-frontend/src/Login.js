@@ -1,15 +1,4 @@
 import React, { useState } from 'react';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBRow,
-  MDBCol,
-  MDBIcon,
-  MDBInput,
-} from 'mdb-react-ui-kit';
 import { Card, CardBody, Input, Button } from '@nextui-org/react';
 
 function Login(props) {

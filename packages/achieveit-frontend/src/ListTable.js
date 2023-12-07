@@ -1,5 +1,4 @@
 // import Table from 'react-bootstrap/Table';
-import React, { useState, useEffect } from 'react';
 import NewItem from './NewItem';
 import {
   Table,
@@ -9,57 +8,16 @@ import {
   TableRow,
   TableCell,
   Button,
-  Checkbox
+  Checkbox,
   Chip,
 } from '@nextui-org/react';
 
 function ListTable(props) {
-  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-
-  const previouskeys = new Set([]);
-
   const listItemStyle = {
     textDecoration: 'line-through',
     textDecorationThickness: '2px',
     marginBottom: '8px',
     color: '#ff0000',
-  };
-
-  useEffect(() => {
-    // Use an effect to update the state once after the loop
-    const completedKeys = new Set();
-
-    props.list.forEach((list) => {
-      list.items.forEach((val) => {
-        if (val.completed) {
-          completedKeys.add(`${list._id}-${val._id}`);
-        }
-      });
-    });
-    // Update the state with completed keys
-    setSelectedKeys(completedKeys);
-  }, [props.list]);
-
-  const findlist = (id) => {
-    for (let list of props.list) {
-      if (list._id === id) {
-        return list;
-      }
-    }
-    return null;
-  };
-
-  const findtask = (list, id) => {
-    console.log('findtask');
-    console.log(list);
-    for (let task of list.items) {
-      console.log(id);
-      console.log(task._id);
-      if (task._id === id) {
-        return task;
-      }
-    }
-    return null;
   };
 
   const priorityStyle = (priority) => {
@@ -69,59 +27,6 @@ function ListTable(props) {
       return <Chip className="bg-amber-500/50">{priority}</Chip>;
     } else {
       return <Chip className="bg-orange-500/50">{priority}</Chip>;
-    }
-  };
-
-  const handleSelect = (key) => {
-    Array.from(selectedKeys).map((val) => previouskeys.add(val));
-    setSelectedKeys(key);
-
-    if (key === 'all') {
-      //we've selected the all checkbox
-      for (let list of props.list) {
-        for (let task of list.items) {
-          props.setChecked(list.name, task.name, true);
-        }
-      }
-    } else if (previouskeys === 'all' && key === '') {
-      //we've unselected the all checkboxs
-      for (let list of props.list) {
-        for (let task of list.items) {
-          props.setChecked(list.name, task.name, false);
-        }
-      }
-    } else if (previouskeys.size > key.size) {
-      //we've unselected a row - set that row's completed value to false
-      previouskeys.forEach((element) => {
-        if (!key.has(element)) {
-          let arr = element.split('-', 2);
-          let list = findlist(arr[0]);
-          if (list !== null) {
-            let task = findtask(list, arr[1]);
-            if (task !== null) {
-              props.setChecked(list.name, task.name, false);
-            }
-          }
-        }
-      });
-    } else if (previouskeys.size < key.size) {
-      //we've selected a row - set that row's completed value to true
-      key.forEach((element) => {
-        if (!previouskeys.has(element)) {
-          let arr = element.split('-', 2);
-          let list = findlist(arr[0]);
-          if (list !== null) {
-            let task = findtask(list, arr[1]);
-            if (task !== null) {
-              props.setChecked(list.name, task.name, true);
-            }
-          }
-        }
-      });
-    } else {
-      //something went wrong
-      //we haven't changed anything --> handler shouldn't have been called
-      //console.log('?');
     }
   };
 
@@ -140,9 +45,7 @@ function ListTable(props) {
         </div>
       </div>
       <div className="flex flex-row overflow-hidden">
-        <Table
-          aria-label="collection table"
-          isStriped>
+        <Table aria-label="collection table" isStriped>
           <TableHeader>
             <TableColumn></TableColumn>
             <TableColumn>Task</TableColumn>
@@ -163,7 +66,7 @@ function ListTable(props) {
                     <TableCell>
                       <Checkbox
                         defaultSelected={val.completed}
-                        onChange={() => 
+                        onChange={() =>
                           props.setChecked(list.name, val.name, !val.completed)
                         }
                       />

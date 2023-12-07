@@ -152,20 +152,6 @@ function NewItem(props) {
                       errorMessage={errors.date}
                       isRequired
                     />
-
-                    {/* Input for time if we want to implement */}
-                    <Input
-                      type="time"
-                      label={<b>{'Time'}</b>}
-                      labelPlacement="outside"
-                      placeholder="10:00 AM"
-                      // value={form.date}
-                      // onChange={(e) => setField('date', e.target.value)}
-
-                      // isInvalid={!!errors.date}
-                      // errorMessage={errors.task}
-                      isRequired
-                    />
                   </Form.Group>
                   <Form.Group
                     className="w-full flex flex-col gap-4 mb-3"
