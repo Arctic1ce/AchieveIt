@@ -1,15 +1,9 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-
+/*uses directives to style the dist/output.css file - 
+to run on dev use:
+`npx tailwindcss -i ./packages/achieveit-frontend/src/index.css -o ./packages/achieveit-frontend/dist/output.css --watch`
+on the root directory (with tailwindcss.config file)
+*/
