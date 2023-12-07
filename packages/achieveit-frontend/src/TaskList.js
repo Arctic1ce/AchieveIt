@@ -5,7 +5,6 @@ import Sidebar, { SidebarItem } from './Sidebar';
 
 function TaskList(props) {
   const [listName, setListName] = useState('');
-  const [selectedTab, setSelectedTab] = useState('All Tasks');
 
   function updateListName(text) {
     setListName(text);
@@ -13,7 +12,7 @@ function TaskList(props) {
 
   function handleTab(key) {
     console.log(key);
-    setSelectedTab(key);
+    props.setTab(key);
   }
 
   return (
@@ -49,7 +48,7 @@ function TaskList(props) {
                   {props.numItems}
                 </Chip>
               }
-              active={selectedTab === 'All Tasks' ? true : false}
+              active={props.getTab() === 'All Tasks' ? true : false}
             />
           </div>
 
@@ -81,7 +80,7 @@ function TaskList(props) {
                         {list.items.length}
                       </Chip>
                     }
-                    active={selectedTab === `${list.name}` ? true : false}
+                    active={props.getTab() === `${list.name}` ? true : false}
                   />
                 </div>
               </div>
@@ -129,7 +128,7 @@ function TaskList(props) {
         </div>
       </Sidebar>
       <div className="flex-1 w-full p-4">
-        {selectedTab === 'All Tasks' && (
+        {props.getTab() === 'All Tasks' && (
           <div>
             <ListTable
               list={props.lists}
@@ -141,7 +140,7 @@ function TaskList(props) {
           </div>
         )}
         {props.lists.map((list) =>
-          selectedTab === list.name ? (
+          props.getTab() === list.name ? (
             <ListTable
               key={list.name}
               listName={list.name}
