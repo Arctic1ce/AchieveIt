@@ -1,8 +1,14 @@
 /* Filename: AchieveIt.js */
-import Navbar from './Navbar';
+import Nav from './Navbar';
 import TaskList from './TaskList';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Outlet,
+} from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import * as process from 'process';
@@ -25,6 +31,7 @@ function AchieveIt() {
   const [message, setMessage] = useState('');
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
+  const [selectedTab, setSelectedTab] = useState('All Tasks');
 
   useEffect(() => {
     // Check if there is a token in localStorage when the component mounts
@@ -270,7 +277,7 @@ function AchieveIt() {
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
-            console.log("sign up token: " + payload.token)
+            console.log('sign up token: ' + payload.token);
           });
           setMessage(
             `Signup successful for user: ${creds.username}; auth token saved`,
@@ -308,42 +315,72 @@ function AchieveIt() {
     return authToken !== INVALID_TOKEN ? <Outlet /> : <Navigate to="/login" />;
   };
 
+  const [isDark, setIsDark] = useState(false);
+
+  function setDarkMode(val) {
+    setIsDark(val);
+  }
+
+  function setTab(tab) {
+    setSelectedTab(tab);
+  }
+
+  function getTab() {
+    return selectedTab;
+  }
+
   /* Render the page */
   return (
-    <Router>
-      <div className="AchieveIt">
-        <div className="header">
-          <Navbar logoutUser={logoutUser} token={cookies.get('authToken')} />
-        </div>
-        <div className="taskList">
-          <Routes>
-            <Route path="/login" element={<Login handleSubmit={loginUser} />} />
-            <Route
-              path="/signup"
-              element={<Signup handleSubmit={signupUser} />}
+    <main
+      className={`${
+        isDark ? 'achieveit-dark' : 'achieveit-light'
+      } text-foreground bg-background`}>
+      <Router>
+        <div className="flex flex-col AchieveIt">
+          <div className="flex-row header">
+            <Nav
+              logoutUser={logoutUser}
+              token={cookies.get('authToken')}
+              isDark={isDark}
+              setDarkMode={setDarkMode}
             />
-            <Route element={<PrivateRoute />}>
+          </div>
+          <div className="flex-1 taskList">
+            <Routes>
               <Route
-                path="/"
-                element={
-                  <TaskList
-                    lists={taskLists}
-                    addList={addList}
-                    numItems={numItems}
-                    setChecked={setChecked}
-                    insertTask={insertTask}
-                    deleteTask={deleteTask}
-                    deleteList={deleteList}
-                    token={cookies.get('authToken')}
-                    loginUser={loginUser}
-                  />
-                }
+                path="/login"
+                element={<Login handleSubmit={loginUser} />}
               />
-            </Route>
-          </Routes>
+              <Route
+                path="/signup"
+                element={<Signup handleSubmit={signupUser} />}
+              />
+              <Route element={<PrivateRoute />}>
+                <Route
+                  path="/"
+                  element={
+                    <TaskList
+                      lists={taskLists}
+                      addList={addList}
+                      numItems={numItems}
+                      setChecked={setChecked}
+                      insertTask={insertTask}
+                      deleteTask={deleteTask}
+                      deleteList={deleteList}
+                      token={cookies.get('authToken')}
+                      loginUser={loginUser}
+                      isDark={isDark}
+                      setTab={setTab}
+                      getTab={getTab}
+                    />
+                  }
+                />
+              </Route>
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </main>
   );
 }
 /* Export the component! */
