@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput
 } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,7 +30,14 @@ function Login(props) {
       return;
     }
 
-    props.handleSubmit(formData);
+    props.handleSubmit(formData)
+      .then((data) => {
+        console.log("DATA: " + data);
+        if (data) {
+          console.log("SUCCESS REROUTE TO /");
+          navigate('/');
+        }
+      });
   };
 
   return (

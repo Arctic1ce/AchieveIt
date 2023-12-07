@@ -223,6 +223,7 @@ function AchieveIt() {
       pwd: creds.password,
     };
 
+    let success = false;
     const promise = fetch(`${serverUrl}/login`, {
       method: 'POST',
       headers: {
@@ -237,14 +238,20 @@ function AchieveIt() {
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
+            console.log("COOKIES");
           });
           setMessage(`Login successful; auth token saved`);
+          //navigate('/');
+          console.log("TRUEEEEE");
+          return true;
         } else {
           setMessage(`Login Error ${response.status}: ${response.data}`);
+          return false;
         }
       })
       .catch((error) => {
         setMessage(`Login Error: ${error}`);
+        return false;
       });
 
     return promise;
