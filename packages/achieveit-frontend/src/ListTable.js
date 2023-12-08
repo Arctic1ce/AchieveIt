@@ -1,4 +1,4 @@
-// import Table from 'react-bootstrap/Table';
+import React from 'react';
 import NewItem from './NewItem';
 import {
   Table,
@@ -11,9 +11,9 @@ import {
   Checkbox,
   Chip,
 } from '@nextui-org/react';
+// ... (imports)
 
 function ListTable(props) {
-
   const listItemStyle = {
     textDecoration: 'line-through',
     textDecorationThickness: '2px',
@@ -33,8 +33,8 @@ function ListTable(props) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row items-center ">
-        <p className="font-semibold text-xl ml-3">
+      <div className="flex flex-row items-center">
+        <p className="font-semibold text-xl ml-3" data-testid="list-name">
           {props.listName ? props.listName : 'All Tasks'}
         </p>
         <div className="ml-auto">
@@ -46,7 +46,7 @@ function ListTable(props) {
         </div>
       </div>
       <div className="flex flex-row overflow-hidden">
-        <Table aria-label="collection table" isStriped>
+        <Table aria-label="collection table" isStriped data-testid="collection-table">
           <TableHeader>
             <TableColumn></TableColumn>
             <TableColumn>Task</TableColumn>
@@ -56,96 +56,54 @@ function ListTable(props) {
             <TableColumn>List Name</TableColumn>
             <TableColumn></TableColumn>
           </TableHeader>
-          <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
-          <TableBody>
+          <TableBody emptyContent={'No rows to display.'} data-testid="empty-table-body">
+            {[]}
+          </TableBody>
+          <TableBody data-testid="populated-table-body">
             {props.list.map((list) =>
-              list.items.map((val) => {
-                return (
-                  <TableRow
-                    style={val.completed ? listItemStyle : {}}
-                    key={`${list._id}-${val._id}`}>
-                    <TableCell>
-                      <Checkbox
-                        defaultSelected={val.completed}
-                        onChange={() =>
-                          props.setChecked(list.name, val.name, !val.completed)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        maxWidth: '10rem',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                      }}
-                      className="max-w-sm overflow-hidden">
-                      {val.name}
-                    </TableCell>
-                    <TableCell className="max-w-sm">
-                      <div>
-                        <p
-                          // className="hover:text-primary"
-                          style={{
-                            maxWidth: '10rem',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                          }}>
-                          {val.description}
-                        </p>
-                      </div>
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        maxWidth: '10rem',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                      }}
-                      className="max-w-sm overflow-hidden">
-                      {val.due_date}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        maxWidth: '10rem',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                      }}
-                      className="max-w-sm overflow-hidden">
-                      {priorityStyle(val.priority)}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        maxWidth: '8 rem',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                      }}>
-                      {list.name}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        color="danger"
-                        onClick={() => props.deleteTask(list.name, val.name)}>
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              }),
+              list.items.map((val) => (
+                <TableRow
+                  style={val.completed ? listItemStyle : {}}
+                  key={`${list._id}-${val._id}`}
+                  data-testid={`table-row-${list.name}-${val.name}`}
+                >
+                  <TableCell>
+                    <Checkbox
+                      defaultSelected={val.completed}
+                      onChange={() =>
+                        props.setChecked(list.name, val.name, !val.completed)
+                      }
+                      label={`Task: ${val.name}`}
+                      data-testid={`checkbox-${list.name}-${val.name}`}
+                    />
+                  </TableCell>
+                  <TableCell>{val.name}</TableCell>
+                  <TableCell>{val.description}</TableCell>
+                  <TableCell>{val.due_date}</TableCell>
+                  <TableCell>{priorityStyle(val.priority)}</TableCell>
+                  <TableCell>{list.name}</TableCell>
+                  <TableCell>
+                    <Button
+                      color="danger"
+                      onClick={() => props.deleteTask(list.name, val.name)}
+                      data-testid={`delete-button-${list.name}-${val.name}`}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
-
-          {/* Update the state outside the loop */}
         </Table>
       </div>
       <div className="flex-col">
         {props.list.length === 1 && (
           <Button
             className="mt-3"
-            onClick={() => props.deleteList(props.list[0].name)}>
+            onClick={() => props.deleteList(props.list[0].name)}
+            data-testid="delete-list-button"
+          >
             Delete List
           </Button>
         )}
@@ -153,4 +111,5 @@ function ListTable(props) {
     </div>
   );
 }
+
 export default ListTable;
