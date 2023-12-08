@@ -27,6 +27,7 @@ https://github.com/Arctic1ce/AchieveIt/blob/master/coverage-report.png
 ## Development Environment Setup
 - Clone the master branch of the repository into a local directory.
 - Change the backend links in the `server-locations.json` files in both the frontend and backend directories to use `http://localhost:8000`.
+- Create a `.env` file in the backend directory with one environment variable called: `REACT_APP_TOKEN_SECRET` and set it equal to the token secret.
 - Run `npm install` in the root directory.
 - Run `npm start` in the root directory to launch the project locally.
 
