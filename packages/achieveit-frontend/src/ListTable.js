@@ -1,4 +1,4 @@
-// import Table from 'react-bootstrap/Table';
+import React from 'react';
 import NewItem from './NewItem';
 import {
   Table,
@@ -70,6 +70,7 @@ function ListTable(props) {
                         onChange={() =>
                           props.setChecked(list.name, val.name, !val.completed)
                         }
+                        label={`Task: ${val.name}`}
                       />
                     </TableCell>
                     <TableCell

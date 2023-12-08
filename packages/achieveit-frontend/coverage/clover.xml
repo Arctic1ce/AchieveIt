@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1702001151798" clover="3.2.0">
+  <project timestamp="1702001151798" name="All files">
+    <metrics statements="55" coveredstatements="17" conditionals="34" coveredconditionals="6" methods="20" coveredmethods="6" elements="109" coveredelements="29" complexity="0" loc="55" ncloc="55" packages="1" files="2" classes="2"/>
+    <file name="ListTable.js" path="/Users/adavari/git/AchieveIt/packages/achieveit-frontend/src/ListTable.js">
+      <metrics statements="13" coveredstatements="8" conditionals="10" coveredconditionals="5" methods="7" coveredmethods="5"/>
+      <line num="17" count="3" type="stmt"/>
+      <line num="24" count="3" type="stmt"/>
+      <line num="25" count="3" type="cond" truecount="1" falsecount="1"/>
+      <line num="26" count="3" type="stmt"/>
+      <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="30" count="0" type="stmt"/>
+      <line num="34" count="3" type="stmt"/>
+      <line num="62" count="3" type="stmt"/>
+      <line num="63" count="3" type="stmt"/>
+      <line num="71" count="0" type="stmt"/>
+      <line num="132" count="1" type="stmt"/>
+      <line num="149" count="0" type="stmt"/>
+    </file>
+    <file name="NewItem.js" path="/Users/adavari/git/AchieveIt/packages/achieveit-frontend/src/NewItem.js">
+      <metrics statements="42" coveredstatements="9" conditionals="24" coveredconditionals="1" methods="13" coveredmethods="1"/>
+      <line num="16" count="3" type="stmt"/>
+      <line num="17" count="3" type="stmt"/>
+      <line num="19" count="3" type="stmt"/>
+      <line num="21" count="3" type="stmt"/>
+      <line num="22" count="0" type="stmt"/>
+      <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="34" count="3" type="stmt"/>
+      <line num="40" count="3" type="stmt"/>
+      <line num="41" count="0" type="stmt"/>
+      <line num="42" count="0" type="stmt"/>
+      <line num="44" count="0" type="stmt"/>
+      <line num="46" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="47" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="48" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="49" count="0" type="stmt"/>
+      <line num="50" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="51" count="0" type="stmt"/>
+      <line num="52" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="53" count="0" type="stmt"/>
+      <line num="55" count="0" type="stmt"/>
+      <line num="58" count="3" type="stmt"/>
+      <line num="59" count="0" type="stmt"/>
+      <line num="60" count="0" type="stmt"/>
+      <line num="61" count="0" type="stmt"/>
+      <line num="64" count="3" type="stmt"/>
+      <line num="65" count="0" type="stmt"/>
+      <line num="67" count="0" type="stmt"/>
+      <line num="68" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="69" count="0" type="stmt"/>
+      <line num="71" count="0" type="stmt"/>
+      <line num="72" count="0" type="stmt"/>
+      <line num="81" count="0" type="stmt"/>
+      <line num="85" count="3" type="stmt"/>
+      <line num="108" count="0" type="stmt"/>
+      <line num="121" count="0" type="stmt"/>
+      <line num="136" count="0" type="stmt"/>
+      <line num="149" count="0" type="stmt"/>
+      <line num="164" count="0" type="stmt"/>
+      <line num="169" count="0" type="stmt"/>
+      <line num="183" count="0" type="stmt"/>
+      <line num="188" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
