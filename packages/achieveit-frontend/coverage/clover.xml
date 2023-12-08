@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1702004466835" clover="3.2.0">
-  <project timestamp="1702004466835" name="All files">
+<coverage generated="1702005547034" clover="3.2.0">
+  <project timestamp="1702005547034" name="All files">
     <metrics statements="55" coveredstatements="20" conditionals="34" coveredconditionals="9" methods="20" coveredmethods="7" elements="109" coveredelements="36" complexity="0" loc="55" ncloc="55" packages="1" files="2" classes="2"/>
-    <file name="ListTable.js" path="/Users/vibhugarg/AchieveIt/packages/achieveit-frontend/src/ListTable.js">
+    <file name="ListTable.js" path="/Users/adavari/git/AchieveIt/packages/achieveit-frontend/src/ListTable.js">
       <metrics statements="13" coveredstatements="11" conditionals="10" coveredconditionals="8" methods="7" coveredmethods="6"/>
       <line num="17" count="5" type="stmt"/>
       <line num="24" count="5" type="stmt"/>
@@ -18,7 +18,7 @@
       <line num="88" count="1" type="stmt"/>
       <line num="104" count="0" type="stmt"/>
     </file>
-    <file name="NewItem.js" path="/Users/vibhugarg/AchieveIt/packages/achieveit-frontend/src/NewItem.js">
+    <file name="NewItem.js" path="/Users/adavari/git/AchieveIt/packages/achieveit-frontend/src/NewItem.js">
       <metrics statements="42" coveredstatements="9" conditionals="24" coveredconditionals="1" methods="13" coveredmethods="1"/>
       <line num="16" count="4" type="stmt"/>
       <line num="17" count="4" type="stmt"/>
