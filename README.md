@@ -21,6 +21,15 @@ https://www.figma.com/file/XQAFpJUgzxDJzziY7Odv9V/AchieveItUI-Prototype?type=des
 https://drive.google.com/file/d/15OIib0rqy6Yxf5aWCqEmb32aBuBFupGI/view?usp=sharing
 Last updated Nov 1, 2023
 
+## Coverage Report
+https://github.com/Arctic1ce/AchieveIt/blob/master/coverage-report.png
+
+## Development Environment Setup
+- Clone the master branch of the repository into a local directory.
+- Change the backend links in the `server-locations.json` files in both the frontend and backend directories to use `http://localhost:8000`.
+- Run `npm install` in the root directory.
+- Run `npm start` in the root directory to launch the project locally.
+
 ## Contributing
 
 To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
