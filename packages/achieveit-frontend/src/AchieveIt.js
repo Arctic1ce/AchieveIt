@@ -7,7 +7,7 @@ import {
   Route,
   Routes,
   Navigate,
-  Outlet,
+  Outlet
 } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
@@ -32,6 +32,7 @@ function AchieveIt() {
   const [taskLists, setTasks] = useState([]);
   const [numItems, setNumItems] = useState(0);
   const [selectedTab, setSelectedTab] = useState('All Tasks');
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     // Check if there is a token in localStorage when the component mounts
@@ -45,6 +46,8 @@ function AchieveIt() {
       cookies.set('username', null);
     }
 
+    setIsDark(cookies.get('dark'));
+
     getTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,8 +55,8 @@ function AchieveIt() {
   /*
    * GetTasks: Fetches all the tasks from the database and updates the state
    * */
-  function getTasks() {
-    fetch(serverUrl, {
+  async function getTasks() {
+    await fetch(serverUrl, {
       headers: addAuthHeader(),
     })
       .then((response) => {
@@ -144,6 +147,8 @@ function AchieveIt() {
       // Update the state of the list of tasks
       await getTasks();
 
+      //window.location.reload(false);
+
       // Optionally, you might want to return some information about the update
       return { success: true, message: 'Task status updated successfully' };
     } catch (error) {
@@ -164,18 +169,18 @@ function AchieveIt() {
       };
 
       // DELETE request using fetch with async/await
-      const response = await fetch(
+      await fetch(
         serverUrl + '/list/?name=' + listName,
         requestOptions,
-      );
+      )
+        .then((response) => response.ok ? response : console.log(`Failed to delete list. Status: ${response.status}`))
+        .then(() => getTasks())
+        .catch((error) => {
+          console.error('An error occurred:', error);
+          throw error;
+        });
 
-      // Check if the request was successful (status code 2xx)
-      if (!response.ok) {
-        throw new Error(`Failed to delete list. Status: ${response.status}`);
-      }
-
-      // Update the state of the list of tasks
-      await getTasks();
+      window.location.reload(false);
 
       // Optionally, you might want to return some information about the update
       return { success: true, message: 'List deleted successfully' };
@@ -224,80 +229,69 @@ function AchieveIt() {
     setUser(null);
   }
 
-  function loginUser(creds) {
+  async function loginUser(creds) {
     const cred = {
       username: creds.email,
       pwd: creds.password,
     };
 
-    const promise = fetch(`${serverUrl}/login`, {
+    const promise = await fetch(`${serverUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(cred),
     })
-      .then((response) => {
-        if (response.status === 200) {
-          response.json().then((payload) => {
-            const decoded = jwtDecode(payload.token);
+      .then((response) => response.status === 200 ? response.json() : undefined)
+      .then((payload) => {
+        const decoded = jwtDecode(payload.token);
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
-            console.log("COOKIES");
-          });
-          setMessage(`Login successful; auth token saved`);
-          //navigate('/');
-          console.log("TRUEEEEE");
-          return true;
-        } else {
-          setMessage(`Login Error ${response.status}: ${response.data}`);
-          return false;
-        }
+            getTasks();
+            return true;
       })
       .catch((error) => {
-        setMessage(`Login Error: ${error}`);
+        setMessage(`Login Error ${error}`);
         return false;
       });
+
+    console.log(user);
+    console.log(message);
 
     return promise;
   }
 
-  function signupUser(creds) {
+  async function signupUser(creds) {
     const cred = {
       username: creds.email,
       pwd: creds.password,
     };
 
-    const promise = fetch(`${serverUrl}/signup`, {
+    const promise = await fetch(`${serverUrl}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(cred),
     })
-      .then((response) => {
-        if (response.status === 201) {
-          response.json().then((payload) => {
-            const decoded = jwtDecode(payload.token);
+      .then((response) => response.status === 201 ? response.json() : undefined)
+      .then((payload) => {
+        const decoded = jwtDecode(payload.token);
             setUser(decoded);
             cookies.set('authToken', payload.token);
             cookies.set('username', cred.username);
-            console.log('sign up token: ' + payload.token);
-          });
-          setMessage(
-            `Signup successful for user: ${creds.username}; auth token saved`,
-          );
-        } else {
-          setMessage(`Signup Error ${response.status}: ${response.data}`);
-        }
+            getTasks();
+            return true;
       })
       .catch((error) => {
         setMessage(`Signup Error: ${error}`);
+        return false;
       });
+    
+    console.log(user);
+    console.log(message);
 
-    console.log('user' + user);
-    console.log('message' + message);
     return promise;
   }
 
@@ -321,10 +315,13 @@ function AchieveIt() {
     return authToken !== INVALID_TOKEN ? <Outlet /> : <Navigate to="/login" />;
   };
 
-  const [isDark, setIsDark] = useState(false);
-
   function setDarkMode(val) {
+    cookies.set('dark', val);
     setIsDark(val);
+  }
+
+  function getDarkMode() {
+    return isDark;
   }
 
   function setTab(tab) {
@@ -339,7 +336,7 @@ function AchieveIt() {
   return (
     <main
       className={`${
-        isDark ? 'achieveit-dark' : 'achieveit-light'
+        getDarkMode() ? 'achieveit-dark' : 'achieveit-light'
       } text-foreground bg-background`}>
       <Router>
         <div className="flex flex-col AchieveIt">
@@ -347,7 +344,7 @@ function AchieveIt() {
             <Nav
               logoutUser={logoutUser}
               token={cookies.get('authToken')}
-              isDark={isDark}
+              isDark={getDarkMode()}
               setDarkMode={setDarkMode}
             />
           </div>
@@ -375,7 +372,7 @@ function AchieveIt() {
                       deleteList={deleteList}
                       token={cookies.get('authToken')}
                       loginUser={loginUser}
-                      isDark={isDark}
+                      isDark={getDarkMode()}
                       setTab={setTab}
                       getTab={getTab}
                     />

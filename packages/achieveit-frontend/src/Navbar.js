@@ -7,15 +7,15 @@ import {
   Link,
   Button,
   Switch,
-  Chip,
+  Chip
 } from '@nextui-org/react';
 
 function Nav(props) {
+  const INVALID_TOKEN = 'INVALID_TOKEN';
+
   function handleSwitch() {
     props.setDarkMode(!props.isDark);
   }
-
-  const INVALID_TOKEN = 'INVALID_TOKEN';
 
   return (
     <Navbar
@@ -32,7 +32,14 @@ function Nav(props) {
               alt=""
             />
           </div>
-          <p className="font-semibold text-large">AchieveIt</p>
+          <Button
+            className="mx-2"
+            as={Link}
+            href="/"
+            variant="light"
+          >
+            <b>AchieveIt</b>
+          </Button>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -48,7 +55,12 @@ function Nav(props) {
             </Button>
           )}
           {props.token !== INVALID_TOKEN && (
-            <Button className="mx-2" color="primary" onClick={props.logoutUser}>
+            <Button
+              className="mx-2"
+              as={Link}
+              color="primary"
+              href="/login"
+              onClick={props.logoutUser}>
               <p className="font-normal">LOGOUT</p>
             </Button>
           )}

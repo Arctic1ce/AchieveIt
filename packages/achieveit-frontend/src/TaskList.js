@@ -11,7 +11,6 @@ function TaskList(props) {
   }
 
   function handleTab(key) {
-    console.log(key);
     props.setTab(key);
   }
 
@@ -148,6 +147,7 @@ function TaskList(props) {
               insertTask={props.insertTask}
               deleteTask={props.deleteTask}
               deleteList={props.deleteList}
+              setTab={props.setTab}
               isDark={props.isDark}
             />
           ) : null,

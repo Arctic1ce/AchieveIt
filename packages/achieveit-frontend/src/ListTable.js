@@ -18,6 +18,7 @@ import {
   useDisclosure,
   Tooltip,
 } from '@nextui-org/react';
+// ... (imports)
 
 function ListTable(props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -47,8 +48,8 @@ function ListTable(props) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row items-center ">
-        <p className="font-semibold text-xl ml-3">
+      <div className="flex flex-row items-center">
+        <p className="font-semibold text-xl ml-3" data-testid="list-name">
           {props.listName ? props.listName : 'All Tasks'}
         </p>
         <div className="ml-auto">
@@ -80,8 +81,12 @@ function ListTable(props) {
             </TableColumn>
             <TableColumn></TableColumn>
           </TableHeader>
-          <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
-          <TableBody>
+          <TableBody
+            emptyContent={'No rows to display.'}
+            data-testid="empty-table-body">
+            {[]}
+          </TableBody>
+          <TableBody data-testid="populated-table-body">
             {props.list.map((list) =>
               list.items.map((val) => {
                 return (
@@ -178,15 +183,14 @@ function ListTable(props) {
               }),
             )}
           </TableBody>
-
-          {/* Update the state outside the loop */}
         </Table>
       </div>
       <div className="flex-col">
         {props.list.length === 1 && (
           <Button
             className="mt-3"
-            onClick={() => props.deleteList(props.list[0].name)}>
+            onClick={() => props.deleteList(props.list[0].name)}
+            data-testid="delete-list-button">
             Delete List
           </Button>
         )}
@@ -222,4 +226,5 @@ function ListTable(props) {
     </div>
   );
 }
+
 export default ListTable;
