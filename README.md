@@ -4,6 +4,16 @@
 
 Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, and Russ Sobti
 
+## Project Description
+For ANYONE  who wants to accomplish tasks, AchieveIt is a TO-DO list task manager that allows users to 
+- create a list of tasks, 
+- group them based on categories, 
+- prioritize each task, 
+- mark them as completed. 
+AchieveIt allows users to store their to-do list in the cloud and access their lists anywhere and anytime. 
+
+We envision a future where our users efficiently manage their tasks, attain their goals, and have more time for what truly matters in their lives. 
+
 ## Contributing
 
 To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
