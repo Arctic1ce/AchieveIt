@@ -14,6 +14,9 @@ AchieveIt allows users to store their to-do list in the cloud and access their l
 
 We envision a future where our users efficiently manage their tasks, attain their goals, and have more time for what truly matters in their lives. 
 
+## UI Prototype
+https://www.figma.com/file/XQAFpJUgzxDJzziY7Odv9V/AchieveItUI-Prototype?type=design&node-id=0-1&mode=design&t=HwpcWZV6mpMkeZ3e-0
+
 ## Contributing
 
 To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
