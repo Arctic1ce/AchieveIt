@@ -1,0 +1,18 @@
+ PASS  src/ListTable.test.js
+  ✓ renders ListTable component with specific list name (86 ms)
+  ✓ handles checkbox click and calls setChecked (31 ms)
+  ✓ handles delete button click and calls deleteTask (31 ms)
+  ✓ renders ListTable component with multiple lists (62 ms)
+
+--|---------|----------|---------|---------|-------------------
+... | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+--|---------|----------|---------|---------|-------------------
+... |   35.08 |    26.47 |      35 |   36.36 |                   
+  |   84.61 |       80 |   85.71 |   84.61 | 30,104            
+  |   20.45 |     4.16 |    7.69 |   21.42 | ...,65-81,108-188 
+--|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        1.272 s
+Ran all test suites.
