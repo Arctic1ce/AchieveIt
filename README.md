@@ -17,6 +17,10 @@ We envision a future where our users efficiently manage their tasks, attain thei
 ## UI Prototype
 https://www.figma.com/file/XQAFpJUgzxDJzziY7Odv9V/AchieveItUI-Prototype?type=design&node-id=0-1&mode=design&t=HwpcWZV6mpMkeZ3e-0
 
+## Class Diagram
+https://drive.google.com/file/d/15OIib0rqy6Yxf5aWCqEmb32aBuBFupGI/view?usp=sharing
+Last updated Nov 1, 2023
+
 ## Contributing
 
 To maintain a high-quality codebase and ensure consistency, we follow a set of coding standards based on the [Airbnb JavaScript/React Style Guide](https://airbnb.io/javascript/react/).
