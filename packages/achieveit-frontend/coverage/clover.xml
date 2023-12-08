@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1702005547034" clover="3.2.0">
-  <project timestamp="1702005547034" name="All files">
+<coverage generated="1702008387226" clover="3.2.0">
+  <project timestamp="1702008387226" name="All files">
     <metrics statements="55" coveredstatements="20" conditionals="34" coveredconditionals="9" methods="20" coveredmethods="7" elements="109" coveredelements="36" complexity="0" loc="55" ncloc="55" packages="1" files="2" classes="2"/>
     <file name="ListTable.js" path="/Users/adavari/git/AchieveIt/packages/achieveit-frontend/src/ListTable.js">
       <metrics statements="13" coveredstatements="11" conditionals="10" coveredconditionals="8" methods="7" coveredmethods="6"/>
