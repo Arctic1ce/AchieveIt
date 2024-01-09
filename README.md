@@ -4,6 +4,8 @@
 
 Artin Davari, Akhil Elamanchili, Joel Puthankalam, Vaibhav Garg, and Russ Sobti
 
+Deployment: https://black-mushroom-0f4eb4b1e.4.azurestaticapps.net
+
 ## Project Description
 For ANYONE  who wants to accomplish tasks, AchieveIt is a TO-DO list task manager that allows users to 
 - create a list of tasks, 
